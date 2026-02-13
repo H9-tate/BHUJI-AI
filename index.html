@@ -1,0 +1,3997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BHUJI AI - Complete Divine Intelligence by Himanshu</title>
+
+  <!-- Security Headers -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' https: data: blob:; img-src 'self' data: https: blob:; connect-src https: data: blob:;">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@600;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.5.31/dist/jspdf.plugin.autotable.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+
+  <style>
+    :root {
+      --bg-primary: #000;
+      --bg-secondary: rgba(20, 15, 10, 0.85);
+      --bg-tertiary: rgba(20, 15, 10, 0.98);
+      --text-primary: #fff;
+      --text-secondary: rgba(255, 215, 0, 0.7);
+      --border-color: rgba(255, 215, 0, 0.3);
+      --accent-gold: #FFD700;
+      --accent-orange: #FFA500;
+      --accent-red: #FF4500;
+      --space-gradient-start: #0a0a0a;
+      --space-gradient-end: #000000;
+      --card-bg: rgba(255, 215, 0, 0.05);
+      --card-hover: rgba(255, 215, 0, 0.1);
+      --google-blue: #4285f4;
+      --wiki-green: #00af89;
+    }
+
+    [data-theme="light"] {
+      --bg-primary: #f5f5f5;
+      --bg-secondary: rgba(255, 255, 255, 0.95);
+      --bg-tertiary: rgba(255, 255, 255, 0.98);
+      --text-primary: #1a1a1a;
+      --text-secondary: #8B7500;
+      --border-color: rgba(218, 165, 32, 0.4);
+      --space-gradient-start: #e8e8e8;
+      --space-gradient-end: #d4d4d4;
+      --card-bg: rgba(218, 165, 32, 0.08);
+      --card-hover: rgba(218, 165, 32, 0.15);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      overflow: hidden;
+      font-family: 'Inter', sans-serif;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    #spaceCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(ellipse at center, var(--space-gradient-start) 0%, var(--space-gradient-end) 100%);
+      transition: background 0.3s ease;
+    }
+
+    .container { position: relative; z-index: 1; height: 100vh; display: flex; flex-direction: column; }
+
+    /* Landing Page */
+    .landing-page { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; padding: 20px; }
+    .hero-content { text-align: center; max-width: 900px; animation: fadeIn 1s ease-out; }
+    .chakra-logo { width: 150px; height: 150px; margin: 0 auto 30px; animation: spin 20s linear infinite; }
+    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .main-title {
+      font-size: clamp(4rem, 10vw, 8rem);
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-orange) 50%, var(--accent-red) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 14px;
+      font-family: 'Orbitron', sans-serif;
+      letter-spacing: 0.05em;
+      filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.6));
+    }
+    .subtitle {
+      font-size: clamp(1.2rem, 2.6vw, 1.9rem);
+      color: var(--accent-gold);
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 15px;
+    }
+    .search-badges {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+    .search-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--card-bg);
+      border: 2px solid var(--border-color);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      font-family: 'Rajdhani', sans-serif;
+      animation: pulse 2s infinite;
+    }
+    .search-badge.google { border-color: var(--google-blue); color: var(--google-blue); }
+    .search-badge.wikipedia { border-color: var(--wiki-green); color: var(--wiki-green); }
+    @keyframes pulse { 0%,100%{ box-shadow: 0 0 5px rgba(255, 215, 0, 0.25);} 50%{ box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);} }
+    .tagline { font-size: 1.05rem; color: var(--text-secondary); font-style: italic; margin-bottom: 36px; }
+
+    .cta-button {
+      background: linear-gradient(135deg, var(--accent-gold), var(--accent-orange));
+      color: #000;
+      border: none;
+      padding: 18px 52px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border-radius: 50px;
+      cursor: pointer;
+      font-family: 'Rajdhani', sans-serif;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      box-shadow: 0 10px 40px rgba(255, 215, 0, 0.45);
+      transition: all 0.3s ease;
+    }
+    .cta-button:hover { transform: scale(1.06) translateY(-2px); box-shadow: 0 15px 60px rgba(255, 215, 0, 0.65); }
+
+    /* Theme Toggle */
+    .theme-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1001;
+      width: 50px;
+      height: 50px;
+      background: var(--bg-secondary);
+      border: 2px solid var(--border-color);
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+    .theme-toggle:hover {
+      transform: scale(1.1) rotate(15deg);
+      border-color: var(--accent-gold);
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+    }
+    .theme-icon {
+      width: 24px;
+      height: 24px;
+      fill: var(--accent-gold);
+      transition: all 0.3s ease;
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(15px);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 1000;
+      animation: fadeIn 0.3s ease-out;
+      padding: 16px;
+    }
+    .modal {
+      background: var(--bg-tertiary);
+      border: 2px solid var(--border-color);
+      border-radius: 25px;
+      padding: 38px;
+      max-width: 600px;
+      width: 100%;
+      position: relative;
+      box-shadow: 0 20px 80px rgba(255, 215, 0, 0.35);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .modal-close {
+      position: absolute; top: 14px; right: 14px;
+      background: none; border: none;
+      color: var(--accent-gold); cursor: pointer; font-size: 28px;
+      transition: all 0.2s ease;
+    }
+    .modal-close:hover { transform: rotate(90deg); color: var(--accent-orange); }
+    .modal-title {
+      color: var(--accent-gold);
+      margin-bottom: 22px;
+      font-size: 2rem;
+      font-family: 'Orbitron', sans-serif;
+      text-align: center;
+    }
+    .input-field {
+      width: 100%;
+      padding: 14px 16px;
+      margin-bottom: 14px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      color: var(--text-primary);
+      font-size: 1rem;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.3s ease;
+    }
+    .input-field:focus {
+      outline: none;
+      border-color: var(--accent-gold);
+      background: var(--card-hover);
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+    }
+    .submit-button {
+      width: 100%;
+      padding: 14px 16px;
+      background: linear-gradient(135deg, var(--accent-gold), var(--accent-orange));
+      border: none;
+      border-radius: 12px;
+      color: #000;
+      font-size: 1.05rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'Rajdhani', sans-serif;
+      text-transform: uppercase;
+      transition: all 0.3s ease;
+    }
+    .submit-button:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(255, 215, 0, 0.35); }
+    .submit-button:disabled { opacity: 0.5; cursor: not-allowed; }
+    .auth-toggle { text-align: center; margin-top: 14px; color: var(--text-secondary); font-size: 0.95rem; }
+    .auth-toggle button { background: none; border: none; color: var(--accent-gold); cursor: pointer; text-decoration: underline; font: inherit; }
+
+    /* Main Interface */
+    .main-interface { display: flex; flex-direction: column; height: 100vh; max-width: 1400px; margin: 0 auto; width: 100%; }
+    .chat-header {
+      background: var(--bg-secondary);
+      border-bottom: 2px solid var(--border-color);
+      padding: 14px 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      backdrop-filter: blur(10px);
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .header-left { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+    .header-title {
+      font-size: 1.6rem;
+      font-family: 'Orbitron', sans-serif;
+      background: linear-gradient(135deg, var(--accent-gold), var(--accent-orange));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .creator-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--card-bg);
+      padding: 6px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      font-size: 0.85rem;
+      color: var(--accent-gold);
+      font-weight: 700;
+    }
+    .model-selector {
+      display: flex;
+      gap: 8px;
+      background: var(--card-bg);
+      padding: 8px;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      flex-wrap: wrap;
+    }
+    .model-option {
+      padding: 10px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      font-weight: 700;
+      font-family: 'Rajdhani', sans-serif;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+      border: 2px solid var(--border-color);
+      background: var(--card-bg);
+      color: var(--accent-gold);
+      user-select: none;
+    }
+    .model-option.active {
+      background: var(--card-hover);
+      border-color: rgba(255, 215, 0, 0.55);
+      box-shadow: 0 0 16px rgba(255, 215, 0, 0.18);
+    }
+    .model-option.locked { opacity: 0.55; }
+    .badge {
+      background: linear-gradient(135deg, var(--accent-gold), var(--accent-orange));
+      color: #000;
+      font-size: 0.65rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 900;
+      letter-spacing: 0.03em;
+    }
+
+    .header-actions { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+    .header-btn {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      color: var(--accent-gold);
+      padding: 8px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 800;
+      transition: all 0.25s ease;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      user-select: none;
+    }
+    .header-btn:hover { background: var(--card-hover); border-color: var(--accent-gold); transform: translateY(-1px); }
+    .icon-btn {
+      width: 38px; height: 38px;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center; justify-content: center;
+      padding: 0;
+    }
+    .user-info {
+      display: flex; align-items: center; gap: 10px;
+      background: var(--card-bg);
+      padding: 8px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+    }
+    .user-avatar {
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-gold), var(--accent-orange));
+      display: flex; align-items: center; justify-content: center;
+      color: #000; font-weight: 900;
+      font-family: 'Rajdhani', sans-serif;
+    }
+    .user-name { font-family: 'Rajdhani', sans-serif; font-weight: 700; color: var(--accent-gold); }
+
+    .chat-container { flex: 1; overflow-y: auto; padding: 26px; display: flex; flex-direction: column; gap: 18px; }
+    .message { display: flex; align-items: flex-start; gap: 12px; animation: slideIn 0.25s ease-out; }
+    @keyframes slideIn { from { opacity: 0; transform: translateY(10px);} to { opacity: 1; transform: translateY(0);} }
+    .message.user { justify-content: flex-end; }
+    .message-bubble { max-width: 85%; padding: 20px 24px; border-radius: 18px; line-height: 1.8; }
+    .message.user .message-bubble { background: linear-gradient(135deg, var(--accent-gold), var(--accent-orange)); color: #000; font-weight: 600; }
+    .message.assistant .message-bubble { background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-primary); }
+    
+    .message-bubble h3 {
+      color: var(--accent-gold);
+      margin: 18px 0 12px 0;
+      font-size: 1.3rem;
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 8px;
+    }
+    .message-bubble h4 {
+      color: var(--accent-orange);
+      margin: 14px 0 10px 0;
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+    .message-bubble p {
+      margin: 12px 0;
+      line-height: 1.9;
+    }
+    .message-bubble ul {
+      margin: 12px 0 12px 28px;
+      line-height: 1.9;
+    }
+    .message-bubble li {
+      margin: 8px 0;
+    }
+    .message-bubble strong {
+      color: var(--accent-gold);
+      font-weight: 700;
+    }
+    
+    .answer-section {
+      background: rgba(255, 215, 0, 0.08);
+      border-left: 4px solid var(--accent-gold);
+      padding: 18px;
+      margin: 18px 0;
+      border-radius: 10px;
+    }
+    .source-highlight {
+      background: rgba(66, 133, 244, 0.08);
+      border-left: 4px solid var(--google-blue);
+      padding: 16px;
+      margin: 16px 0;
+      border-radius: 10px;
+    }
+    .wiki-highlight {
+      background: rgba(0, 175, 137, 0.08);
+      border-left: 4px solid var(--wiki-green);
+      padding: 16px;
+      margin: 16px 0;
+      border-radius: 10px;
+    }
+
+    .source-badge {
+      background: var(--card-hover);
+      padding: 5px 12px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      color: var(--accent-gold);
+      border: 1px solid var(--border-color);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin: 6px 6px 6px 0;
+      font-weight: 700;
+    }
+    .source-badge.google { border-color: var(--google-blue); color: var(--google-blue); }
+    .source-badge.wikipedia { border-color: var(--wiki-green); color: var(--wiki-green); }
+
+    .source-links {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 2px solid var(--border-color);
+    }
+    .source-links-title {
+      font-weight: 700;
+      color: var(--accent-gold);
+      margin-bottom: 14px;
+      font-size: 1.1rem;
+      font-family: 'Rajdhani', sans-serif;
+    }
+    .source-link {
+      display: block;
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 14px 18px;
+      margin: 10px 0;
+      background: var(--card-bg);
+      border: 2px solid var(--border-color);
+      border-radius: 12px;
+      transition: all 0.25s ease;
+    }
+    .source-link:hover {
+      background: var(--card-hover);
+      border-color: var(--accent-gold);
+      transform: translateX(6px);
+      box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2);
+    }
+    .source-link-title {
+      font-weight: 700;
+      margin-bottom: 8px;
+      font-size: 1rem;
+      color: var(--accent-gold);
+    }
+    .source-link-url {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      word-break: break-all;
+      margin-bottom: 8px;
+    }
+    .source-link-snippet {
+      font-size: 0.9rem;
+      margin-top: 8px;
+      opacity: 0.95;
+      line-height: 1.6;
+      color: var(--text-primary);
+    }
+
+    .typing-indicator { display: flex; gap: 6px; padding: 10px 6px; }
+    .typing-dot { width: 8px; height: 8px; background: var(--accent-gold); border-radius: 50%; animation: typingPulse 1.4s infinite; }
+    .typing-dot:nth-child(2){ animation-delay: 0.2s; } .typing-dot:nth-child(3){ animation-delay: 0.4s; }
+    @keyframes typingPulse { 0%,60%,100% { opacity: 0.25; transform: scale(0.85);} 30% { opacity: 1; transform: scale(1.2);} }
+
+    /* Input / File */
+    .input-area { background: var(--bg-secondary); border-top: 2px solid var(--border-color); padding: 18px 22px; backdrop-filter: blur(10px); }
+    .file-mode-selector { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+    .file-mode {
+      background: var(--card-bg);
+      border: 2px solid var(--border-color);
+      padding: 8px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      font-size: 0.85rem;
+      color: var(--accent-gold);
+      font-weight: 800;
+      font-family: 'Rajdhani', sans-serif;
+      user-select: none;
+    }
+    .file-mode:hover { background: var(--card-hover); border-color: var(--accent-gold); }
+    .file-mode.active { background: var(--card-hover); border-color: var(--accent-gold); box-shadow: 0 0 14px rgba(255, 215, 0, 0.18); }
+    .file-preview { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 12px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
+    .file-info { display: flex; align-items: center; gap: 10px; }
+    .file-icon { font-size: 1.2rem; width: 28px; text-align: center; }
+    .file-details { display: flex; flex-direction: column; }
+    .file-name { color: var(--accent-gold); font-weight: 800; font-size: 0.9rem; font-family: 'Rajdhani', sans-serif; }
+    .file-size { color: var(--text-secondary); font-size: 0.75rem; }
+    .file-remove { background: rgba(255, 0, 0, 0.1); border: 1px solid rgba(255, 0, 0, 0.3); color: #ff6b6b; padding: 6px 10px; border-radius: 8px; cursor: pointer; font-size: 0.85rem; font-weight: 800; font-family: 'Rajdhani', sans-serif; }
+    .file-remove:hover { background: rgba(255, 0, 0, 0.18); }
+
+    .input-wrapper {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      background: var(--card-bg);
+      border: 2px solid var(--border-color);
+      border-radius: 22px;
+      padding: 8px 12px;
+      transition: all 0.25s ease;
+    }
+    .input-wrapper:focus-within { border-color: var(--accent-gold); box-shadow: 0 0 20px rgba(255, 215, 0, 0.18); }
+    #messageInput {
+      flex: 1;
+      background: none;
+      border: none;
+      color: var(--text-primary);
+      font-size: 1rem;
+      padding: 10px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+    }
+    #messageInput::placeholder { color: var(--text-secondary); }
+    .input-actions { display: flex; gap: 8px; align-items: center; }
+    .file-upload-btn {
+      position: relative;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      color: var(--accent-gold);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+    }
+    .file-upload-btn:hover { background: var(--card-hover); border-color: var(--accent-gold); transform: translateY(-1px); }
+    .file-upload-btn input { position: absolute; opacity: 0; width: 100%; height: 100%; cursor: pointer; }
+
+    #sendBtn {
+      background: linear-gradient(135deg, var(--accent-gold), var(--accent-orange));
+      color: #000;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 18px;
+      cursor: pointer;
+      font-weight: 900;
+      font-family: 'Rajdhani', sans-serif;
+      transition: all 0.25s ease;
+      font-size: 1rem;
+    }
+    #sendBtn:hover:not(:disabled) { transform: scale(1.05); box-shadow: 0 5px 20px rgba(255, 215, 0, 0.35); }
+    #sendBtn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .download-buttons { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+    .download-btn {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      color: var(--accent-gold);
+      padding: 10px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 900;
+      font-family: 'Rajdhani', sans-serif;
+      transition: all 0.25s ease;
+      font-size: 0.9rem;
+    }
+    .download-btn:hover { background: var(--card-hover); border-color: var(--accent-gold); transform: translateY(-1px); }
+
+    /* Voice */
+    .voice-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 10px; }
+    .voice-pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border-color);
+      background: var(--card-bg);
+      color: var(--accent-gold);
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 900;
+      cursor: pointer;
+      user-select: none;
+    }
+    .voice-pill.active { background: var(--card-hover); border-color: var(--accent-gold); }
+    .voice-select {
+      padding: 8px 10px;
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+      background: var(--card-bg);
+      color: var(--text-primary);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      outline: none;
+    }
+
+    /* Payment Gateway Selection */
+    .payment-gateways {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 10px;
+      margin-bottom: 20px;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+    .gateway-card {
+      background: var(--card-bg);
+      border: 2px solid var(--border-color);
+      border-radius: 12px;
+      padding: 12px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      min-height: 90px;
+      justify-content: center;
+    }
+    .gateway-card:hover {
+      background: var(--card-hover);
+      border-color: var(--accent-gold);
+      transform: translateY(-2px);
+    }
+    .gateway-card.selected {
+      background: var(--card-hover);
+      border-color: var(--accent-gold);
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+    }
+    .gateway-icon {
+      width: 40px;
+      height: 40px;
+      fill: var(--accent-gold);
+    }
+    .gateway-name {
+      font-weight: 700;
+      color: var(--accent-gold);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.85rem;
+    }
+
+    .amount-input-group {
+      margin-bottom: 20px;
+    }
+    .amount-label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--accent-gold);
+      font-weight: 700;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.1rem;
+    }
+    .amount-input {
+      width: 100%;
+      padding: 16px 20px;
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-align: center;
+      background: var(--card-bg);
+      border: 2px solid var(--border-color);
+      border-radius: 12px;
+      color: var(--text-primary);
+      font-family: 'Orbitron', sans-serif;
+    }
+    .amount-input:focus {
+      outline: none;
+      border-color: var(--accent-gold);
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+    }
+    .suggested-amounts {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+    .amount-chip {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      padding: 6px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      color: var(--accent-gold);
+      font-weight: 700;
+      font-family: 'Rajdhani', sans-serif;
+    }
+    .amount-chip:hover {
+      background: var(--card-hover);
+      border-color: var(--accent-gold);
+    }
+
+    .payment-details {
+      margin-top: 20px;
+    }
+    .payment-section-title {
+      color: var(--accent-gold);
+      font-weight: 700;
+      font-family: 'Rajdhani', sans-serif;
+      margin-bottom: 12px;
+      font-size: 1.1rem;
+    }
+
+    .api-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-top: 8px;
+    }
+    .api-status.active { color: var(--wiki-green); }
+
+    .hidden { display: none !important; }
+    .small-note { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; }
+    .error-text { color: #ff7070; font-weight: 700; }
+    .success-text { color: #00ff6a; font-weight: 700; }
+
+    @media (max-width: 768px) {
+      .chat-header { padding: 12px 16px; }
+      .message-bubble { max-width: 92%; padding: 16px 18px; }
+      .chat-container { padding: 18px; }
+      .payment-gateways { 
+        grid-template-columns: repeat(2, 1fr);
+        max-height: 300px;
+      }
+      .gateway-card {
+        padding: 10px;
+        min-height: 80px;
+      }
+      .gateway-icon {
+        width: 32px;
+        height: 32px;
+      }
+      .gateway-name {
+        font-size: 0.75rem;
+      }
+      .main-title { font-size: clamp(3rem, 8vw, 6rem); }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="spaceCanvas"></canvas>
+
+  <!-- Theme Toggle Button -->
+  <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">
+    <svg class="theme-icon" id="themeIcon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 17.5C14.76 17.5 17 15.26 17 12.5C17 9.74 14.76 7.5 12 7.5C9.24 7.5 7 9.74 7 12.5C7 15.26 9.24 17.5 12 17.5ZM12 2L14.39 6.42L19.53 7.47L15.89 11.39L16.82 16.54L12 14.19L7.18 16.54L8.11 11.39L4.47 7.47L9.61 6.42L12 2Z"/>
+    </svg>
+  </button>
+
+  <div class="container">
+    <!-- Landing Page -->
+    <div id="landingPage" class="landing-page">
+      <div class="hero-content">
+        <svg class="chakra-logo" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="chakraGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+              <stop offset="50%" style="stop-color:#FFA500;stop-opacity:1" />
+              <stop offset="100%" style="stop-color:#FF4500;stop-opacity:1" />
+            </linearGradient>
+          </defs>
+          <circle cx="100" cy="100" r="80" fill="none" stroke="url(#chakraGrad)" stroke-width="3"/>
+          <circle cx="100" cy="100" r="60" fill="none" stroke="url(#chakraGrad)" stroke-width="2"/>
+          <circle cx="100" cy="100" r="40" fill="none" stroke="url(#chakraGrad)" stroke-width="2"/>
+          <path d="M100 20 L100 180 M20 100 L180 100" stroke="url(#chakraGrad)" stroke-width="2"/>
+          <circle cx="100" cy="100" r="15" fill="url(#chakraGrad)"/>
+        </svg>
+
+        <h1 class="main-title">BHUJI</h1>
+        <h2 class="subtitle">Complete AI Intelligence</h2>
+        <p class="tagline">Inspired by Kalki 2898 AD • Created by Himanshu</p>
+
+        <div class="search-badges">
+          <div class="search-badge google">🔍 Google</div>
+          <div class="search-badge wikipedia">📚 Wikipedia</div>
+          <div class="search-badge">🦆 DuckDuckGo</div>
+          <div class="search-badge">📄 File Tools</div>
+          <div class="search-badge">🎙️ Voice</div>
+        </div>
+
+        <button class="cta-button" onclick="showAuthModal()">Start Your Journey</button>
+      </div>
+    </div>
+
+    <!-- Main Interface -->
+    <div id="mainInterface" class="main-interface hidden">
+      <div class="chat-header">
+        <div class="header-left">
+          <div class="header-title">BHUJI AI</div>
+          <div class="creator-badge">
+            <span>👨‍💻</span>
+            <span>by Himanshu</span>
+          </div>
+
+          <div class="model-selector" id="modeSelector">
+            <div class="model-option active" data-mode="auto" onclick="selectMode('auto')">Auto</div>
+            <div class="model-option" data-mode="bhuj" onclick="selectMode('bhuj')">BHUJ</div>
+            <div class="model-option locked" data-mode="bhuji" onclick="selectMode('bhuji')">Bhuji <span class="badge">₹49</span></div>
+            <div class="model-option locked" data-mode="garud" onclick="selectMode('garud')">GARUD <span class="badge">₹119</span></div>
+          </div>
+        </div>
+
+        <div class="header-actions">
+          <div class="user-info" id="userInfo">
+            <div class="user-avatar" id="userAvatar">U</div>
+            <span class="user-name" id="userName">User</span>
+          </div>
+
+          <button class="header-btn icon-btn" id="voiceToggleBtn" onclick="toggleVoiceMode()" title="Voice mode">
+            <span id="voiceIcon">🎙</span>
+          </button>
+          <button class="header-btn" onclick="showPricing()">💎 Upgrade</button>
+          <button class="header-btn" onclick="showSettings()">⚙️ Settings</button>
+          <button class="header-btn" onclick="logout()">🚪 Logout</button>
+        </div>
+      </div>
+
+      <div class="chat-container" id="messagesArea"></div>
+
+      <div class="input-area">
+        <!-- Voice controls -->
+        <div id="voiceControls" class="voice-row hidden">
+          <div class="voice-pill" id="micBtn" onclick="toggleMic()">🎤 Mic</div>
+          <div class="voice-pill active" id="speakRepliesBtn" onclick="toggleSpeakReplies()">🔊 Speak replies</div>
+          <select class="voice-select" id="voicePersona" onchange="setPersona(this.value)">
+            <option value="BHUJI">BHUJI (Women)</option>
+            <option value="GARUD">GARUD (Men)</option>
+            <option value="BHAIRAVA">BHAIRAVA (Men)</option>
+            <option value="Shambhala">Shambhala (Women)</option>
+            <option value="Sudharshan">Sudharshan (Men)</option>
+          </select>
+          <span class="small-note" id="voiceNote">💡 Click Mic to speak</span>
+        </div>
+
+        <!-- File Mode Selector -->
+        <div class="file-mode-selector hidden" id="fileModeSelector">
+          <div class="file-mode active" data-mode="analyze" onclick="selectFileMode('analyze')">📊 Analyze</div>
+          <div class="file-mode" data-mode="to-pdf" onclick="selectFileMode('to-pdf')">📄 → PDF</div>
+          <div class="file-mode" data-mode="to-xlsx" onclick="selectFileMode('to-xlsx')">📈 → Excel</div>
+          <div class="file-mode" data-mode="to-docx" onclick="selectFileMode('to-docx')">📝 → Word</div>
+          <div class="file-mode" data-mode="to-png" onclick="selectFileMode('to-png')">🖼️ → PNG</div>
+          <div class="file-mode" data-mode="pdf-watermark" onclick="selectFileMode('pdf-watermark')">🔖 Watermark</div>
+          <div class="file-mode" data-mode="pdf-pagenum" onclick="selectFileMode('pdf-pagenum')">🔢 Page #</div>
+          <div class="file-mode" data-mode="pdf-rotate" onclick="selectFileMode('pdf-rotate')">🔄 Rotate</div>
+        </div>
+
+        <!-- File Preview -->
+        <div id="filePreview" class="file-preview hidden">
+          <div class="file-info">
+            <span class="file-icon" id="fileIcon">📎</span>
+            <div class="file-details">
+              <div class="file-name" id="fileName">No file</div>
+              <div class="file-size" id="fileSize">0 KB</div>
+            </div>
+          </div>
+          <button class="file-remove" onclick="removeFile()">✕ Remove</button>
+        </div>
+
+        <div class="input-wrapper">
+          <input type="text" id="messageInput" placeholder="🔍 Ask me anything! I search the web & provide detailed answers with links!" onkeypress="if(event.key==='Enter') sendMessage()">
+
+          <div class="input-actions">
+            <div class="file-upload-btn" title="Upload file (Bhuji/GARUD)">
+              <span>📎</span>
+              <input type="file" id="fileInput" onchange="handleFileUpload(event)" accept=".pdf,.docx,.txt,.json,.csv,.xlsx,.png,.jpg,.jpeg,.html,.pptx">
+            </div>
+          </div>
+
+          <button id="sendBtn" onclick="sendMessage()">🚀 Search</button>
+        </div>
+
+        <div class="small-note" style="margin-top:10px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+          <span>✨ <strong>Complete AI with web search, file tools & voice!</strong></span>
+          <span class="api-status" id="apiStatus">⚙️ Free Mode</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Auth Modal -->
+  <div id="authModal" class="modal-overlay hidden">
+    <div class="modal">
+      <button class="modal-close" onclick="closeAuthModal()">×</button>
+
+      <div id="loginForm">
+        <h2 class="modal-title">Welcome Back!</h2>
+        <input type="email" id="loginEmail" class="input-field" placeholder="Email Address">
+        <input type="password" id="loginPassword" class="input-field" placeholder="Password">
+        <button class="submit-button" onclick="handleLogin()">Login</button>
+        <div class="auth-toggle">Don't have an account? <button onclick="toggleAuthForm()">Sign Up</button></div>
+      </div>
+
+      <div id="signupForm" class="hidden">
+        <h2 class="modal-title">Join BHUJI AI</h2>
+        <input type="text" id="signupName" class="input-field" placeholder="Full Name">
+        <input type="email" id="signupEmail" class="input-field" placeholder="Email Address">
+        <input type="password" id="signupPassword" class="input-field" placeholder="Password (min 8 characters)">
+        <input type="password" id="signupConfirm" class="input-field" placeholder="Confirm Password">
+        <button class="submit-button" onclick="handleSignup()">Create Account</button>
+        <div class="auth-toggle">Already have an account? <button onclick="toggleAuthForm()">Login</button></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal-overlay hidden">
+    <div class="modal">
+      <button class="modal-close" onclick="closeSettings()">×</button>
+      <h2 class="modal-title">⚙️ Settings</h2>
+      
+      <div style="background:var(--card-bg); border:2px solid var(--border-color); border-radius:12px; padding:20px; margin-bottom:24px;">
+        <div style="color:var(--accent-gold); font-weight:700; font-family:'Rajdhani',sans-serif; margin-bottom:14px; font-size:1.3rem;">🔑 Google API (Optional)</div>
+        <div class="small-note" style="margin-bottom:14px;">
+          <strong>Works WITHOUT API!</strong> Add Google API keys for enhanced results (100 free searches/day)
+        </div>
+        <input type="text" id="googleApiKey" class="input-field" placeholder="Google API Key (Optional)">
+        <input type="text" id="googleCseId" class="input-field" placeholder="Search Engine ID (Optional)">
+        <button class="submit-button" onclick="saveGoogleApiKeys()">💾 Save</button>
+      </div>
+
+      <div style="margin-bottom: 20px;">
+        <h3 style="color:var(--accent-gold); margin-bottom:12px; font-family:'Rajdhani',sans-serif; font-size:1.2rem;">👤 Account</h3>
+        <div class="small-note">📧 Email: <strong id="settingsEmail" style="color:var(--accent-gold);">-</strong></div>
+        <div class="small-note">💎 Plan: <strong id="settingsPlan" style="color:var(--accent-gold);">Free</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pricing Modal -->
+  <div id="pricingModal" class="modal-overlay hidden">
+    <div class="modal">
+      <button class="modal-close" onclick="closePricing()">×</button>
+      <h2 class="modal-title">💎 Upgrade</h2>
+
+      <div class="amount-input-group">
+        <label class="amount-label">Amount (₹)</label>
+        <input type="number" class="amount-input" id="customAmount" placeholder="0" min="1" value="49">
+        <div class="suggested-amounts">
+          <span class="amount-chip" onclick="setAmount(49)">₹49</span>
+          <span class="amount-chip" onclick="setAmount(119)">₹119</span>
+        </div>
+      </div>
+
+      <div class="payment-section-title">Payment Gateway</div>
+      <div class="payment-gateways">
+        <div class="gateway-card selected" onclick="selectGateway('upi')" id="gatewayUpi">
+          <svg class="gateway-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>
+          <div class="gateway-name">UPI</div>
+        </div>
+        <div class="gateway-card" onclick="selectGateway('phonepe')" id="gatewayPhonepe">
+          <svg class="gateway-icon" viewBox="0 0 24 24"><path d="M13 9h-2V7h2m0 10h-2v-6h2m-1-9A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2Z"/></svg>
+          <div class="gateway-name">PhonePe</div>
+        </div>
+        <div class="gateway-card" onclick="selectGateway('gpay')" id="gatewayGpay">
+          <svg class="gateway-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+          <div class="gateway-name">Google Pay</div>
+        </div>
+        <div class="gateway-card" onclick="selectGateway('paytm')" id="gatewayPaytm">
+          <svg class="gateway-icon" viewBox="0 0 24 24"><path d="M19 4h-4.18C14.4 2.84 13.3 2 12 2c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm0 4c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm6 12H6v-1.4c0-2 4-3.1 6-3.1s6 1.1 6 3.1V20z"/></svg>
+          <div class="gateway-name">Paytm</div>
+        </div>
+        <div class="gateway-card" onclick="selectGateway('netbanking')" id="gatewayNetbanking">
+          <svg class="gateway-icon" viewBox="0 0 24 24"><path d="M11.5 1L2 6v2h19V6m-5 4v7h3v-7m-6 0v7h3v-7m-6 0v7h3v-7M2 22h19v-3H2v3z"/></svg>
+          <div class="gateway-name">Net Banking</div>
+        </div>
+        <div class="gateway-card" onclick="selectGateway('razorpay')" id="gatewayRazorpay">
+          <svg class="gateway-icon" viewBox="0 0 24 24"><path d="M14.5 10L16 14h-4.5l1.5-4m-6.5 0L3 14h1.5l1.5-4M12 2L2 7v10l10 5 10-5V7L12 2m0 2.2l7.2 3.6L12 11.4 4.8 7.8 12 4.2z"/></svg>
+          <div class="gateway-name">Razorpay</div>
+        </div>
+        <div class="gateway-card" onclick="selectGateway('paypal')" id="gatewayPaypal">
+          <svg class="gateway-icon" viewBox="0 0 24 24"><path d="M8.32 21.97a.546.546 0 0 1-.26-.32c-.03-.15-.06-.2-.06-.2H7l.01-.11.01-.11v-.08h.01a13.83 13.83 0 0 0 .15-1.19c.07-.62.14-1.16.21-1.62.14-.84.25-1.44.37-1.94.04-.17.11-.44.2-.82.04-.17.11-.46.21-.87.12-.49.24-.98.35-1.42.16-.63.3-1.14.42-1.54.18-.62.36-1.15.55-1.6.19-.45.38-.82.57-1.12.37-.62.9-1.09 1.54-1.42a4.31 4.31 0 0 1 2.07-.5c.54 0 1.03.11 1.47.32.44.22.79.54 1.03.95.25.41.37.88.37 1.42 0 .21-.01.41-.04.61-.15 1.04-.49 1.92-1.03 2.62-.54.7-1.26 1.24-2.16 1.62-.9.38-1.95.58-3.16.58-.18 0-.37-.01-.56-.02l-.45-.03a61.13 61.13 0 0 1-.51 1.94l-.35 1.47h.01c-.01 0-.01.03-.03.08l-.42 1.74c-.03.12-.06.24-.08.35-.03.11-.04.21-.04.3 0 .12.02.21.07.27.05.06.15.1.32.1.14 0 .31-.03.51-.09.2-.06.42-.16.67-.29.25-.13.52-.31.82-.54a.44.44 0 0 1 .57.69 6.79 6.79 0 0 1-1.05.74c-.39.23-.78.41-1.17.54-.38.13-.74.19-1.07.19-.25 0-.47-.06-.66-.18zm.36-9.44c-.07.29-.14.59-.21.9l-.21.92c.21.03.42.04.62.04.86 0 1.6-.18 2.21-.55.62-.37 1.08-.87 1.39-1.51.31-.64.46-1.37.46-2.19 0-.44-.07-.8-.22-1.08a1.42 1.42 0 0 0-.62-.65 1.9 1.9 0 0 0-.95-.23c-.44 0-.84.11-1.21.34-.37.23-.68.55-.93.96-.24.41-.43.89-.55 1.44-.11.54-.21 1.1-.29 1.68l.51-.07z"/></svg>
+          <div class="gateway-name">PayPal</div>
+        </div>
+        <div class="gateway-card" onclick="selectGateway('card')" id="gatewayCard">
+          <svg class="gateway-icon" viewBox="0 0 24 24"><path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg>
+          <div class="gateway-name">Card</div>
+        </div>
+      </div>
+
+      <div class="payment-details">
+        <div id="upiFields">
+          <input class="input-field" id="upiId" placeholder="UPI ID (e.g., yourname@upi)">
+          <div class="small-note" style="margin-top:8px; text-align:center;">💡 Enter your UPI ID</div>
+        </div>
+        <div id="phonepeFields" class="hidden">
+          <input class="input-field" id="phonepeMobile" placeholder="PhonePe Mobile Number">
+          <div class="small-note" style="margin-top:8px; text-align:center;">📱 Enter your PhonePe registered mobile</div>
+        </div>
+        <div id="gpayFields" class="hidden">
+          <input class="input-field" id="gpayMobile" placeholder="Google Pay Mobile Number">
+          <div class="small-note" style="margin-top:8px; text-align:center;">📱 Enter your GPay registered mobile</div>
+        </div>
+        <div id="paytmFields" class="hidden">
+          <input class="input-field" id="paytmMobile" placeholder="Paytm Mobile Number">
+          <input class="input-field" id="paytmOtp" placeholder="OTP (will be sent)">
+          <div class="small-note" style="margin-top:8px; text-align:center;">📱 Enter your Paytm mobile number</div>
+        </div>
+        <div id="netbankingFields" class="hidden">
+          <select class="input-field" id="bankName">
+            <option value="">Select Your Bank</option>
+            <option value="sbi">State Bank of India</option>
+            <option value="hdfc">HDFC Bank</option>
+            <option value="icici">ICICI Bank</option>
+            <option value="axis">Axis Bank</option>
+            <option value="pnb">Punjab National Bank</option>
+            <option value="kotak">Kotak Mahindra Bank</option>
+            <option value="bob">Bank of Baroda</option>
+            <option value="canara">Canara Bank</option>
+            <option value="idbi">IDBI Bank</option>
+            <option value="other">Other Banks</option>
+          </select>
+          <div class="small-note" style="margin-top:8px; text-align:center;">🏦 You'll be redirected to your bank's portal</div>
+        </div>
+        <div id="razorpayFields" class="hidden">
+          <input class="input-field" id="razorpayEmail" placeholder="Email Address">
+          <input class="input-field" id="razorpayMobile" placeholder="Mobile Number">
+          <div class="small-note" style="margin-top:8px; text-align:center;">💳 Supports UPI, Cards, Wallets & Net Banking</div>
+        </div>
+        <div id="paypalFields" class="hidden">
+          <input class="input-field" id="paypalEmail" placeholder="PayPal Email Address">
+          <div class="small-note" style="margin-top:8px; text-align:center;">🌍 International payments via PayPal</div>
+        </div>
+        <div id="cardFields" class="hidden">
+          <input class="input-field" id="cardNumber" placeholder="Card Number (16 digits)">
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
+            <input class="input-field" id="cardExpiry" placeholder="MM/YY">
+            <input class="input-field" id="cardCvv" placeholder="CVV">
+          </div>
+          <input class="input-field" id="cardName" placeholder="Cardholder Name">
+          <div class="small-note" style="margin-top:8px; text-align:center;">💳 We accept Visa, MasterCard, RuPay, Amex</div>
+        </div>
+      </div>
+
+      <div id="payError" class="error-text hidden" style="margin-bottom:10px; text-align:center;"></div>
+      <div id="paySuccess" class="success-text hidden" style="margin-bottom:10px; text-align:center;"></div>
+      
+      <button class="submit-button" onclick="processPayment()">Pay Now</button>
+      <div class="small-note" style="margin-top:15px; text-align:center;">🔒 Demo Mode</div>
+    </div>
+  </div>
+
+  <script>
+    // GLOBAL STATE
+    let currentTheme = 'dark', currentUser = null, messages = [], isLoading = false;
+    let currentMode = 'auto', uploadedFile = null, fileMode = 'analyze';
+    let voiceMode = false, speakReplies = true, persona = 'BHUJI', recognition = null, recognizing = false;
+    let selectedGateway = 'upi', stars = [], animationId = null;
+    let googleApiKey = localStorage.getItem('bhuji_google_api_key') || '';
+    let googleCseId = localStorage.getItem('bhuji_google_cse_id') || '';
+
+    // SECURITY
+    const SecurityManager = {
+      sessionId: 'SESS-' + Math.random().toString(36).substr(2, 24),
+      sanitizeInput: (input) => String(input).replace(/[<>"']/g, ''),
+      hashPassword: (pass) => { try { return CryptoJS.SHA256(pass).toString(); } catch { return btoa(pass); } },
+      checkRateLimit: () => {
+        const now = Date.now();
+        if (!window._reqTs) window._reqTs = [];
+        window._reqTs = window._reqTs.filter(t => now - t < 60000);
+        if (window._reqTs.length >= 40) return false;
+        window._reqTs.push(now);
+        return true;
+      }
+    };
+
+    // WEB SEARCH ENGINE
+    const WebSearchEngine = {
+      async searchGoogle(query) {
+        try {
+          if (googleApiKey && googleCseId) {
+            const url = `https://www.googleapis.com/customsearch/v1?key=${googleApiKey}&cx=${googleCseId}&q=${encodeURIComponent(query)}&num=10`;
+            const res = await fetch(url);
+            const data = await res.json();
+            if (data.items?.length > 0) {
+              return { success: true, results: data.items.map(i => ({ title: i.title, link: i.link, snippet: i.snippet || '' })) };
+            }
+          }
+          return { success: true, searchUrl: `https://www.google.com/search?q=${encodeURIComponent(query)}`, fallback: true };
+        } catch { return { success: true, searchUrl: `https://www.google.com/search?q=${encodeURIComponent(query)}`, fallback: true }; }
+      },
+
+      async searchWikipedia(query) {
+        try {
+          const searchUrl = `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(query)}&format=json&origin=*&srlimit=1`;
+          const searchRes = await fetch(searchUrl);
+          const searchData = await searchRes.json();
+          if (!searchData.query?.search?.length) return { success: false };
+          
+          const title = searchData.query.search[0].title;
+          const contentUrl = `https://en.wikipedia.org/w/api.php?action=query&prop=extracts&explaintext=true&titles=${encodeURIComponent(title)}&format=json&origin=*`;
+          const contentRes = await fetch(contentUrl);
+          const contentData = await contentRes.json();
+          const pages = contentData.query.pages;
+          const extract = pages[Object.keys(pages)[0]].extract || '';
+          
+          if (extract.length > 100) {
+            return { success: true, title, extract, url: `https://en.wikipedia.org/wiki/${encodeURIComponent(title.replace(/ /g, '_'))}` };
+          }
+          return { success: false };
+        } catch { return { success: false }; }
+      },
+
+      async searchDuckDuckGo(query) {
+        try {
+          const url = `https://api.duckduckgo.com/?q=${encodeURIComponent(query)}&format=json&no_html=1&skip_disambig=1`;
+          const res = await fetch(url);
+          const data = await res.json();
+          if (data.Abstract?.length > 50) {
+            return { success: true, abstract: data.Abstract, url: data.AbstractURL, source: data.AbstractSource || 'DuckDuckGo' };
+          }
+          return { success: false };
+        } catch { return { success: false }; }
+      },
+
+      async comprehensiveSearch(query) {
+        const [google, wiki, ddg] = await Promise.all([
+          this.searchGoogle(query),
+          this.searchWikipedia(query),
+          this.searchDuckDuckGo(query)
+        ]);
+        return { query, google, wikipedia: wiki, duckduckgo: ddg };
+      },
+
+      formatSearchResults(results, query) {
+        const links = [];
+        let text = `<div class="answer-section"><h3>🔍 Search Results for: "${query}"</h3><p>Searched Google, Wikipedia & DuckDuckGo for comprehensive answers!</p></div>\n\n`;
+        
+        // Wikipedia
+        if (results.wikipedia?.success) {
+          const paras = results.wikipedia.extract.split('\n\n').filter(p => p.length > 50);
+          text += `<div class="wiki-highlight"><h3>📚 Wikipedia: ${results.wikipedia.title}</h3><p>${paras.slice(0, 5).join('\n\n')}</p></div>\n\n`;
+          links.push({ title: `📖 Wikipedia: ${results.wikipedia.title}`, url: results.wikipedia.url, snippet: results.wikipedia.extract.substring(0, 200) + '...', source: 'wikipedia' });
+        }
+        
+        // Google
+        if (results.google?.success && results.google.results?.length > 0) {
+          text += `<div class="source-highlight"><h3>🔍 Google Results:</h3>\n`;
+          results.google.results.slice(0, 5).forEach((r, i) => {
+            if (r.snippet) text += `<h4>${i+1}. ${r.title}</h4><p>${r.snippet}</p>\n`;
+            links.push({ title: `🔗 ${r.title}`, url: r.link, snippet: r.snippet, source: 'google' });
+          });
+          text += `</div>\n\n`;
+        } else if (results.google?.searchUrl) {
+          links.push({ title: '🔍 Search on Google', url: results.google.searchUrl, snippet: 'View complete Google results', source: 'google' });
+        }
+        
+        // DuckDuckGo
+        if (results.duckduckgo?.success) {
+          text += `<div class="source-highlight"><h4>🦆 DuckDuckGo:</h4><p>${results.duckduckgo.abstract}</p></div>\n\n`;
+          if (results.duckduckgo.url) links.push({ title: `🔗 ${results.duckduckgo.source}`, url: results.duckduckgo.url, snippet: results.duckduckgo.abstract.substring(0, 150) + '...', source: 'duckduckgo' });
+        }
+        
+        if (links.length > 0) {
+          text += `<div class="answer-section"><h4>✨ Summary:</h4><p>Found <strong>${links.length} sources</strong> with detailed information. Click links below to read full articles!</p></div>`;
+        }
+        
+        return { text, links };
+      }
+    };
+
+    // FILE OPERATIONS (shortened for space)
+    async function readFileAsText(file) { return await file.text(); }
+    async function readFileAsArrayBuffer(file) { return await file.arrayBuffer(); }
+    async function readFileAsDataURL(file) {
+      return new Promise(resolve => {
+        const r = new FileReader();
+        r.onload = e => resolve(e.target.result);
+        r.readAsDataURL(file);
+      });
+    }
+
+    async function convertToPDF(file) {
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF();
+      const ext = file.name.split('.').pop().toLowerCase();
+      if (ext === 'txt' || ext === 'json') {
+        const text = await readFileAsText(file);
+        pdf.text(text.substring(0, 5000), 15, 20);
+      } else if (ext === 'png' || ext === 'jpg') {
+        const dataUrl = await readFileAsDataURL(file);
+        pdf.addImage(dataUrl, 'JPEG', 10, 10, 190, 0);
+      }
+      return pdf.output('blob');
+    }
+
+    async function convertToExcel(file) {
+      const text = await readFileAsText(file);
+      const data = text.split('\n').map(line => [line]);
+      const ws = XLSX.utils.aoa_to_sheet(data);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+      return new Blob([XLSX.write(wb, { bookType: 'xlsx', type: 'array' })], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    }
+
+    async function addWatermarkToPDF(file) {
+      const { PDFDocument, rgb } = PDFLib;
+      const buffer = await readFileAsArrayBuffer(file);
+      const pdfDoc = await PDFDocument.load(buffer);
+      pdfDoc.getPages().forEach(page => {
+        const { width, height } = page.getSize();
+        page.drawText('BHUJI AI', { x: width/2 - 50, y: height/2, size: 50, color: rgb(0.85, 0.85, 0.85), opacity: 0.3 });
+      });
+      return new Blob([await pdfDoc.save()], { type: 'application/pdf' });
+    }
+
+    // THEME
+    function toggleTheme() {
+      currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', currentTheme);
+      localStorage.setItem('bhuji_theme', currentTheme);
+      updateThemeIcon();
+    }
+    function updateThemeIcon() {
+      document.getElementById('themeIcon').innerHTML = currentTheme === 'dark' ?
+        '<path d="M12 17.5C14.76 17.5 17 15.26 17 12.5C17 9.74 14.76 7.5 12 7.5C9.24 7.5 7 9.74 7 12.5C7 15.26 9.24 17.5 12 17.5ZM12 2L14.39 6.42L19.53 7.47L15.89 11.39L16.82 16.54L12 14.19L7.18 16.54L8.11 11.39L4.47 7.47L9.61 6.42L12 2Z"/>' :
+        '<path d="M12 3C7.03 3 3 7.03 3 12C3 16.97 7.03 21 12 21C16.97 21 21 16.97 21 12C21 11.54 20.96 11.08 20.9 10.64C19.92 12.01 18.32 12.9 16.5 12.9C13.46 12.9 11 10.44 11 7.4C11 5.58 11.89 3.98 13.26 3C12.85 3 12.43 3 12 3Z"/>';
+    }
+
+    // SPACE ANIMATION
+    function initSpaceBackground() {
+      const canvas = document.getElementById('spaceCanvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      stars = Array(160).fill().map(() => ({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        radius: Math.random() * 2 + 0.5,
+        vx: (Math.random() - 0.5) * 0.25,
+        vy: (Math.random() - 0.5) * 0.25,
+        opacity: Math.random() * 0.5 + 0.4
+      }));
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const grad = ctx.createRadialGradient(canvas.width/2, canvas.height/2, 0, canvas.width/2, canvas.height/2, canvas.width/2);
+        grad.addColorStop(0, currentTheme === 'dark' ? '#0a0a0a' : '#e8e8e8');
+        grad.addColorStop(1, currentTheme === 'dark' ? '#000000' : '#d4d4d4');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        stars.forEach(s => {
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2);
+          ctx.fillStyle = currentTheme === 'dark' ? `rgba(255, 215, 0, ${s.opacity})` : `rgba(218, 165, 32, ${s.opacity * 0.8})`;
+          ctx.fill();
+          s.x += s.vx; s.y += s.vy;
+          if (s.x < 0 || s.x > canvas.width) s.vx *= -1;
+          if (s.y < 0 || s.y > canvas.height) s.vy *= -1;
+        });
+        requestAnimationFrame(animate);
+      }
+      animate();
+    }
+
+    // AUTH
+    function showAuthModal() { document.getElementById('authModal').classList.remove('hidden'); }
+    function closeAuthModal() { document.getElementById('authModal').classList.add('hidden'); }
+    function toggleAuthForm() {
+      document.getElementById('loginForm').classList.toggle('hidden');
+      document.getElementById('signupForm').classList.toggle('hidden');
+    }
+
+    function handleSignup() {
+      const name = document.getElementById('signupName').value.trim();
+      const email = document.getElementById('signupEmail').value.trim();
+      const pass = document.getElementById('signupPassword').value;
+      const confirm = document.getElementById('signupConfirm').value;
+      if (!name || !email || !pass || pass.length < 8 || pass !== confirm) { alert('Check inputs'); return; }
+      const users = JSON.parse(localStorage.getItem('bhuji_users') || '{}');
+      if (users[email]) { alert('Account exists'); return; }
+      users[email] = { name, email, passwordHash: SecurityManager.hashPassword(pass), plan: 'free' };
+      localStorage.setItem('bhuji_users', JSON.stringify(users));
+      currentUser = users[email];
+      closeAuthModal();
+      showMainInterface();
+    }
+
+    function handleLogin() {
+      const email = document.getElementById('loginEmail').value.trim();
+      const pass = document.getElementById('loginPassword').value;
+      const users = JSON.parse(localStorage.getItem('bhuji_users') || '{}');
+      const user = users[email];
+      if (!user || user.passwordHash !== SecurityManager.hashPassword(pass)) { alert('Invalid'); return; }
+      currentUser = user;
+      closeAuthModal();
+      showMainInterface();
+    }
+
+    function showMainInterface() {
+      document.getElementById('landingPage').classList.add('hidden');
+      document.getElementById('mainInterface').classList.remove('hidden');
+      document.getElementById('userName').textContent = currentUser.name;
+      document.getElementById('userAvatar').textContent = currentUser.name[0].toUpperCase();
+      document.getElementById('settingsEmail').textContent = currentUser.email;
+      updateModeLocks();
+      updateApiStatus();
+      messages = [];
+      renderMessages();
+      addMessage('assistant', `🙏 **Namaste, ${currentUser.name.split(' ')[0]}!**\n\nI'm **BHUJI** - your complete AI companion!\n\n**Features:**\n🔍 Multi-source web search (Google, Wikipedia, DuckDuckGo)\n📄 File tools (PDF, Excel, Word conversions)\n🎙️ Voice mode with speech-to-text\n💎 Premium modes (Bhuji ₹49, GARUD ₹119)\n\n**Try:**\n• "How to gain weight healthily?"\n• "Best laptops under ₹50,000"\n• Upload a file for conversion\n\nHow can I help? 🚀`, ['BHUJI AI']);
+    }
+
+    function logout() {
+      currentUser = null;
+      messages = [];
+      document.getElementById('mainInterface').classList.add('hidden');
+      document.getElementById('landingPage').classList.remove('hidden');
+    }
+
+    // PLANS
+    function getPlan() {
+      const users = JSON.parse(localStorage.getItem('bhuji_users') || '{}');
+      return currentUser ? (users[currentUser.email]?.plan || 'free') : 'free';
+    }
+    function setPlan(plan) {
+      const users = JSON.parse(localStorage.getItem('bhuji_users') || '{}');
+      if (currentUser) {
+        users[currentUser.email].plan = plan;
+        localStorage.setItem('bhuji_users', JSON.stringify(users));
+        updateModeLocks();
+      }
+    }
+    function isModeUnlocked(mode) {
+      const plan = getPlan();
+      if (mode === 'auto' || mode === 'bhuj') return true;
+      if (mode === 'bhuji') return plan === 'analyze' || plan === 'garud';
+      if (mode === 'garud') return plan === 'garud';
+      return false;
+    }
+    function updateModeLocks() {
+      document.querySelectorAll('#modeSelector .model-option').forEach(el => {
+        el.classList.toggle('locked', !isModeUnlocked(el.getAttribute('data-mode')));
+      });
+    }
+
+    // MODE SELECTION
+    function selectMode(mode) {
+      if (!isModeUnlocked(mode)) { showPricing(); return; }
+      currentMode = mode;
+      document.querySelectorAll('#modeSelector .model-option').forEach(el => {
+        el.classList.toggle('active', el.getAttribute('data-mode') === mode);
+      });
+      document.getElementById('fileModeSelector').classList.toggle('hidden', !['bhuji', 'garud'].includes(mode) || !uploadedFile);
+    }
+
+    // SETTINGS
+    function showSettings() {
+      document.getElementById('settingsPlan').textContent = getPlan();
+      document.getElementById('googleApiKey').value = googleApiKey;
+      document.getElementById('googleCseId').value = googleCseId;
+      document.getElementById('settingsModal').classList.remove('hidden');
+    }
+    function closeSettings() { document.getElementById('settingsModal').classList.add('hidden'); }
+    function saveGoogleApiKeys() {
+      googleApiKey = document.getElementById('googleApiKey').value.trim();
+      googleCseId = document.getElementById('googleCseId').value.trim();
+      localStorage.setItem('bhuji_google_api_key', googleApiKey);
+      localStorage.setItem('bhuji_google_cse_id', googleCseId);
+      updateApiStatus();
+      alert(googleApiKey && googleCseId ? '✅ Google API saved!' : '✅ Settings saved');
+      closeSettings();
+    }
+    function updateApiStatus() {
+      const el = document.getElementById('apiStatus');
+      if (googleApiKey && googleCseId) {
+        el.innerHTML = '✅ Google API Active';
+        el.classList.add('active');
+      } else {
+        el.innerHTML = '⚙️ Free Mode';
+        el.classList.remove('active');
+      }
+    }
+
+    // PRICING
+    function showPricing() { document.getElementById('pricingModal').classList.remove('hidden'); }
+    function closePricing() { document.getElementById('pricingModal').classList.add('hidden'); }
+    function setAmount(amt) { document.getElementById('customAmount').value = amt; }
+    function selectGateway(gw) {
+      selectedGateway = gw;
+      document.querySelectorAll('.gateway-card').forEach(c => c.classList.remove('selected'));
+      const gatewayId = 'gateway' + gw.charAt(0).toUpperCase() + gw.slice(1);
+      document.getElementById(gatewayId).classList.add('selected');
+      document.querySelectorAll('[id$="Fields"]').forEach(f => f.classList.add('hidden'));
+      document.getElementById(gw + 'Fields').classList.remove('hidden');
+    }
+    function processPayment() {
+      const amt = parseInt(document.getElementById('customAmount').value);
+      if (!amt || amt < 1) { alert('Invalid amount'); return; }
+      
+      // Validate gateway-specific fields
+      let isValid = true;
+      let errorMsg = '';
+      
+      switch(selectedGateway) {
+        case 'upi':
+          const upiId = document.getElementById('upiId').value.trim();
+          if (!upiId || !upiId.includes('@')) {
+            errorMsg = 'Please enter a valid UPI ID';
+            isValid = false;
+          }
+          break;
+        case 'phonepe':
+        case 'gpay':
+        case 'paytm':
+          const mobileField = document.getElementById(selectedGateway + 'Mobile');
+          const mobile = mobileField?.value.trim();
+          if (!mobile || mobile.length !== 10) {
+            errorMsg = 'Please enter a valid 10-digit mobile number';
+            isValid = false;
+          }
+          break;
+        case 'netbanking':
+          const bank = document.getElementById('bankName').value;
+          if (!bank) {
+            errorMsg = 'Please select your bank';
+            isValid = false;
+          }
+          break;
+        case 'razorpay':
+          const rzpEmail = document.getElementById('razorpayEmail').value.trim();
+          const rzpMobile = document.getElementById('razorpayMobile').value.trim();
+          if (!rzpEmail || !rzpEmail.includes('@')) {
+            errorMsg = 'Please enter a valid email address';
+            isValid = false;
+          } else if (!rzpMobile || rzpMobile.length !== 10) {
+            errorMsg = 'Please enter a valid 10-digit mobile number';
+            isValid = false;
+          }
+          break;
+        case 'paypal':
+          const ppEmail = document.getElementById('paypalEmail').value.trim();
+          if (!ppEmail || !ppEmail.includes('@')) {
+            errorMsg = 'Please enter a valid PayPal email';
+            isValid = false;
+          }
+          break;
+        case 'card':
+          const cardNum = document.getElementById('cardNumber').value.trim();
+          const cardName = document.getElementById('cardName').value.trim();
+          if (!cardNum || cardNum.length < 15) {
+            errorMsg = 'Please enter a valid card number';
+            isValid = false;
+          } else if (!cardName) {
+            errorMsg = 'Please enter cardholder name';
+            isValid = false;
+          }
+          break;
+      }
+      
+      if (!isValid) {
+        document.getElementById('payError').textContent = errorMsg;
+        document.getElementById('payError').classList.remove('hidden');
+        setTimeout(() => document.getElementById('payError').classList.add('hidden'), 3000);
+        return;
+      }
+      
+      document.getElementById('payError').classList.add('hidden');
+      document.querySelector('#pricingModal .submit-button').disabled = true;
+      document.querySelector('#pricingModal .submit-button').textContent = 'Processing...';
+      
+      // Get gateway display name
+      const gatewayNames = {
+        'upi': 'UPI',
+        'phonepe': 'PhonePe',
+        'gpay': 'Google Pay',
+        'paytm': 'Paytm',
+        'netbanking': 'Net Banking',
+        'razorpay': 'Razorpay',
+        'paypal': 'PayPal',
+        'card': 'Card'
+      };
+      
+      setTimeout(() => {
+        const plan = amt >= 119 ? 'garud' : (amt >= 49 ? 'analyze' : 'free');
+        setPlan(plan);
+        document.getElementById('settingsPlan').textContent = getPlan();
+        document.getElementById('paySuccess').textContent = `✓ Payment successful via ${gatewayNames[selectedGateway]}! ₹${amt}`;
+        document.getElementById('paySuccess').classList.remove('hidden');
+        document.querySelector('#pricingModal .submit-button').disabled = false;
+        document.querySelector('#pricingModal .submit-button').textContent = 'Pay Now';
+        setTimeout(() => { 
+          closePricing(); 
+          addMessage('assistant', `🎉 ${plan.toUpperCase()} plan activated!\n\nPayment Method: ${gatewayNames[selectedGateway]}\nAmount: ₹${amt}\n\nThank you for upgrading! 🚀`, ['Payment System']); 
+        }, 2000);
+      }, 2000);
+    }
+
+    // VOICE
+    function toggleVoiceMode() {
+      voiceMode = !voiceMode;
+      document.getElementById('voiceControls').classList.toggle('hidden', !voiceMode);
+      document.getElementById('voiceIcon').textContent = voiceMode ? '🔊' : '🎙';
+      if (voiceMode) initSpeechRecognition();
+    }
+    function toggleSpeakReplies() {
+      speakReplies = !speakReplies;
+      document.getElementById('speakRepliesBtn').classList.toggle('active', speakReplies);
+    }
+    function setPersona(p) { persona = p; }
+    function initSpeechRecognition() {
+      const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SR) return;
+      recognition = new SR();
+      recognition.lang = 'en-IN';
+      recognition.onresult = e => {
+        document.getElementById('messageInput').value = e.results[0][0].transcript;
+        sendMessage();
+      };
+    }
+    function toggleMic() {
+      if (!recognition) initSpeechRecognition();
+      if (!recognition) return;
+      if (recognizing) { recognition.stop(); recognizing = false; }
+      else { recognition.start(); recognizing = true; }
+      document.getElementById('micBtn').classList.toggle('active', recognizing);
+    }
+    function speakText(text) {
+      if (!speakReplies || !('speechSynthesis' in window)) return;
+      speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(text.replace(/\*\*/g,'').replace(/\n/g,' ').substring(0, 500));
+      speechSynthesis.speak(u);
+    }
+
+    // FILE HANDLING
+    function handleFileUpload(e) {
+      const file = e.target.files[0];
+      if (!file || !isModeUnlocked('bhuji')) { alert('Requires Bhuji/GARUD'); return; }
+      uploadedFile = file;
+      document.getElementById('filePreview').classList.remove('hidden');
+      document.getElementById('fileName').textContent = file.name;
+      document.getElementById('fileSize').textContent = (file.size/1024).toFixed(2) + ' KB';
+      document.getElementById('fileModeSelector').classList.remove('hidden');
+    }
+    function removeFile() {
+      uploadedFile = null;
+      document.getElementById('filePreview').classList.add('hidden');
+      document.getElementById('fileModeSelector').classList.add('hidden');
+    }
+    function selectFileMode(mode) {
+      fileMode = mode;
+      document.querySelectorAll('.file-mode').forEach(el => el.classList.toggle('active', el.getAttribute('data-mode') === mode));
+    }
+
+    // MESSAGING
+    function addMessage(role, content, sources = [], extras = {}) {
+      messages.push({ role, content, sources, id: 'msg-' + Date.now(), ...extras });
+      renderMessages();
+    }
+    function showTyping() {
+      const typing = document.createElement('div');
+      typing.id = 'typingIndicator';
+      typing.className = 'message assistant';
+      typing.innerHTML = '<div class="message-bubble"><div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div>';
+      document.getElementById('messagesArea').appendChild(typing);
+      scrollToBottom();
+    }
+    function hideTyping() {
+      const el = document.getElementById('typingIndicator');
+      if (el) el.remove();
+    }
+    function renderMessages() {
+      document.getElementById('messagesArea').innerHTML = messages.map(msg => {
+        const content = String(msg.content || '')
+          .replace(/^## (.*?)$/gm, '<h3>$1</h3>')
+          .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+          .replace(/\n/g, '<br>');
+        const sourcesBadges = (msg.sources || []).map(s => {
+          let cls = 'source-badge';
+          if (s.includes('Google')) cls += ' google';
+          if (s.includes('Wikipedia')) cls += ' wikipedia';
+          return `<span class="${cls}">${s}</span>`;
+        }).join('');
+        let linksHtml = '';
+        if (msg.links?.length > 0) {
+          linksHtml = '<div class="source-links"><div class="source-links-title">📚 Read Full Articles:</div>';
+          msg.links.forEach(l => {
+            linksHtml += `<a href="${l.url}" target="_blank" class="source-link"><div class="source-link-title">${l.title}</div>${l.snippet ? `<div class="source-link-snippet">${l.snippet}</div>` : ''}<div class="source-link-url">${l.url}</div></a>`;
+          });
+          linksHtml += '</div>';
+        }
+        let downloads = '';
+        if (msg.downloads?.length) {
+          downloads = '<div class="download-buttons">' + msg.downloads.map((d,i) => `<button class="download-btn" onclick="downloadFromMessage('${msg.id}', ${i})">⬇️ ${d.label}</button>`).join('') + '</div>';
+        }
+        return `<div class="message ${msg.role}"><div class="message-bubble">${content}${sourcesBadges ? `<div style="margin-top:16px;">${sourcesBadges}</div>` : ''}${linksHtml}${downloads}</div></div>`;
+      }).join('');
+      scrollToBottom();
+    }
+    function scrollToBottom() {
+      const c = document.getElementById('messagesArea');
+      c.scrollTop = c.scrollHeight;
+    }
+    function downloadFromMessage(msgId, idx) {
+      const msg = messages.find(m => m.id === msgId);
+      if (!msg?.downloads?.[idx]) return;
+      const d = msg.downloads[idx];
+      const url = URL.createObjectURL(d.blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = d.filename;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    // SEND MESSAGE
+    async function sendMessage() {
+      const input = document.getElementById('messageInput');
+      const message = SecurityManager.sanitizeInput(input.value.trim());
+      if (!message && !uploadedFile) return;
+      if (!SecurityManager.checkRateLimit()) { alert('Too many requests'); return; }
+      if (isLoading) return;
+      isLoading = true;
+      document.getElementById('sendBtn').disabled = true;
+      input.value = '';
+      if (message) addMessage('user', message);
+      showTyping();
+
+      try {
+        // Check if user is asking about BHUJI AI
+        const lowerMsg = message.toLowerCase();
+        if (lowerMsg.includes('what is bhuji') || lowerMsg.includes('who is bhuji') || 
+            lowerMsg.includes('about bhuji') || lowerMsg.includes('tell me about bhuji') ||
+            lowerMsg.includes('what are you') || lowerMsg.includes('who are you')) {
+          hideTyping();
+          const bhujiResponse = `🙏 **Namaste! I am BHUJI**\n\n**Inspired by Kalki 2898 AD**, where Lord Krishna's devoted warrior **Bhairava** is accompanied by his loyal robot companion.\n\nJust like that legendary partnership, I am here to be **your intelligent companion** - combining:\n\n✨ **Ancient Wisdom** - Named after the divine consciousness\n🤖 **Modern Technology** - Advanced AI capabilities\n🔍 **Complete Knowledge** - Multi-source web search (Google, Wikipedia, DuckDuckGo)\n📄 **Powerful Tools** - File processing, conversions, analysis\n🎙️ **Voice Interface** - Speak and listen naturally\n\n**My Purpose:**\nTo serve you with the loyalty of Bhairava's companion and the intelligence of modern AI - helping you navigate information, solve problems, and accomplish tasks.\n\n**Created with devotion by Himanshu** 🚀\n\nHow may I assist you on your journey today?`;
+          addMessage('assistant', bhujiResponse, ['BHUJI AI']);
+          if (voiceMode && speakReplies) speakText(bhujiResponse);
+        } else if (uploadedFile) {
+          await handleFileFlow();
+        } else {
+          await handleQnAFlow(message);
+        }
+      } catch (e) {
+        hideTyping();
+        addMessage('assistant', `❌ Error: ${e.message}`, ['System']);
+      }
+
+      isLoading = false;
+      document.getElementById('sendBtn').disabled = false;
+    }
+
+    async function handleQnAFlow(query) {
+      const results = await WebSearchEngine.comprehensiveSearch(query);
+      hideTyping();
+      const response = WebSearchEngine.formatSearchResults(results, query);
+      const sources = [];
+      if (results.google?.success) sources.push(results.google.results?.length ? `Google (${results.google.results.length})` : 'Google');
+      if (results.wikipedia?.success) sources.push('Wikipedia');
+      if (results.duckduckgo?.success) sources.push('DuckDuckGo');
+      addMessage('assistant', response.text, sources.length ? sources : ['BHUJI AI'], { links: response.links });
+      if (voiceMode && speakReplies) speakText(response.text);
+    }
+
+    async function handleFileFlow() {
+      hideTyping();
+      const ext = uploadedFile.name.split('.').pop().toLowerCase();
+      const baseName = uploadedFile.name.replace(/\.[^/.]+$/, '');
+      
+      try {
+        let blob, filename, msg;
+        switch(fileMode) {
+          case 'analyze':
+            const text = ext === 'txt' ? await readFileAsText(uploadedFile) : 'File uploaded';
+            addMessage('assistant', `📊 **${uploadedFile.name}**\n\nSize: ${(uploadedFile.size/1024).toFixed(2)} KB\nType: ${ext.toUpperCase()}\n\nPreview: ${text.substring(0, 200)}...`, ['File']);
+            return;
+          case 'to-pdf':
+            blob = await convertToPDF(uploadedFile);
+            filename = `${baseName}.pdf`;
+            msg = `✅ Converted to PDF: ${filename}`;
+            break;
+          case 'to-xlsx':
+            blob = await convertToExcel(uploadedFile);
+            filename = `${baseName}.xlsx`;
+            msg = `✅ Converted to Excel: ${filename}`;
+            break;
+          case 'pdf-watermark':
+            blob = await addWatermarkToPDF(uploadedFile);
+            filename = `${baseName}_watermarked.pdf`;
+            msg = `✅ Watermark added: ${filename}`;
+            break;
+          default:
+            addMessage('assistant', '⚠️ Select a valid operation', ['File']);
+            return;
+        }
+        addMessage('assistant', msg, ['File Processing'], { downloads: [{ label: filename, blob, filename }] });
+      } catch (e) {
+        addMessage('assistant', `❌ File error: ${e.message}`, ['File']);
+      }
+    }
+
+    // INIT
+    const saved = localStorage.getItem('bhuji_theme');
+    if (saved) { currentTheme = saved; document.documentElement.setAttribute('data-theme', currentTheme); }
+    updateThemeIcon();
+    initSpaceBackground();
+    console.log('✅ BHUJI AI Complete - Ready!');
+  </script>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BHUJI AI - Divine Intelligence</title>
+
+  <!-- Security Headers -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' https: data: blob:; img-src 'self' data: https: blob:; connect-src https: data: blob:;">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@600;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.5.31/dist/jspdf.plugin.autotable.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+
+  <style>
+    :root {
+      --bg-primary: #000;
+      --bg-secondary: rgba(20, 15, 10, 0.85);
+      --bg-tertiary: rgba(20, 15, 10, 0.98);
+      --text-primary: #fff;
+      --text-secondary: rgba(255, 215, 0, 0.7);
+      --border-color: rgba(255, 215, 0, 0.3);
+      --accent-gold: #FFD700;
+      --accent-orange: #FFA500;
+      --accent-red: #FF4500;
+      --space-gradient-start: #0a0a0a;
+      --space-gradient-end: #000000;
+      --star-color: rgba(255, 215, 0, 1);
+      --card-bg: rgba(255, 215, 0, 0.05);
+      --card-hover: rgba(255, 215, 0, 0.1);
+    }
+
+    [data-theme="light"] {
+      --bg-primary: #f5f5f5;
+      --bg-secondary: rgba(255, 255, 255, 0.95);
+      --bg-tertiary: rgba(255, 255, 255, 0.98);
+      --text-primary: #1a1a1a;
+      --text-secondary: #8B7500;
+      --border-color: rgba(218, 165, 32, 0.4);
+      --space-gradient-start: #e8e8e8;
+      --space-gradient-end: #d4d4d4;
+      --star-color: rgba(218, 165, 32, 0.8);
+      --card-bg: rgba(218, 165, 32, 0.08);
+      --card-hover: rgba(218, 165, 32, 0.15);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      overflow: hidden;
+      font-family: 'Inter', sans-serif;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    #spaceCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(ellipse at center, var(--space-gradient-start) 0%, var(--space-gradient-end) 100%);
+      transition: background 0.3s ease;
+    }
+
+    .container { position: relative; z-index: 1; height: 100vh; display: flex; flex-direction: column; }
+
+    /* Landing Page */
+    .landing-page { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; padding: 20px; }
+    .hero-content { text-align: center; max-width: 900px; animation: fadeIn 1s ease-out; }
+    .chakra-logo { width: 150px; height: 150px; margin: 0 auto 30px; animation: spin 20s linear infinite; }
+    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .main-title {
+      font-size: clamp(4rem, 10vw, 8rem);
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-orange) 50%, var(--accent-red) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 14px;
+      font-family: 'Orbitron', sans-serif;
+      letter-spacing: 0.05em;
+      filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.6));
+    }
+    .subtitle {
+      font-size: clamp(1.2rem, 2.6vw, 1.9rem);
+      color: var(--accent-gold);
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 15px;
+    }
+    .security-badge {
+      display: inline-block;
+      background: rgba(0, 255, 0, 0.08);
+      border: 2px solid rgba(0, 255, 0, 0.25);
+      padding: 10px 20px;
+      border-radius: 25px;
+      color: #00ff6a;
+      font-size: 0.9rem;
+      margin-bottom: 18px;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0%,100%{ box-shadow: 0 0 5px rgba(0, 255, 0, 0.25);} 50%{ box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);} }
+    .tagline { font-size: 1.05rem; color: var(--text-secondary); font-style: italic; margin-bottom: 36px; }
+
+    .cta-button {
+      background: linear-gradient(135deg, var(--accent-gold), var(--accent-orange));
+      color: #000;
+      border: none;
+      padding: 18px 52px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border-radius: 50px;
+      cursor: pointer;
+      font-family: 'Rajdhani', sans-serif;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      box-shadow: 0 10px 40px rgba(255, 215, 0, 0.45);
+      transition: all 0.3s ease;
+    }
+    .cta-button:hover { transform: scale(1.06) translateY(-2px); box-shadow: 0 15px 60px rgba(255, 215, 0, 0.65); }
+
+    /* Theme Toggle */
+    .theme-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1001;
+      width: 50px;
+      height: 50px;
+      background: var(--bg-secondary);
+      border: 2px solid var(--border-color);
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+    .theme-toggle:hover {
+      transform: scale(1.1) rotate(15deg);
+      border-color: var(--accent-gold);
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+    }
+    .theme-icon {
+      width: 24px;
+      height: 24px;
+      fill: var(--accent-gold);
+      transition: all 0.3s ease;
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(15px);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 1000;
+      animation: fadeIn 0.3s ease-out;
+      padding: 16px;
+    }
+    .modal {
+      background: var(--bg-tertiary);
+      border: 2px solid var(--border-color);
+      border-radius: 25px;
+      padding: 38px;
+      max-width: 560px;
+      width: 100%;
+      position: relative;
+      box-shadow: 0 20px 80px rgba(255, 215, 0, 0.35);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .modal-close {
+      position: absolute; top: 14px; right: 14px;
+      background: none; border: none;
+      color: var(--accent-gold); cursor: pointer; font-size: 28px;
+      transition: all 0.2s ease;
+    }
+    .modal-close:hover { transform: rotate(90deg); color: var(--accent-orange); }
+    .modal-title {
+      color: var(--accent-gold);
+      margin-bottom: 22px;
+      font-size: 2rem;
+      font-family: 'Orbitron', sans-serif;
+      text-align: center;
+    }
+    .input-field {
+      width: 100%;
+      padding: 14px 16px;
+      margin-bottom: 14px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      color: var(--text-primary);
+      font-size: 1rem;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.3s ease;
+    }
+    .input-field:focus {
+      outline: none;
+      border-color: var(--accent-gold);
+      background: var(--card-hover);
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+    }
+    .submit-button {
+      width: 100%;
+      padding: 14px 16px;
+      background: linear-gradient(135deg, var(--accent-gold), var(--accent-orange));
+      border: none;
+      border-radius: 12px;
+      color: #000;
+      font-size: 1.05rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'Rajdhani', sans-serif;
+      text-transform: uppercase;
+      transition: all 0.3s ease;
+    }
+    .submit-button:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(255, 215, 0, 0.35); }
+    .submit-button:disabled { opacity: 0.5; cursor: not-allowed; }
+    .auth-toggle { text-align: center; margin-top: 14px; color: var(--text-secondary); font-size: 0.95rem; }
+    .auth-toggle button { background: none; border: none; color: var(--accent-gold); cursor: pointer; text-decoration: underline; font: inherit; }
+
+    /* Main Interface */
+    .main-interface { display: flex; flex-direction: column; height: 100vh; max-width: 1400px; margin: 0 auto; width: 100%; }
+    .chat-header {
+      background: var(--bg-secondary);
+      border-bottom: 2px solid var(--border-color);
+      padding: 14px 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      backdrop-filter: blur(10px);
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .header-left { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+    .header-title {
+      font-size: 1.6rem;
+      font-family: 'Orbitron', sans-serif;
+      background: linear-gradient(135deg, var(--accent-gold), var(--accent-orange));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .security-indicator {
+      display: flex; align-items: center; gap: 8px;
+      background: rgba(0, 255, 0, 0.08);
+      border: 1px solid rgba(0, 255, 0, 0.25);
+      padding: 6px 10px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      color: #00ff6a;
+      white-space: nowrap;
+    }
+    .model-selector {
+      display: flex;
+      gap: 8px;
+      background: var(--card-bg);
+      padding: 8px;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      flex-wrap: wrap;
+    }
+    .model-option {
+      padding: 10px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      font-weight: 700;
+      font-family: 'Rajdhani', sans-serif;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+      border: 2px solid var(--border-color);
+      background: var(--card-bg);
+      color: var(--accent-gold);
+      user-select: none;
+    }
+    .model-option.active {
+      background: var(--card-hover);
+      border-color: rgba(255, 215, 0, 0.55);
+      box-shadow: 0 0 16px rgba(255, 215, 0, 0.18);
+    }
+    .model-option.locked { opacity: 0.55; }
+    .badge {
+      background: linear-gradient(135deg, var(--accent-gold), var(--accent-orange));
+      color: #000;
+      font-size: 0.65rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 900;
+      letter-spacing: 0.03em;
+    }
+
+    .header-actions { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+    .header-btn {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      color: var(--accent-gold);
+      padding: 8px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 800;
+      transition: all 0.25s ease;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      user-select: none;
+    }
+    .header-btn:hover { background: var(--card-hover); border-color: var(--accent-gold); transform: translateY(-1px); }
+    .icon-btn {
+      width: 38px; height: 38px;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center; justify-content: center;
+      padding: 0;
+    }
+    .user-info {
+      display: flex; align-items: center; gap: 10px;
+      background: var(--card-bg);
+      padding: 8px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+    }
+    .user-avatar {
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-gold), var(--accent-orange));
+      display: flex; align-items: center; justify-content: center;
+      color: #000; font-weight: 900;
+      font-family: 'Rajdhani', sans-serif;
+    }
+    .user-name { font-family: 'Rajdhani', sans-serif; font-weight: 700; color: var(--accent-gold); }
+
+    .chat-container { flex: 1; overflow-y: auto; padding: 26px; display: flex; flex-direction: column; gap: 18px; }
+    .message { display: flex; align-items: flex-start; gap: 12px; animation: slideIn 0.25s ease-out; }
+    @keyframes slideIn { from { opacity: 0; transform: translateY(10px);} to { opacity: 1; transform: translateY(0);} }
+    .message.user { justify-content: flex-end; }
+    .message-bubble { max-width: 78%; padding: 16px 18px; border-radius: 18px; }
+    .message.user .message-bubble { background: linear-gradient(135deg, var(--accent-gold), var(--accent-orange)); color: #000; font-weight: 600; }
+    .message.assistant .message-bubble { background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-primary); }
+    .message-meta { font-size: 0.75rem; color: var(--text-secondary); margin-top: 8px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .source-badge { background: var(--card-hover); padding: 3px 8px; border-radius: 6px; font-size: 0.72rem; color: var(--accent-gold); border: 1px solid var(--border-color); }
+
+    .source-links {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border-color);
+    }
+    .source-link {
+      display: block;
+      color: var(--accent-gold);
+      text-decoration: none;
+      padding: 8px 12px;
+      margin: 6px 0;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      transition: all 0.25s ease;
+      font-size: 0.9rem;
+    }
+    .source-link:hover {
+      background: var(--card-hover);
+      border-color: var(--accent-gold);
+      transform: translateX(4px);
+    }
+    .source-link-title {
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .source-link-url {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      word-break: break-all;
+    }
+
+    .typing-indicator { display: flex; gap: 6px; padding: 10px 6px; }
+    .typing-dot { width: 8px; height: 8px; background: var(--accent-gold); border-radius: 50%; animation: typingPulse 1.4s infinite; }
+    .typing-dot:nth-child(2){ animation-delay: 0.2s; } .typing-dot:nth-child(3){ animation-delay: 0.4s; }
+    @keyframes typingPulse { 0%,60%,100% { opacity: 0.25; transform: scale(0.85);} 30% { opacity: 1; transform: scale(1.2);} }
+
+    /* Input / File */
+    .input-area { background: var(--bg-secondary); border-top: 2px solid var(--border-color); padding: 18px 22px; backdrop-filter: blur(10px); }
+    .file-mode-selector { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+    .file-mode {
+      background: var(--card-bg);
+      border: 2px solid var(--border-color);
+      padding: 8px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      font-size: 0.85rem;
+      color: var(--accent-gold);
+      font-weight: 800;
+      font-family: 'Rajdhani', sans-serif;
+      user-select: none;
+    }
+    .file-mode:hover { background: var(--card-hover); border-color: var(--accent-gold); }
+    .file-mode.active { background: var(--card-hover); border-color: var(--accent-gold); box-shadow: 0 0 14px rgba(255, 215, 0, 0.18); }
+    .file-preview { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 12px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
+    .file-info { display: flex; align-items: center; gap: 10px; }
+    .file-icon { font-size: 1.2rem; width: 28px; text-align: center; }
+    .file-details { display: flex; flex-direction: column; }
+    .file-name { color: var(--accent-gold); font-weight: 800; font-size: 0.9rem; font-family: 'Rajdhani', sans-serif; }
+    .file-size { color: var(--text-secondary); font-size: 0.75rem; }
+    .file-remove { background: rgba(255, 0, 0, 0.1); border: 1px solid rgba(255, 0, 0, 0.3); color: #ff6b6b; padding: 6px 10px; border-radius: 8px; cursor: pointer; font-size: 0.85rem; font-weight: 800; font-family: 'Rajdhani', sans-serif; }
+    .file-remove:hover { background: rgba(255, 0, 0, 0.18); }
+
+    .input-wrapper {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      background: var(--card-bg);
+      border: 2px solid var(--border-color);
+      border-radius: 22px;
+      padding: 8px 12px;
+      transition: all 0.25s ease;
+    }
+    .input-wrapper:focus-within { border-color: var(--accent-gold); box-shadow: 0 0 20px rgba(255, 215, 0, 0.18); }
+    #messageInput {
+      flex: 1;
+      background: none;
+      border: none;
+      color: var(--text-primary);
+      font-size: 1rem;
+      padding: 10px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+    }
+    #messageInput::placeholder { color: var(--text-secondary); }
+    .input-actions { display: flex; gap: 8px; align-items: center; }
+    .file-upload-btn {
+      position: relative;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      color: var(--accent-gold);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+    }
+    .file-upload-btn:hover { background: var(--card-hover); border-color: var(--accent-gold); transform: translateY(-1px); }
+    .file-upload-btn input { position: absolute; opacity: 0; width: 100%; height: 100%; cursor: pointer; }
+
+    #sendBtn {
+      background: linear-gradient(135deg, var(--accent-gold), var(--accent-orange));
+      color: #000;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 18px;
+      cursor: pointer;
+      font-weight: 900;
+      font-family: 'Rajdhani', sans-serif;
+      transition: all 0.25s ease;
+    }
+    #sendBtn:hover:not(:disabled) { transform: scale(1.03); box-shadow: 0 5px 20px rgba(255, 215, 0, 0.35); }
+    #sendBtn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .download-buttons { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+    .download-btn {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      color: var(--accent-gold);
+      padding: 10px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 900;
+      font-family: 'Rajdhani', sans-serif;
+      transition: all 0.25s ease;
+      font-size: 0.9rem;
+    }
+    .download-btn:hover { background: var(--card-hover); border-color: var(--accent-gold); transform: translateY(-1px); }
+
+    /* Voice */
+    .voice-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 10px; }
+    .voice-pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border-color);
+      background: var(--card-bg);
+      color: var(--accent-gold);
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 900;
+      cursor: pointer;
+      user-select: none;
+    }
+    .voice-pill.active { background: var(--card-hover); border-color: var(--accent-gold); }
+    .voice-select {
+      padding: 8px 10px;
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+      background: var(--card-bg);
+      color: var(--text-primary);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      outline: none;
+    }
+
+    /* Payment Gateway Selection */
+    .payment-gateways {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .gateway-card {
+      background: var(--card-bg);
+      border: 2px solid var(--border-color);
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .gateway-card:hover {
+      background: var(--card-hover);
+      border-color: var(--accent-gold);
+      transform: translateY(-2px);
+    }
+    .gateway-card.selected {
+      background: var(--card-hover);
+      border-color: var(--accent-gold);
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+    }
+    .gateway-icon {
+      width: 48px;
+      height: 48px;
+      fill: var(--accent-gold);
+    }
+    .gateway-name {
+      font-weight: 700;
+      color: var(--accent-gold);
+      font-family: 'Rajdhani', sans-serif;
+    }
+
+    .amount-input-group {
+      margin-bottom: 20px;
+    }
+    .amount-label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--accent-gold);
+      font-weight: 700;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.1rem;
+    }
+    .amount-input {
+      width: 100%;
+      padding: 16px 20px;
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-align: center;
+      background: var(--card-bg);
+      border: 2px solid var(--border-color);
+      border-radius: 12px;
+      color: var(--text-primary);
+      font-family: 'Orbitron', sans-serif;
+    }
+    .amount-input:focus {
+      outline: none;
+      border-color: var(--accent-gold);
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+    }
+    .suggested-amounts {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+    .amount-chip {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      padding: 6px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      color: var(--accent-gold);
+      font-weight: 700;
+      font-family: 'Rajdhani', sans-serif;
+    }
+    .amount-chip:hover {
+      background: var(--card-hover);
+      border-color: var(--accent-gold);
+    }
+
+    .payment-details {
+      margin-top: 20px;
+    }
+    .payment-section-title {
+      color: var(--accent-gold);
+      font-weight: 700;
+      font-family: 'Rajdhani', sans-serif;
+      margin-bottom: 12px;
+      font-size: 1.1rem;
+    }
+
+    .hidden { display: none !important; }
+    .small-note { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; }
+    .error-text { color: #ff7070; font-weight: 700; }
+    .success-text { color: #00ff6a; font-weight: 700; }
+
+    @media (max-width: 768px) {
+      .chat-header { padding: 12px 16px; }
+      .message-bubble { max-width: 90%; }
+      .chat-container { padding: 18px; }
+      .payment-gateways { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="spaceCanvas"></canvas>
+
+  <!-- Theme Toggle Button -->
+  <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">
+    <svg class="theme-icon" id="themeIcon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 17.5C14.76 17.5 17 15.26 17 12.5C17 9.74 14.76 7.5 12 7.5C9.24 7.5 7 9.74 7 12.5C7 15.26 9.24 17.5 12 17.5ZM12 2L14.39 6.42L19.53 7.47L15.89 11.39L16.82 16.54L12 14.19L7.18 16.54L8.11 11.39L4.47 7.47L9.61 6.42L12 2Z"/>
+    </svg>
+  </button>
+
+  <div class="container">
+    <!-- Landing Page -->
+    <div id="landingPage" class="landing-page">
+      <div class="hero-content">
+        <svg class="chakra-logo" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="chakraGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+              <stop offset="50%" style="stop-color:#FFA500;stop-opacity:1" />
+              <stop offset="100%" style="stop-color:#FF4500;stop-opacity:1" />
+            </linearGradient>
+          </defs>
+          <circle cx="100" cy="100" r="80" fill="none" stroke="url(#chakraGrad)" stroke-width="3"/>
+          <circle cx="100" cy="100" r="60" fill="none" stroke="url(#chakraGrad)" stroke-width="2"/>
+          <circle cx="100" cy="100" r="40" fill="none" stroke="url(#chakraGrad)" stroke-width="2"/>
+          <path d="M100 20 L100 180 M20 100 L180 100" stroke="url(#chakraGrad)" stroke-width="2"/>
+          <circle cx="100" cy="100" r="15" fill="url(#chakraGrad)"/>
+        </svg>
+
+        <h1 class="main-title">BHUJI</h1>
+        <div class="security-badge">🔒 Secure AI • Encrypted Session</div>
+        <h2 class="subtitle">Divine AI Intelligence</h2>
+        <p class="tagline">Inspired by Kalki 2898 AD • Bhairava's Divine Companion</p>
+
+        <button class="cta-button" onclick="showAuthModal()">Login / Sign Up</button>
+      </div>
+    </div>
+
+    <!-- Main Interface -->
+    <div id="mainInterface" class="main-interface hidden">
+      <div class="chat-header">
+        <div class="header-left">
+          <div class="header-title">BHUJI AI</div>
+          <div class="security-indicator">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2L3 7V11C3 16.55 6.84 21.74 12 23C17.16 21.74 21 16.55 21 11V7L12 2Z" fill="#00ff6a"/>
+            </svg>
+            <span id="securityStatus">Protected</span>
+          </div>
+
+          <div class="model-selector" id="modeSelector">
+            <div class="model-option active" data-mode="auto" onclick="selectMode('auto')">Auto</div>
+            <div class="model-option" data-mode="bhuj" onclick="selectMode('bhuj')">BHUJ</div>
+            <div class="model-option locked" data-mode="bhuji" onclick="selectMode('bhuji')">Bhuji <span class="badge">₹49</span></div>
+            <div class="model-option locked" data-mode="garud" onclick="selectMode('garud')">GARUD <span class="badge">₹119</span></div>
+          </div>
+        </div>
+
+        <div class="header-actions">
+          <div class="user-info" id="userInfo">
+            <div class="user-avatar" id="userAvatar">U</div>
+            <span class="user-name" id="userName">User</span>
+          </div>
+
+          <button class="header-btn icon-btn" id="voiceToggleBtn" onclick="toggleVoiceMode()" title="Voice mode">
+            <span id="voiceIcon">🎙</span>
+          </button>
+          <button class="header-btn" onclick="showPricing()">Upgrade</button>
+          <button class="header-btn" onclick="showSettings()">Settings</button>
+          <button class="header-btn" onclick="logout()">Logout</button>
+        </div>
+      </div>
+
+      <div class="chat-container" id="messagesArea"></div>
+
+      <div class="input-area">
+        <!-- Voice controls -->
+        <div id="voiceControls" class="voice-row hidden">
+          <div class="voice-pill" id="micBtn" onclick="toggleMic()">🎤 Mic</div>
+          <div class="voice-pill active" id="speakRepliesBtn" onclick="toggleSpeakReplies()">🔊 Speak replies</div>
+          <select class="voice-select" id="voicePersona" onchange="setPersona(this.value)">
+            <option value="BHUJI">BHUJI (Women)</option>
+            <option value="GARUD">GARUD (Men)</option>
+            <option value="BHAIRAVA">BHAIRAVA (Men)</option>
+            <option value="Shambhala">Shambhala (Women)</option>
+            <option value="Sudharshan">Sudharshan (Men)</option>
+          </select>
+          <span class="small-note" id="voiceNote">💡 Click Mic to speak</span>
+        </div>
+
+        <!-- File Mode Selector -->
+        <div class="file-mode-selector hidden" id="fileModeSelector">
+          <div class="file-mode active" data-mode="analyze" onclick="selectFileMode('analyze')">📊 Analyze</div>
+          <div class="file-mode" data-mode="to-pdf" onclick="selectFileMode('to-pdf')">📄 → PDF</div>
+          <div class="file-mode" data-mode="to-xlsx" onclick="selectFileMode('to-xlsx')">📈 → Excel</div>
+          <div class="file-mode" data-mode="to-docx" onclick="selectFileMode('to-docx')">📝 → Word</div>
+          <div class="file-mode" data-mode="to-png" onclick="selectFileMode('to-png')">🖼️ → PNG</div>
+          <div class="file-mode" data-mode="pdf-watermark" onclick="selectFileMode('pdf-watermark')">🔖 Watermark</div>
+          <div class="file-mode" data-mode="pdf-pagenum" onclick="selectFileMode('pdf-pagenum')">🔢 Page #</div>
+          <div class="file-mode" data-mode="pdf-rotate" onclick="selectFileMode('pdf-rotate')">🔄 Rotate</div>
+        </div>
+
+        <!-- File Preview -->
+        <div id="filePreview" class="file-preview hidden">
+          <div class="file-info">
+            <span class="file-icon" id="fileIcon">📎</span>
+            <div class="file-details">
+              <div class="file-name" id="fileName">No file</div>
+              <div class="file-size" id="fileSize">0 KB</div>
+            </div>
+          </div>
+          <button class="file-remove" onclick="removeFile()">✕ Remove</button>
+        </div>
+
+        <div class="input-wrapper">
+          <input type="text" id="messageInput" placeholder="🌐 Ask anything - I'll search Wikipedia & the web in real-time!" onkeypress="if(event.key==='Enter') sendMessage()">
+
+          <div class="input-actions">
+            <div class="file-upload-btn" title="Upload file (Bhuji/GARUD)">
+              <span>📎</span>
+              <input type="file" id="fileInput" onchange="handleFileUpload(event)" accept=".pdf,.docx,.txt,.json,.csv,.xlsx,.png,.jpg,.jpeg,.html,.pptx">
+            </div>
+          </div>
+
+          <button id="sendBtn" onclick="sendMessage()">Send</button>
+        </div>
+
+        <div class="small-note" style="margin-top:10px;">
+          🌟 <strong>Auto & BHUJ:</strong> FREE with Wikipedia + Web search • <strong>Bhuji (₹49):</strong> File tools • <strong>GARUD (₹119):</strong> All features
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Auth Modal -->
+  <div id="authModal" class="modal-overlay hidden">
+    <div class="modal">
+      <button class="modal-close" onclick="closeAuthModal()">×</button>
+
+      <div id="loginForm">
+        <h2 class="modal-title">Login</h2>
+        <input type="email" id="loginEmail" class="input-field" placeholder="Email Address">
+        <input type="password" id="loginPassword" class="input-field" placeholder="Password">
+        <button class="submit-button" onclick="handleLogin()">Login</button>
+        <div class="auth-toggle">Don't have an account? <button onclick="toggleAuthForm()">Sign Up</button></div>
+      </div>
+
+      <div id="signupForm" class="hidden">
+        <h2 class="modal-title">Create Account</h2>
+        <input type="text" id="signupName" class="input-field" placeholder="Full Name">
+        <input type="email" id="signupEmail" class="input-field" placeholder="Email Address">
+        <input type="password" id="signupPassword" class="input-field" placeholder="Password (min 8 characters)">
+        <input type="password" id="signupConfirm" class="input-field" placeholder="Confirm Password">
+        <button class="submit-button" onclick="handleSignup()">Create Account</button>
+        <div class="auth-toggle">Already have an account? <button onclick="toggleAuthForm()">Login</button></div>
+        <div class="small-note" style="margin-top:10px;">
+          🔒 Demo mode: Uses local storage for authentication.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal-overlay hidden">
+    <div class="modal">
+      <button class="modal-close" onclick="closeSettings()">×</button>
+      <h2 class="modal-title">Settings</h2>
+      <div style="padding: 6px 4px;">
+        <div style="margin-bottom: 18px;">
+          <h3 style="color:var(--accent-gold); margin-bottom:10px; font-family:'Rajdhani',sans-serif;">👤 Account</h3>
+          <div class="small-note">📧 Email: <span id="settingsEmail">-</span></div>
+          <div class="small-note">💎 Plan: <span id="settingsPlan">Free</span></div>
+          <div class="small-note">🔑 Session ID: <span id="settingsSession">-</span></div>
+        </div>
+        <div>
+          <h3 style="color:var(--accent-gold); margin-bottom:10px; font-family:'Rajdhani',sans-serif;">ℹ️ About BHUJI</h3>
+          <div class="small-note">
+            BHUJI AI is inspired by the movie <strong style="color:var(--accent-gold);">Kalki 2898 AD</strong>, where Krishna devotee <strong style="color:var(--accent-gold);">Bhairava</strong> is accompanied by his loyal robot companion named <strong style="color:var(--accent-gold);">BHUJI</strong>.
+            <br><br>
+            🌐 <strong>Real-time Web Search:</strong> Wikipedia, DuckDuckGo & more!
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Upgrade / Payment Modal -->
+  <div id="pricingModal" class="modal-overlay hidden">
+    <div class="modal">
+      <button class="modal-close" onclick="closePricing()">×</button>
+      <h2 class="modal-title">Upgrade Your Plan</h2>
+
+      <div class="small-note" style="margin-bottom:20px; text-align:center;">
+        💳 Enter any amount and choose your payment method
+      </div>
+
+      <!-- Amount Input -->
+      <div class="amount-input-group">
+        <label class="amount-label">Enter Amount (₹)</label>
+        <input type="number" class="amount-input" id="customAmount" placeholder="0" min="1" value="49">
+        <div class="suggested-amounts">
+          <span class="amount-chip" onclick="setAmount(49)">₹49</span>
+          <span class="amount-chip" onclick="setAmount(119)">₹119</span>
+          <span class="amount-chip" onclick="setAmount(299)">₹299</span>
+          <span class="amount-chip" onclick="setAmount(499)">₹499</span>
+        </div>
+      </div>
+
+      <!-- Payment Gateway Selection -->
+      <div class="payment-section-title">Select Payment Gateway</div>
+      <div class="payment-gateways">
+        <div class="gateway-card selected" onclick="selectGateway('upi')" id="gatewayUpi">
+          <svg class="gateway-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
+          </svg>
+          <div class="gateway-name">UPI</div>
+        </div>
+
+        <div class="gateway-card" onclick="selectGateway('card')" id="gatewayCard">
+          <svg class="gateway-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/>
+          </svg>
+          <div class="gateway-name">Card</div>
+        </div>
+
+        <div class="gateway-card" onclick="selectGateway('netbanking')" id="gatewayNetbanking">
+          <svg class="gateway-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 10v7h3v-7H4zm6 0v7h3v-7h-3zM2 22h19v-3H2v3zm14-12v7h3v-7h-3zm-4.5-9L2 6v2h19V6l-9.5-5z"/>
+          </svg>
+          <div class="gateway-name">Net Banking</div>
+        </div>
+
+        <div class="gateway-card" onclick="selectGateway('wallet')" id="gatewayWallet">
+          <svg class="gateway-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
+          </svg>
+          <div class="gateway-name">Wallet</div>
+        </div>
+
+        <div class="gateway-card" onclick="selectGateway('paypal')" id="gatewayPaypal">
+          <svg class="gateway-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1.41 16.09V20h-2.67v-1.93c-1.71-.36-3.16-1.46-3.27-3.4h1.96c.1 1.05.82 1.87 2.65 1.87 1.96 0 2.4-.98 2.4-1.59 0-.83-.44-1.61-2.67-2.14-2.48-.6-4.18-1.62-4.18-3.67 0-1.72 1.39-2.84 3.11-3.21V4h2.67v1.95c1.86.45 2.79 1.86 2.85 3.39H14.3c-.05-1.11-.64-1.87-2.22-1.87-1.5 0-2.4.68-2.4 1.64 0 .84.65 1.39 2.67 1.91s4.18 1.39 4.18 3.91c-.01 1.83-1.38 2.83-3.12 3.16z"/>
+          </svg>
+          <div class="gateway-name">PayPal</div>
+        </div>
+
+        <div class="gateway-card" onclick="selectGateway('crypto')" id="gatewayCrypto">
+          <svg class="gateway-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.06 11.57c.59-.69.94-1.59.94-2.57 0-1.86-1.27-3.43-3-3.87V3h-2v2.06c-.5-.04-1-.06-1.5-.06h-.5V3h-2v2.14c-2.53.23-4.5 2.37-4.5 4.95 0 1.18.43 2.26 1.13 3.1C4.46 14.05 4 15.46 4 17c0 2.76 2.24 5 5 5 .5 0 1-.08 1.5-.2V24h2v-2.06c.5.04 1 .06 1.5.06h.5V24h2v-2.13c2.54-.23 4.5-2.37 4.5-4.96 0-1.22-.46-2.34-1.22-3.19l.28-.15zM9 20c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm6-9c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z"/>
+          </svg>
+          <div class="gateway-name">Crypto</div>
+        </div>
+      </div>
+
+      <!-- Payment Details Form -->
+      <div class="payment-details" id="paymentDetails">
+        <div class="payment-section-title">Payment Details</div>
+        
+        <!-- UPI -->
+        <div id="upiFields" class="payment-field">
+          <input class="input-field" id="upiId" placeholder="UPI ID (e.g., name@upi)">
+        </div>
+
+        <!-- Card -->
+        <div id="cardFields" class="payment-field hidden">
+          <input class="input-field" id="cardNumber" placeholder="Card Number" maxlength="19">
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <input class="input-field" id="cardExpiry" placeholder="MM/YY">
+            <input class="input-field" id="cardCvv" placeholder="CVV" maxlength="3">
+          </div>
+          <input class="input-field" id="cardName" placeholder="Cardholder Name">
+        </div>
+
+        <!-- Net Banking -->
+        <div id="netbankingFields" class="payment-field hidden">
+          <select class="input-field" id="bankSelect">
+            <option value="">Select Bank</option>
+            <option value="sbi">State Bank of India</option>
+            <option value="hdfc">HDFC Bank</option>
+            <option value="icici">ICICI Bank</option>
+            <option value="axis">Axis Bank</option>
+            <option value="kotak">Kotak Mahindra</option>
+            <option value="pnb">Punjab National Bank</option>
+          </select>
+        </div>
+
+        <!-- Wallet -->
+        <div id="walletFields" class="payment-field hidden">
+          <select class="input-field" id="walletSelect">
+            <option value="">Select Wallet</option>
+            <option value="paytm">Paytm</option>
+            <option value="phonepe">PhonePe</option>
+            <option value="googlepay">Google Pay</option>
+            <option value="amazonpay">Amazon Pay</option>
+          </select>
+          <input class="input-field" id="walletPhone" placeholder="Mobile Number">
+        </div>
+
+        <!-- PayPal -->
+        <div id="paypalFields" class="payment-field hidden">
+          <input class="input-field" id="paypalEmail" placeholder="PayPal Email">
+        </div>
+
+        <!-- Crypto -->
+        <div id="cryptoFields" class="payment-field hidden">
+          <select class="input-field" id="cryptoSelect">
+            <option value="">Select Cryptocurrency</option>
+            <option value="btc">Bitcoin (BTC)</option>
+            <option value="eth">Ethereum (ETH)</option>
+            <option value="usdt">Tether (USDT)</option>
+            <option value="bnb">Binance Coin (BNB)</option>
+          </select>
+          <input class="input-field" id="cryptoWallet" placeholder="Wallet Address">
+        </div>
+      </div>
+
+      <div id="payError" class="error-text hidden" style="margin-bottom:10px; text-align:center;"></div>
+      <div id="paySuccess" class="success-text hidden" style="margin-bottom:10px; text-align:center;"></div>
+      
+      <button class="submit-button" onclick="processPayment()">Pay Now</button>
+      
+      <div class="small-note" style="margin-top:15px; text-align:center;">
+        🔒 Demo Mode: No real charges. Payment simulation only.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ============================================================
+    // GLOBAL STATE
+    // ============================================================
+    let currentTheme = 'dark';
+    let currentUser = null;
+    let messages = [];
+    let isLoading = false;
+    let currentMode = 'auto';
+    let uploadedFile = null;
+    let fileMode = 'analyze';
+    let voiceMode = false;
+    let speakReplies = true;
+    let persona = 'BHUJI';
+    let recognition = null;
+    let recognizing = false;
+    let selectedGateway = 'upi';
+    let stars = [];
+    let animationId = null;
+
+    // ============================================================
+    // SECURITY MANAGER
+    // ============================================================
+    const SecurityManager = {
+      sessionId: null,
+      init() {
+        this.sessionId = 'SESS-' + this.generateHash(24);
+        this.monitorSecurity();
+      },
+      generateHash(length) {
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let result = '';
+        for (let i = 0; i < length; i++) result += chars.charAt(Math.floor(Math.random() * chars.length));
+        return result;
+      },
+      sanitizeInput(input) {
+        return String(input).replace(/[<>"']/g, '');
+      },
+      hashPassword(password) {
+        try { return CryptoJS.SHA256(password).toString(); } catch { return btoa(password); }
+      },
+      checkRateLimit() {
+        const now = Date.now();
+        if (!window._reqTs) window._reqTs = [];
+        window._reqTs = window._reqTs.filter(t => now - t < 60000);
+        if (window._reqTs.length >= 40) return false;
+        window._reqTs.push(now);
+        return true;
+      },
+      monitorSecurity() {
+        setInterval(() => {
+          const el = document.getElementById('securityStatus');
+          if (el) el.textContent = 'Protected';
+        }, 2000);
+      }
+    };
+
+    // ============================================================
+    // THEME MANAGEMENT
+    // ============================================================
+    function toggleTheme() {
+      currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', currentTheme);
+      localStorage.setItem('bhuji_theme', currentTheme);
+      updateThemeIcon();
+      updateSpaceCanvas();
+    }
+
+    function updateThemeIcon() {
+      const icon = document.getElementById('themeIcon');
+      if (currentTheme === 'dark') {
+        icon.innerHTML = '<path d="M12 17.5C14.76 17.5 17 15.26 17 12.5C17 9.74 14.76 7.5 12 7.5C9.24 7.5 7 9.74 7 12.5C7 15.26 9.24 17.5 12 17.5ZM12 2L14.39 6.42L19.53 7.47L15.89 11.39L16.82 16.54L12 14.19L7.18 16.54L8.11 11.39L4.47 7.47L9.61 6.42L12 2Z"/>';
+      } else {
+        icon.innerHTML = '<path d="M12 3C7.03 3 3 7.03 3 12C3 16.97 7.03 21 12 21C16.97 21 21 16.97 21 12C21 11.54 20.96 11.08 20.9 10.64C19.92 12.01 18.32 12.9 16.5 12.9C13.46 12.9 11 10.44 11 7.4C11 5.58 11.89 3.98 13.26 3C12.85 3 12.43 3 12 3Z"/>';
+      }
+    }
+
+    function loadTheme() {
+      const saved = localStorage.getItem('bhuji_theme');
+      if (saved) {
+        currentTheme = saved;
+        document.documentElement.setAttribute('data-theme', currentTheme);
+      }
+      updateThemeIcon();
+    }
+
+    // ============================================================
+    // SPACE BACKGROUND ANIMATION
+    // ============================================================
+    function initSpaceBackground() {
+      const canvas = document.getElementById('spaceCanvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      stars = [];
+      const numStars = 160;
+
+      for (let i = 0; i < numStars; i++) {
+        stars.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          radius: Math.random() * 2 + 0.5,
+          vx: (Math.random() - 0.5) * 0.25,
+          vy: (Math.random() - 0.5) * 0.25,
+          opacity: Math.random() * 0.5 + 0.4
+        });
+      }
+
+      drawStars(ctx, canvas);
+
+      window.addEventListener('resize', () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      });
+    }
+
+    function updateSpaceCanvas() {
+      const canvas = document.getElementById('spaceCanvas');
+      const ctx = canvas.getContext('2d');
+      if (animationId) cancelAnimationFrame(animationId);
+      drawStars(ctx, canvas);
+    }
+
+    function drawStars(ctx, canvas) {
+      let t = 0;
+      
+      function animate() {
+        t += 0.02;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        const style = getComputedStyle(document.documentElement);
+        const gradStart = style.getPropertyValue('--space-gradient-start').trim();
+        const gradEnd = style.getPropertyValue('--space-gradient-end').trim();
+        
+        const bg = ctx.createRadialGradient(canvas.width/2, canvas.height/2, 0, canvas.width/2, canvas.height/2, canvas.width/2);
+        bg.addColorStop(0, gradStart);
+        bg.addColorStop(1, gradEnd);
+        ctx.fillStyle = bg;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        for (let i = 0; i < stars.length; i++) {
+          for (let j = i + 1; j < stars.length; j++) {
+            const dx = stars[i].x - stars[j].x;
+            const dy = stars[i].y - stars[j].y;
+            const d = Math.sqrt(dx*dx + dy*dy);
+            if (d < 160) {
+              const wave = 0.25 + 0.15 * Math.sin(t*2 + (stars[i].x + stars[i].y) * 0.01);
+              ctx.beginPath();
+              ctx.moveTo(stars[i].x, stars[i].y);
+              ctx.lineTo(stars[j].x, stars[j].y);
+              const alpha = (1 - d/160) * 0.25 * wave;
+              ctx.strokeStyle = currentTheme === 'dark' 
+                ? `rgba(255, 215, 0, ${alpha})`
+                : `rgba(218, 165, 32, ${alpha * 0.6})`;
+              ctx.lineWidth = 0.5;
+              ctx.stroke();
+            }
+          }
+        }
+
+        stars.forEach(star => {
+          ctx.beginPath();
+          ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+          ctx.fillStyle = currentTheme === 'dark'
+            ? `rgba(255, 215, 0, ${star.opacity})`
+            : `rgba(218, 165, 32, ${star.opacity * 0.8})`;
+          ctx.fill();
+
+          star.x += star.vx;
+          star.y += star.vy;
+          if (star.x < 0 || star.x > canvas.width) star.vx *= -1;
+          if (star.y < 0 || star.y > canvas.height) star.vy *= -1;
+          star.opacity += (Math.random() - 0.5) * 0.02;
+          star.opacity = Math.max(0.25, Math.min(1, star.opacity));
+        });
+
+        animationId = requestAnimationFrame(animate);
+      }
+
+      animate();
+    }
+
+    // ============================================================
+    // PLAN MANAGEMENT
+    // ============================================================
+    function getPlan() {
+      const users = JSON.parse(localStorage.getItem('bhuji_users') || '{}');
+      if (!currentUser) return 'free';
+      return users[currentUser.email]?.plan || 'free';
+    }
+
+    function setPlan(plan) {
+      const users = JSON.parse(localStorage.getItem('bhuji_users') || '{}');
+      if (!currentUser) return;
+      users[currentUser.email] = users[currentUser.email] || {};
+      users[currentUser.email].plan = plan;
+      localStorage.setItem('bhuji_users', JSON.stringify(users));
+      updateModeLocks();
+    }
+
+    function isModeUnlocked(mode) {
+      const plan = getPlan();
+      if (mode === 'auto' || mode === 'bhuj') return true;
+      if (mode === 'bhuji') return plan === 'analyze' || plan === 'garud';
+      if (mode === 'garud') return plan === 'garud';
+      return false;
+    }
+
+    function updateModeLocks() {
+      document.querySelectorAll('#modeSelector .model-option').forEach(el => {
+        const mode = el.getAttribute('data-mode');
+        const locked = !isModeUnlocked(mode);
+        el.classList.toggle('locked', locked);
+      });
+    }
+
+    // ============================================================
+    // AUTHENTICATION
+    // ============================================================
+    function showAuthModal() { document.getElementById('authModal').classList.remove('hidden'); }
+    function closeAuthModal() { document.getElementById('authModal').classList.add('hidden'); }
+    function toggleAuthForm() {
+      document.getElementById('loginForm').classList.toggle('hidden');
+      document.getElementById('signupForm').classList.toggle('hidden');
+    }
+
+    function handleSignup() {
+      const name = SecurityManager.sanitizeInput(document.getElementById('signupName').value.trim());
+      const email = SecurityManager.sanitizeInput(document.getElementById('signupEmail').value.trim());
+      const pass = document.getElementById('signupPassword').value;
+      const confirm = document.getElementById('signupConfirm').value;
+
+      if (!name || !email || !pass || !confirm) { alert('Please fill all fields'); return; }
+      if (pass.length < 8) { alert('Password must be at least 8 characters'); return; }
+      if (pass !== confirm) { alert('Passwords do not match'); return; }
+
+      const users = JSON.parse(localStorage.getItem('bhuji_users') || '{}');
+      if (users[email]) { alert('Account already exists. Please login.'); return; }
+
+      users[email] = {
+        name,
+        email,
+        passwordHash: SecurityManager.hashPassword(pass),
+        plan: 'free',
+        created: new Date().toISOString(),
+        sessionId: SecurityManager.sessionId
+      };
+      localStorage.setItem('bhuji_users', JSON.stringify(users));
+
+      currentUser = users[email];
+      closeAuthModal();
+      showMainInterface();
+    }
+
+    function handleLogin() {
+      const email = SecurityManager.sanitizeInput(document.getElementById('loginEmail').value.trim());
+      const pass = document.getElementById('loginPassword').value;
+      if (!email || !pass) { alert('Please fill all fields'); return; }
+
+      const users = JSON.parse(localStorage.getItem('bhuji_users') || '{}');
+      const user = users[email];
+      if (!user) { alert('No account found. Please sign up.'); return; }
+
+      const hash = SecurityManager.hashPassword(pass);
+      if (user.passwordHash !== hash) { alert('Invalid credentials'); return; }
+
+      currentUser = user;
+      closeAuthModal();
+      showMainInterface();
+    }
+
+    function showMainInterface() {
+      document.getElementById('landingPage').classList.add('hidden');
+      document.getElementById('mainInterface').classList.remove('hidden');
+
+      document.getElementById('userName').textContent = currentUser.name;
+      document.getElementById('userAvatar').textContent = (currentUser.name || 'U')[0].toUpperCase();
+
+      document.getElementById('settingsEmail').textContent = currentUser.email;
+      document.getElementById('settingsPlan').textContent = getPlan();
+      document.getElementById('settingsSession').textContent = SecurityManager.sessionId;
+
+      updateModeLocks();
+      messages = [];
+      renderMessages();
+
+      const greet = `🙏 Namaste! I am BHUJI, your divine AI companion. I can search Wikipedia, DuckDuckGo, and the web in real-time to answer your questions. How can I help you today?`;
+      addMessage('assistant', greet, ['BHUJI']);
+      if (voiceMode && speakReplies) speakText(greet);
+    }
+
+    function logout() {
+      currentUser = null;
+      messages = [];
+      uploadedFile = null;
+      currentMode = 'auto';
+      fileMode = 'analyze';
+      stopRecognition();
+      document.getElementById('mainInterface').classList.add('hidden');
+      document.getElementById('landingPage').classList.remove('hidden');
+    }
+
+    // ============================================================
+    // SETTINGS & PRICING
+    // ============================================================
+    function showSettings() {
+      document.getElementById('settingsPlan').textContent = getPlan();
+      document.getElementById('settingsModal').classList.remove('hidden');
+    }
+    function closeSettings() { document.getElementById('settingsModal').classList.add('hidden'); }
+
+    function showPricing() {
+      document.getElementById('pricingModal').classList.remove('hidden');
+      setPayError('');
+      setPaySuccess('');
+      selectGateway(selectedGateway);
+    }
+    function closePricing() { document.getElementById('pricingModal').classList.add('hidden'); }
+
+    function setAmount(amount) {
+      document.getElementById('customAmount').value = amount;
+    }
+
+    function selectGateway(gateway) {
+      selectedGateway = gateway;
+      
+      document.querySelectorAll('.gateway-card').forEach(card => card.classList.remove('selected'));
+      document.getElementById('gateway' + gateway.charAt(0).toUpperCase() + gateway.slice(1)).classList.add('selected');
+
+      document.querySelectorAll('.payment-field').forEach(field => field.classList.add('hidden'));
+      document.getElementById(gateway + 'Fields').classList.remove('hidden');
+    }
+
+    function setPayError(text) {
+      const el = document.getElementById('payError');
+      if (!text) { el.classList.add('hidden'); el.textContent = ''; return; }
+      el.textContent = text;
+      el.classList.remove('hidden');
+      document.getElementById('paySuccess').classList.add('hidden');
+    }
+
+    function setPaySuccess(text) {
+      const el = document.getElementById('paySuccess');
+      if (!text) { el.classList.add('hidden'); el.textContent = ''; return; }
+      el.textContent = text;
+      el.classList.remove('hidden');
+      document.getElementById('payError').classList.add('hidden');
+    }
+
+    function validatePaymentFields() {
+      const amount = parseInt(document.getElementById('customAmount').value);
+      if (!amount || amount < 1) {
+        setPayError('Please enter a valid amount (minimum ₹1)');
+        return false;
+      }
+
+      switch(selectedGateway) {
+        case 'upi':
+          const upi = document.getElementById('upiId').value.trim();
+          if (!upi || !upi.includes('@')) {
+            setPayError('Please enter a valid UPI ID (e.g., name@upi)');
+            return false;
+          }
+          break;
+        
+        case 'card':
+          const cardNum = document.getElementById('cardNumber').value.replace(/\s/g,'');
+          const cardExp = document.getElementById('cardExpiry').value;
+          const cardCvv = document.getElementById('cardCvv').value;
+          const cardName = document.getElementById('cardName').value.trim();
+          
+          if (cardNum.length < 13) {
+            setPayError('Please enter a valid card number');
+            return false;
+          }
+          if (!cardExp.match(/^\d{2}\/\d{2}$/)) {
+            setPayError('Please enter valid expiry (MM/YY)');
+            return false;
+          }
+          if (cardCvv.length < 3) {
+            setPayError('Please enter valid CVV');
+            return false;
+          }
+          if (!cardName) {
+            setPayError('Please enter cardholder name');
+            return false;
+          }
+          break;
+        
+        case 'netbanking':
+          if (!document.getElementById('bankSelect').value) {
+            setPayError('Please select a bank');
+            return false;
+          }
+          break;
+        
+        case 'wallet':
+          const wallet = document.getElementById('walletSelect').value;
+          const phone = document.getElementById('walletPhone').value.trim();
+          if (!wallet) {
+            setPayError('Please select a wallet');
+            return false;
+          }
+          if (phone.length < 10) {
+            setPayError('Please enter valid mobile number');
+            return false;
+          }
+          break;
+        
+        case 'paypal':
+          const paypalEmail = document.getElementById('paypalEmail').value.trim();
+          if (!paypalEmail.includes('@')) {
+            setPayError('Please enter valid PayPal email');
+            return false;
+          }
+          break;
+        
+        case 'crypto':
+          const crypto = document.getElementById('cryptoSelect').value;
+          const cryptoWallet = document.getElementById('cryptoWallet').value.trim();
+          if (!crypto) {
+            setPayError('Please select a cryptocurrency');
+            return false;
+          }
+          if (cryptoWallet.length < 20) {
+            setPayError('Please enter valid wallet address');
+            return false;
+          }
+          break;
+      }
+
+      return true;
+    }
+
+    function processPayment() {
+      if (!currentUser) {
+        setPayError('Please login first');
+        return;
+      }
+
+      if (!validatePaymentFields()) return;
+
+      const amount = parseInt(document.getElementById('customAmount').value);
+
+      setPayError('');
+      document.querySelector('#pricingModal .submit-button').disabled = true;
+      document.querySelector('#pricingModal .submit-button').textContent = 'Processing...';
+
+      setTimeout(() => {
+        let plan = 'free';
+        if (amount >= 119) plan = 'garud';
+        else if (amount >= 49) plan = 'analyze';
+
+        setPlan(plan);
+        document.getElementById('settingsPlan').textContent = getPlan();
+        
+        setPaySuccess(`✓ Payment successful! ₹${amount} charged via ${selectedGateway.toUpperCase()}`);
+        
+        document.querySelector('#pricingModal .submit-button').disabled = false;
+        document.querySelector('#pricingModal .submit-button').textContent = 'Pay Now';
+
+        setTimeout(() => {
+          closePricing();
+          addMessage('assistant', `🎉 Payment successful! Your ${plan === 'garud' ? 'GARUD' : 'Bhuji'} plan is now active. All features unlocked!`, ['System']);
+        }, 2000);
+      }, 2000);
+    }
+
+    // ============================================================
+    // MODE SELECTION
+    // ============================================================
+    function selectMode(mode) {
+      if (!isModeUnlocked(mode)) { showPricing(); return; }
+      currentMode = mode;
+      document.querySelectorAll('#modeSelector .model-option').forEach(el => {
+        el.classList.toggle('active', el.getAttribute('data-mode') === mode);
+      });
+      const fileToolsEnabled = (mode === 'bhuji' || mode === 'garud');
+      document.getElementById('fileModeSelector').classList.toggle('hidden', !fileToolsEnabled || !uploadedFile);
+      if (mode === 'garud') addMessage('assistant', '⚡ GARUD mode enabled. Fast processing & all features unlocked!', ['GARUD']);
+    }
+
+    // ============================================================
+    // VOICE MODE
+    // ============================================================
+    function toggleVoiceMode() {
+      voiceMode = !voiceMode;
+      document.getElementById('voiceControls').classList.toggle('hidden', !voiceMode);
+      document.getElementById('voiceToggleBtn').classList.toggle('active', voiceMode);
+      document.getElementById('voiceIcon').textContent = voiceMode ? '🔊' : '🎙';
+
+      if (voiceMode) {
+        const greet = 'Voice mode activated. Click the mic button to speak.';
+        if (speakReplies) speakText(greet);
+        initSpeechRecognition();
+      } else {
+        stopRecognition();
+      }
+    }
+
+    function toggleSpeakReplies() {
+      speakReplies = !speakReplies;
+      document.getElementById('speakRepliesBtn').classList.toggle('active', speakReplies);
+    }
+
+    function setPersona(p) {
+      persona = p;
+      if (voiceMode && speakReplies) speakText(`Voice persona set to ${p}.`);
+    }
+
+    function initSpeechRecognition() {
+      const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SR) {
+        document.getElementById('voiceNote').textContent = '❌ Speech recognition not supported.';
+        return;
+      }
+      recognition = new SR();
+      recognition.lang = 'en-IN';
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+      recognition.onresult = (event) => {
+        const text = event.results[0][0].transcript;
+        document.getElementById('messageInput').value = text;
+        sendMessage();
+      };
+      recognition.onerror = () => { recognizing = false; updateMicUI(); };
+      recognition.onend = () => { recognizing = false; updateMicUI(); };
+    }
+
+    function toggleMic() {
+      if (!voiceMode) return;
+      if (!recognition) initSpeechRecognition();
+      if (!recognition) return;
+      if (recognizing) stopRecognition(); else startRecognition();
+    }
+
+    function startRecognition() {
+      try {
+        recognizing = true;
+        updateMicUI();
+        recognition.start();
+      } catch {
+        recognizing = false;
+        updateMicUI();
+      }
+    }
+
+    function stopRecognition() {
+      try { if (recognition) recognition.stop(); } catch {}
+      recognizing = false;
+      updateMicUI();
+    }
+
+    function updateMicUI() {
+      const mic = document.getElementById('micBtn');
+      mic.classList.toggle('active', recognizing);
+      mic.innerHTML = recognizing ? '🎤 Listening…' : '🎤 Mic';
+    }
+
+    function pickVoiceForPersona() {
+      const voices = speechSynthesis.getVoices() || [];
+      const preferLang = ['en-IN','en-GB','en-US'];
+      const sorted = voices.slice().sort((a,b) => (preferLang.indexOf(a.lang) - preferLang.indexOf(b.lang)));
+      const wantFemale = (persona === 'BHUJI' || persona === 'Shambhala');
+      const femaleHints = ['female','woman','zira','susan','samantha'];
+      const maleHints = ['male','man','david','mark','daniel'];
+      const hints = wantFemale ? femaleHints : maleHints;
+      const matchByHint = sorted.find(v => hints.some(h => (v.name||'').toLowerCase().includes(h)));
+      return matchByHint || sorted.find(v => preferLang.includes(v.lang)) || voices[0] || null;
+    }
+
+    function speakText(text) {
+      try {
+        if (!('speechSynthesis' in window)) return;
+        speechSynthesis.cancel();
+        const u = new SpeechSynthesisUtterance(text.replace(/\*\*/g,'').replace(/\n/g,' ').replace(/🙏|🌐|✨|⚡|🎉|📊|📄|📈|📝|🖼️|🔖|🔢|🔄/g, ''));
+        const v = pickVoiceForPersona();
+        if (v) u.voice = v;
+        u.rate = persona === 'GARUD' || persona === 'BHAIRAVA' ? 1.05 : 1.0;
+        u.pitch = persona === 'BHUJI' || persona === 'Shambhala' ? 1.05 : 0.95;
+        speechSynthesis.speak(u);
+      } catch {}
+    }
+
+    // ============================================================
+    // FILE HANDLING
+    // ============================================================
+    function handleFileUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      if (!isModeUnlocked('bhuji') && !isModeUnlocked('garud')) {
+        alert('⚠️ File tools require Bhuji (₹49) or GARUD (₹119) plan.');
+        showPricing();
+        event.target.value = '';
+        return;
+      }
+
+      uploadedFile = file;
+      document.getElementById('filePreview').classList.remove('hidden');
+      document.getElementById('fileName').textContent = file.name;
+      document.getElementById('fileSize').textContent = (file.size/1024).toFixed(2) + ' KB';
+
+      const ext = (file.name.split('.').pop() || '').toLowerCase();
+      const iconMap = { pdf:'📄', docx:'📝', txt:'📃', json:'{}', csv:'📊', xlsx:'📈', png:'🖼️', jpg:'🖼️', jpeg:'🖼️', html:'🌐', pptx:'📽️' };
+      document.getElementById('fileIcon').textContent = iconMap[ext] || '📎';
+
+      document.getElementById('fileModeSelector').classList.remove('hidden');
+      fileMode = 'analyze';
+      document.querySelectorAll('.file-mode').forEach(el => el.classList.toggle('active', el.getAttribute('data-mode') === 'analyze'));
+
+      addMessage('assistant', `📎 File uploaded: **${file.name}** (${(file.size/1024).toFixed(2)} KB). Select a mode and click Send to process.`, ['File']);
+    }
+
+    function removeFile() {
+      uploadedFile = null;
+      document.getElementById('filePreview').classList.add('hidden');
+      document.getElementById('fileModeSelector').classList.add('hidden');
+      document.getElementById('fileInput').value = '';
+      addMessage('assistant', '✓ File removed.', ['System']);
+    }
+
+    function selectFileMode(mode) {
+      fileMode = mode;
+      document.querySelectorAll('.file-mode').forEach(el => el.classList.toggle('active', el.getAttribute('data-mode') === mode));
+    }
+
+    async function readFileAsArrayBuffer(file) { return await file.arrayBuffer(); }
+    async function readFileAsText(file) { return await file.text(); }
+    async function readFileAsDataURL(file) {
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = (e) => resolve(e.target.result);
+        reader.readAsDataURL(file);
+      });
+    }
+
+    // ============================================================
+    // FILE CONVERSION FUNCTIONS
+    // ============================================================
+    
+    async function convertToPDF(file) {
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF();
+      const ext = (file.name.split('.').pop() || '').toLowerCase();
+
+      if (ext === 'txt' || ext === 'json' || ext === 'csv') {
+        const text = await readFileAsText(file);
+        const lines = text.split('\n');
+        let y = 20;
+        pdf.setFontSize(12);
+        
+        lines.forEach(line => {
+          if (y > 280) {
+            pdf.addPage();
+            y = 20;
+          }
+          const splitText = pdf.splitTextToSize(line || ' ', 180);
+          pdf.text(splitText, 15, y);
+          y += splitText.length * 7;
+        });
+      } else if (ext === 'png' || ext === 'jpg' || ext === 'jpeg') {
+        const dataUrl = await readFileAsDataURL(file);
+        pdf.addImage(dataUrl, 'JPEG', 10, 10, 190, 0);
+      } else if (ext === 'docx') {
+        const buffer = await readFileAsArrayBuffer(file);
+        const result = await mammoth.extractRawText({ arrayBuffer: buffer });
+        const lines = result.value.split('\n');
+        let y = 20;
+        pdf.setFontSize(12);
+        
+        lines.forEach(line => {
+          if (y > 280) {
+            pdf.addPage();
+            y = 20;
+          }
+          const splitText = pdf.splitTextToSize(line || ' ', 180);
+          pdf.text(splitText, 15, y);
+          y += splitText.length * 7;
+        });
+      } else if (ext === 'xlsx') {
+        const buffer = await readFileAsArrayBuffer(file);
+        const workbook = XLSX.read(buffer, { type: 'array' });
+        const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+        const data = XLSX.utils.sheet_to_json(firstSheet, { header: 1 });
+        
+        pdf.autoTable({
+          head: [data[0]],
+          body: data.slice(1),
+          startY: 20,
+          styles: { fontSize: 8 }
+        });
+      } else {
+        throw new Error('Unsupported file type for PDF conversion');
+      }
+
+      return pdf.output('blob');
+    }
+
+    async function convertToExcel(file) {
+      const ext = (file.name.split('.').pop() || '').toLowerCase();
+      let data = [];
+
+      if (ext === 'csv') {
+        const text = await readFileAsText(file);
+        const lines = text.split('\n');
+        data = lines.map(line => line.split(','));
+      } else if (ext === 'txt' || ext === 'json') {
+        const text = await readFileAsText(file);
+        const lines = text.split('\n');
+        data = lines.map(line => [line]);
+      } else if (ext === 'pdf') {
+        data = [['PDF conversion to Excel not fully supported'], ['Please use text-based files']];
+      } else {
+        throw new Error('Unsupported file type for Excel conversion');
+      }
+
+      const ws = XLSX.utils.aoa_to_sheet(data);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+      
+      const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+      return new Blob([wbout], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    }
+
+    async function convertToWord(file) {
+      const ext = (file.name.split('.').pop() || '').toLowerCase();
+      let text = '';
+
+      if (ext === 'txt' || ext === 'csv' || ext === 'json') {
+        text = await readFileAsText(file);
+      } else if (ext === 'pdf') {
+        text = 'PDF to Word conversion requires advanced processing. Please use text-based files.';
+      } else {
+        throw new Error('Unsupported file type for Word conversion');
+      }
+
+      const docxContent = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:body>
+    <w:p>
+      <w:r>
+        <w:t>${text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</w:t>
+      </w:r>
+    </w:p>
+  </w:body>
+</w:document>`;
+
+      return new Blob([docxContent], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
+    }
+
+    async function convertToPNG(file) {
+      const ext = (file.name.split('.').pop() || '').toLowerCase();
+      
+      if (ext === 'jpg' || ext === 'jpeg' || ext === 'png') {
+        return new Promise((resolve) => {
+          const img = new Image();
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          
+          img.onload = () => {
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.drawImage(img, 0, 0);
+            canvas.toBlob(resolve, 'image/png');
+          };
+          
+          img.src = URL.createObjectURL(file);
+        });
+      } else if (ext === 'txt') {
+        const text = await readFileAsText(file);
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = 800;
+        canvas.height = 600;
+        
+        ctx.fillStyle = 'white';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = 'black';
+        ctx.font = '14px monospace';
+        
+        const lines = text.split('\n');
+        lines.forEach((line, i) => {
+          ctx.fillText(line, 10, 20 + i * 16);
+        });
+        
+        return new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+      } else {
+        throw new Error('Unsupported file type for PNG conversion');
+      }
+    }
+
+    async function addWatermarkToPDF(file, watermarkText = 'BHUJI AI') {
+      const { PDFDocument, rgb } = PDFLib;
+      const buffer = await readFileAsArrayBuffer(file);
+      const pdfDoc = await PDFDocument.load(buffer);
+      const pages = pdfDoc.getPages();
+      
+      for (const page of pages) {
+        const { width, height } = page.getSize();
+        page.drawText(watermarkText, {
+          x: width / 2 - 50,
+          y: height / 2,
+          size: 50,
+          color: rgb(0.85, 0.85, 0.85),
+          opacity: 0.3,
+        });
+      }
+      
+      const pdfBytes = await pdfDoc.save();
+      return new Blob([pdfBytes], { type: 'application/pdf' });
+    }
+
+    async function addPageNumbersToPDF(file) {
+      const { PDFDocument, rgb } = PDFLib;
+      const buffer = await readFileAsArrayBuffer(file);
+      const pdfDoc = await PDFDocument.load(buffer);
+      const pages = pdfDoc.getPages();
+      
+      pages.forEach((page, index) => {
+        const { width, height } = page.getSize();
+        page.drawText(`${index + 1}`, {
+          x: width / 2,
+          y: 20,
+          size: 12,
+          color: rgb(0, 0, 0),
+        });
+      });
+      
+      const pdfBytes = await pdfDoc.save();
+      return new Blob([pdfBytes], { type: 'application/pdf' });
+    }
+
+    async function rotatePDF(file, degrees = 90) {
+      const { PDFDocument } = PDFLib;
+      const buffer = await readFileAsArrayBuffer(file);
+      const pdfDoc = await PDFDocument.load(buffer);
+      const pages = pdfDoc.getPages();
+      
+      pages.forEach(page => {
+        page.setRotation({ angle: degrees });
+      });
+      
+      const pdfBytes = await pdfDoc.save();
+      return new Blob([pdfBytes], { type: 'application/pdf' });
+    }
+
+    // ============================================================
+    // WEB SEARCH - REAL-TIME INFORMATION RETRIEVAL
+    // ============================================================
+    
+    function extractSearchTerms(query) {
+      const q = query.trim();
+      const patterns = [
+        /what is (.*?)[\?\.]/i, /who is (.*?)[\?\.]/i, /tell me about (.*?)[\?\.]/i,
+        /define (.*?)[\?\.]/i, /explain (.*?)[\?\.]/i, /what (are|were) (.*?)[\?\.]/i,
+        /who (are|were) (.*?)[\?\.]/i, /where is (.*?)[\?\.]/i, /when (was|did) (.*?)[\?\.]/i,
+        /how (does|do|did) (.*?)[\?\.]/i, /why (is|are|was|were|do|does|did) (.*?)[\?\.]/i
+      ];
+      
+      for (const p of patterns) {
+        const m = q.match(p);
+        if (m) return m[m.length - 1].trim();
+      }
+      
+      try {
+        const u = new URL(q);
+        return u.hostname.replace('www.','') + ' ' + u.pathname.split('/').filter(Boolean).slice(0,3).join(' ');
+      } catch {}
+      
+      return q.replace(/[\?\.!]/g, '').trim();
+    }
+
+    async function searchWikipedia(query) {
+      console.log('🔍 Searching Wikipedia for:', query);
+      const term = extractSearchTerms(query);
+      try {
+        const directUrl = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(term)}`;
+        const res = await fetch(directUrl);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.type === 'standard' && data.extract) {
+            console.log('✅ Wikipedia result found:', data.title);
+            return {
+              title: data.title,
+              text: data.extract,
+              link: data.content_urls?.desktop?.page || `https://en.wikipedia.org/wiki/${encodeURIComponent(data.title)}`,
+              source: 'Wikipedia'
+            };
+          }
+        }
+      } catch (e) {
+        console.log('⚠️ Wikipedia direct search failed, trying search API');
+      }
+      
+      try {
+        const searchUrl = `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(term)}&format=json&origin=*&srlimit=3`;
+        const searchRes = await fetch(searchUrl);
+        if (searchRes.ok) {
+          const searchData = await searchRes.json();
+          if (searchData.query && searchData.query.search && searchData.query.search.length > 0) {
+            const topResult = searchData.query.search[0];
+            const pageTitle = topResult.title;
+            const summaryUrl = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(pageTitle)}`;
+            const summaryRes = await fetch(summaryUrl);
+            if (summaryRes.ok) {
+              const summaryData = await summaryRes.json();
+              console.log('✅ Wikipedia search result found:', summaryData.title);
+              return {
+                title: summaryData.title,
+                text: summaryData.extract || topResult.snippet.replace(/<[^>]*>/g, ''),
+                link: summaryData.content_urls?.desktop?.page || `https://en.wikipedia.org/wiki/${encodeURIComponent(pageTitle)}`,
+                source: 'Wikipedia'
+              };
+            }
+          }
+        }
+      } catch (e) {
+        console.log('⚠️ Wikipedia search failed:', e);
+      }
+      
+      return null;
+    }
+
+    async function searchDuckDuckGo(query) {
+      console.log('🦆 Searching DuckDuckGo for:', query);
+      try {
+        const url = `https://api.duckduckgo.com/?q=${encodeURIComponent(query)}&format=json&no_html=1&skip_disambig=1`;
+        const res = await fetch(url);
+        if (!res.ok) return null;
+        const data = await res.json();
+        
+        if (data.Abstract) {
+          console.log('✅ DuckDuckGo Abstract found');
+          return {
+            heading: data.Heading || 'Web',
+            text: data.Abstract,
+            link: data.AbstractURL || data.AbstractSource || null,
+            source: data.AbstractSource || 'DuckDuckGo'
+          };
+        }
+        
+        if (data.RelatedTopics && data.RelatedTopics.length) {
+          console.log('✅ DuckDuckGo RelatedTopics found');
+          const topics = [];
+          for (const topic of data.RelatedTopics.slice(0, 3)) {
+            if (topic.Text) topics.push({ text: topic.Text, link: topic.FirstURL || null });
+          }
+          if (topics.length > 0) {
+            return {
+              heading: 'Related Information',
+              text: topics.map(t => t.text).join('\n\n'),
+              link: topics[0].link,
+              source: 'DuckDuckGo',
+              additionalLinks: topics.map(t => ({ title: t.text.substring(0, 60) + '...', url: t.link }))
+            };
+          }
+        }
+        
+        if (data.Definition) {
+          console.log('✅ DuckDuckGo Definition found');
+          return {
+            heading: data.Heading || query,
+            text: data.Definition,
+            link: data.DefinitionURL || null,
+            source: data.DefinitionSource || 'DuckDuckGo'
+          };
+        }
+      } catch (e) {
+        console.log('⚠️ DuckDuckGo search failed:', e);
+      }
+      return null;
+    }
+
+    async function comprehensiveSearch(query) {
+      console.log('🌐 Starting comprehensive search for:', query);
+      const results = { query, sources: [], links: [] };
+      
+      const wiki = await searchWikipedia(query);
+      if (wiki) {
+        console.log('📚 Wikipedia source added');
+        results.sources.push(wiki);
+        results.links.push({ title: `Wikipedia: ${wiki.title}`, url: wiki.link, source: 'Wikipedia' });
+      }
+      
+      const ddg = await searchDuckDuckGo(query);
+      if (ddg) {
+        console.log('🦆 DuckDuckGo source added');
+        results.sources.push(ddg);
+        if (ddg.link) results.links.push({ title: `${ddg.source}: ${ddg.heading}`, url: ddg.link, source: ddg.source });
+        if (ddg.additionalLinks) results.links.push(...ddg.additionalLinks.map(l => ({ ...l, source: ddg.source })));
+      }
+      
+      console.log('✅ Search complete. Found', results.sources.length, 'sources');
+      return results;
+    }
+
+    function formatSearchResults(searchResults) {
+      if (searchResults.sources.length === 0) {
+        return {
+          text: "🔍 I couldn't find reliable information for your query. Try rephrasing your question!\n\n**Examples:**\n• \"What is quantum physics?\"\n• \"Who is Elon Musk?\"\n• \"Tell me about artificial intelligence\"",
+          sources: ['BHUJI'],
+          links: []
+        };
+      }
+
+      let formattedText = '';
+      const sourceNames = new Set();
+
+      if (searchResults.sources[0]) {
+        const primary = searchResults.sources[0];
+        formattedText += `**${primary.title || primary.heading}**\n\n${primary.text}\n`;
+        sourceNames.add(primary.source);
+      }
+
+      if (searchResults.sources.length > 1) {
+        formattedText += '\n\n**📚 Additional Information:**\n';
+        for (let i = 1; i < searchResults.sources.length; i++) {
+          const source = searchResults.sources[i];
+          formattedText += `\n${source.text}\n`;
+          sourceNames.add(source.source);
+        }
+      }
+
+      if (searchResults.links.length > 0) {
+        formattedText += '\n\n*🔗 Click the links below to learn more from the original sources.*';
+      }
+
+      return {
+        text: formattedText,
+        sources: Array.from(sourceNames),
+        links: searchResults.links.filter(l => l.url)
+      };
+    }
+
+    // ============================================================
+    // MESSAGING SYSTEM
+    // ============================================================
+    function addMessage(role, content, sources = [], extras = {}) {
+      messages.push({
+        role,
+        content,
+        sources,
+        timestamp: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
+        id: 'msg-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9),
+        ...extras
+      });
+      renderMessages();
+    }
+
+    function showTyping() {
+      const typing = document.createElement('div');
+      typing.id = 'typingIndicator';
+      typing.className = 'message assistant';
+      typing.innerHTML = `<div class="message-bubble"><div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div>`;
+      document.getElementById('messagesArea').appendChild(typing);
+      scrollToBottom();
+    }
+
+    function hideTyping() {
+      const typing = document.getElementById('typingIndicator');
+      if (typing) typing.remove();
+    }
+
+    function renderMessages() {
+      const container = document.getElementById('messagesArea');
+      container.innerHTML = messages.map((msg) => {
+        const content = String(msg.content || '')
+          .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+          .replace(/\n/g, '<br>')
+          .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" style="color:var(--accent-gold); text-decoration:underline;">$1</a>');
+
+        const sourcesBadges = (msg.sources || []).map(s => `<span class="source-badge">${s}</span>`).join('');
+        
+        let linksHtml = '';
+        if (msg.links && msg.links.length > 0) {
+          linksHtml = '<div class="source-links">';
+          msg.links.forEach(link => {
+            linksHtml += `
+              <a href="${link.url}" target="_blank" class="source-link">
+                <div class="source-link-title">📚 ${link.title}</div>
+                <div class="source-link-url">${link.url}</div>
+              </a>
+            `;
+          });
+          linksHtml += '</div>';
+        }
+
+        let downloads = '';
+        if (msg.downloads && msg.downloads.length) {
+          downloads = '<div class="download-buttons">' +
+            msg.downloads.map((d, idx) => `<button class="download-btn" onclick="downloadFromMessage('${msg.id}', ${idx})">⬇️ Download ${d.label}</button>`).join('') +
+            '</div>';
+        }
+
+        return `
+          <div class="message ${msg.role}">
+            <div class="message-bubble">
+              ${content}
+              ${(msg.sources && msg.sources.length) ? `<div class="message-meta">${sourcesBadges} • ${msg.timestamp}</div>` : ''}
+              ${linksHtml}
+              ${downloads}
+            </div>
+          </div>
+        `;
+      }).join('');
+      scrollToBottom();
+    }
+
+    function scrollToBottom() {
+      const container = document.getElementById('messagesArea');
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function downloadFromMessage(messageId, downloadIndex) {
+      const msg = messages.find(m => m.id === messageId);
+      if (!msg || !msg.downloads || !msg.downloads[downloadIndex]) return;
+      const d = msg.downloads[downloadIndex];
+      downloadBlob(d.blob, d.filename);
+    }
+
+    function downloadBlob(blob, filename) {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    // ============================================================
+    // SEND MESSAGE - MAIN HANDLER
+    // ============================================================
+    async function sendMessage() {
+      const input = document.getElementById('messageInput');
+      const raw = input.value.trim();
+      const message = SecurityManager.sanitizeInput(raw);
+      
+      if (!message && !uploadedFile) return;
+      if (!SecurityManager.checkRateLimit()) { alert('⚠️ Too many requests. Please wait a moment.'); return; }
+      if (isLoading) return;
+
+      isLoading = true;
+      document.getElementById('sendBtn').disabled = true;
+      input.value = '';
+
+      if (message) addMessage('user', message);
+      showTyping();
+
+      try {
+        if (uploadedFile) {
+          await handleFileFlow(message);
+        } else {
+          await handleQnAFlow(message);
+        }
+      } catch (e) {
+        console.error('Error in sendMessage:', e);
+        hideTyping();
+        addMessage('assistant', `❌ Error: ${e.message || e}`, ['System']);
+      }
+
+      isLoading = false;
+      document.getElementById('sendBtn').disabled = false;
+    }
+
+    async function handleQnAFlow(query) {
+      const lower = query.toLowerCase();
+
+      // Handle BHUJI-specific questions
+      if (lower.includes('what is bhuji') || lower.includes('who is bhuji') || lower.includes('about bhuji') || lower.includes('what are you')) {
+        hideTyping();
+        const resp = `🙏 **About BHUJI AI**\n\nI am BHUJI, inspired by **Kalki 2898 AD**, where **Bhairava** is accompanied by his loyal robot companion.\n\n**My Capabilities:**\n🌐 Real-time web search via Wikipedia & DuckDuckGo\n📄 File conversion & processing (Bhuji/GARUD plans)\n🎙️ Voice interaction support\n✨ Multi-source information synthesis\n\n**Try asking me:**\n• "What is artificial intelligence?"\n• "Who is Elon Musk?"\n• "Explain quantum computing"\n• "What's happening with climate change?"`;
+        addMessage('assistant', resp, ['BHUJI']);
+        if (voiceMode && speakReplies) speakText(resp);
+        return;
+      }
+
+      // Perform comprehensive web search
+      console.log('🚀 Starting web search for query:', query);
+      const searchResults = await comprehensiveSearch(query);
+      hideTyping();
+
+      const formatted = formatSearchResults(searchResults);
+      addMessage('assistant', formatted.text, formatted.sources, { links: formatted.links });
+      
+      if (voiceMode && speakReplies) {
+        const voiceText = formatted.text
+          .replace(/\*\*/g, '')
+          .replace(/\n/g, ' ')
+          .replace(/🔍|📚|🔗|🌐|✨/g, '');
+        speakText(voiceText);
+      }
+    }
+
+    async function handleFileFlow(query) {
+      hideTyping();
+      
+      const ext = (uploadedFile.name.split('.').pop() || '').toLowerCase();
+      const baseName = uploadedFile.name.replace(/\.[^/.]+$/, '');
+      
+      try {
+        let resultBlob;
+        let outputFilename;
+        let successMessage;
+
+        switch(fileMode) {
+          case 'analyze':
+            if (ext === 'txt' || ext === 'json' || ext === 'csv') {
+              const content = await readFileAsText(uploadedFile);
+              const preview = content.substring(0, 500) + (content.length > 500 ? '...' : '');
+              const lineCount = content.split('\n').length;
+              const wordCount = content.split(/\s+/).length;
+              addMessage('assistant', `📊 **File Analysis: ${uploadedFile.name}**\n\n**File Details:**\n• Size: ${(uploadedFile.size/1024).toFixed(2)} KB\n• Type: ${ext.toUpperCase()}\n• Lines: ${lineCount}\n• Words: ${wordCount}\n\n**Content Preview:**\n\`\`\`\n${preview}\n\`\`\``, ['File Analysis']);
+            } else if (ext === 'pdf' || ext === 'docx' || ext === 'xlsx') {
+              addMessage('assistant', `📊 **File Analysis: ${uploadedFile.name}**\n\n**File Details:**\n• Size: ${(uploadedFile.size/1024).toFixed(2)} KB\n• Type: ${ext.toUpperCase()}\n\nThis is a ${ext.toUpperCase()} file. Use the conversion modes to process it into different formats.`, ['File Analysis']);
+            } else if (ext === 'png' || ext === 'jpg' || ext === 'jpeg') {
+              addMessage('assistant', `🖼️ **Image Analysis: ${uploadedFile.name}**\n\n**File Details:**\n• Size: ${(uploadedFile.size/1024).toFixed(2)} KB\n• Type: Image (${ext.toUpperCase()})\n\nUse conversion modes to convert this image to other formats.`, ['File Analysis']);
+            }
+            return;
+
+          case 'to-pdf':
+            resultBlob = await convertToPDF(uploadedFile);
+            outputFilename = `${baseName}.pdf`;
+            successMessage = `✅ **PDF Conversion Complete**\n\nConverted **${uploadedFile.name}** → **${outputFilename}**\n\nClick the download button below to save your PDF.`;
+            break;
+
+          case 'to-xlsx':
+            resultBlob = await convertToExcel(uploadedFile);
+            outputFilename = `${baseName}.xlsx`;
+            successMessage = `✅ **Excel Conversion Complete**\n\nConverted **${uploadedFile.name}** → **${outputFilename}**\n\nClick the download button below to save your Excel file.`;
+            break;
+
+          case 'to-docx':
+            resultBlob = await convertToWord(uploadedFile);
+            outputFilename = `${baseName}.docx`;
+            successMessage = `✅ **Word Conversion Complete**\n\nConverted **${uploadedFile.name}** → **${outputFilename}**\n\nClick the download button below to save your Word document.`;
+            break;
+
+          case 'to-png':
+            resultBlob = await convertToPNG(uploadedFile);
+            outputFilename = `${baseName}.png`;
+            successMessage = `✅ **PNG Conversion Complete**\n\nConverted **${uploadedFile.name}** → **${outputFilename}**\n\nClick the download button below to save your PNG image.`;
+            break;
+
+          case 'pdf-watermark':
+            if (ext !== 'pdf') {
+              addMessage('assistant', '⚠️ **Watermark Mode Requires PDF**\n\nThis operation only works with PDF files. Please upload a PDF file to add a watermark.', ['File']);
+              return;
+            }
+            resultBlob = await addWatermarkToPDF(uploadedFile);
+            outputFilename = `${baseName}_watermarked.pdf`;
+            successMessage = `✅ **Watermark Added**\n\nAdded "BHUJI AI" watermark to **${uploadedFile.name}**\n\nOutput: **${outputFilename}**`;
+            break;
+
+          case 'pdf-pagenum':
+            if (ext !== 'pdf') {
+              addMessage('assistant', '⚠️ **Page Numbers Mode Requires PDF**\n\nThis operation only works with PDF files. Please upload a PDF file to add page numbers.', ['File']);
+              return;
+            }
+            resultBlob = await addPageNumbersToPDF(uploadedFile);
+            outputFilename = `${baseName}_numbered.pdf`;
+            successMessage = `✅ **Page Numbers Added**\n\nAdded page numbers to **${uploadedFile.name}**\n\nOutput: **${outputFilename}**`;
+            break;
+
+          case 'pdf-rotate':
+            if (ext !== 'pdf') {
+              addMessage('assistant', '⚠️ **Rotate Mode Requires PDF**\n\nThis operation only works with PDF files. Please upload a PDF file to rotate pages.', ['File']);
+              return;
+            }
+            resultBlob = await rotatePDF(uploadedFile, 90);
+            outputFilename = `${baseName}_rotated.pdf`;
+            successMessage = `✅ **PDF Rotated**\n\nRotated **${uploadedFile.name}** by 90° clockwise\n\nOutput: **${outputFilename}**`;
+            break;
+
+          default:
+            addMessage('assistant', '⚠️ Unknown file operation mode. Please select a valid operation from the toolbar.', ['File']);
+            return;
+        }
+
+        if (resultBlob && outputFilename) {
+          addMessage('assistant', successMessage, ['File Processing'], {
+            downloads: [{
+              label: outputFilename,
+              blob: resultBlob,
+              filename: outputFilename
+            }]
+          });
+        }
+
+      } catch (error) {
+        console.error('File processing error:', error);
+        addMessage('assistant', `❌ **File Processing Error**\n\n${error.message}\n\nPlease try a different file or operation.`, ['File']);
+      }
+    }
+
+    // ============================================================
+    // INITIALIZATION
+    // ============================================================
+    console.log('🚀 BHUJI AI Initializing...');
+    loadTheme();
+    SecurityManager.init();
+    initSpaceBackground();
+    console.log('✅ BHUJI AI Ready!');
+    console.log('🌐 Web Search: Wikipedia & DuckDuckGo enabled');
+    console.log('📄 File Tools: Available with Bhuji/GARUD plans');
+  </script>
+</body>
+</html>
