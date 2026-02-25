@@ -1,0 +1,2269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>BHUJI AI — Complete AI Intelligence by Himanshu</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&family=Space+Grotesk:wght@600;700&family=Playfair+Display:ital,wght@0,700;1,600&family=Dancing+Script:wght@700&family=Cinzel:wght@700&family=Montserrat:wght@700;900&family=Raleway:wght@700;800&family=Pacifico&family=Great+Vibes&family=Cormorant+Garamond:ital,wght@1,700&family=Josefin+Sans:wght@700&family=Libre+Baskerville:ital,wght@1,700&family=Satisfy&family=Sacramento&family=Italiana&family=Bodoni+Moda:ital,wght@1,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+:root{
+  --gold:#F5C842;--gold2:#E8A020;--orange:#F07030;
+  --bg:#030508;--surface:rgba(255,255,255,0.04);--surface2:rgba(255,255,255,0.07);
+  --border:rgba(245,200,66,0.2);--border2:rgba(255,255,255,0.09);
+  --text:#F0EDE8;--muted:rgba(240,237,232,0.45);
+  --glass-blur:blur(24px) saturate(180%);
+  --shadow-gold:0 0 40px rgba(245,200,66,0.18);
+  --glow:rgba(245,200,66,0.28);
+  --accent-green:#22C55E;--accent-cyan:#06B6D4;
+  --google-blue:#4285F4;--wiki-teal:#00A896;--duck-orange:#DE5833;
+  --radius:20px;
+}
+[data-theme="light"]{
+  --bg:#F0EDE8;--surface:rgba(0,0,0,0.04);--surface2:rgba(0,0,0,0.07);
+  --border:rgba(200,160,40,0.28);--border2:rgba(0,0,0,0.08);
+  --text:#1A1410;--muted:rgba(26,20,16,0.5);
+  --shadow-gold:0 0 40px rgba(200,160,40,0.1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow:hidden;min-height:100vh;transition:background 0.4s,color 0.4s}
+#bgCanvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+.glass{background:var(--surface);backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);border:1px solid var(--border2);transition:all 0.3s}
+.glass-gold{background:rgba(245,200,66,0.06);backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);border:1px solid var(--border);box-shadow:var(--shadow-gold)}
+.glass-intense{background:rgba(6,8,18,0.93);backdrop-filter:blur(40px) saturate(220%);-webkit-backdrop-filter:blur(40px) saturate(220%);border:1px solid var(--border);box-shadow:0 30px 80px rgba(0,0,0,0.65),var(--shadow-gold)}
+[data-theme="light"] .glass-intense{background:rgba(248,246,242,0.97)}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(245,200,66,0.3);border-radius:10px}
+.app{position:relative;z-index:1;height:100vh;display:flex;flex-direction:column}
+
+/* ════ LANDING PAGE ════ */
+.landing{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;padding:20px;position:relative;overflow:hidden}
+@keyframes fadeUp{from{opacity:0;transform:translateY(36px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+/* ── Cosmos orbit rings ── */
+.hero-orbit{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.orbit-ring{position:absolute;border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%)}
+.orbit-ring:nth-child(1){width:300px;height:300px;border:1px solid rgba(245,200,66,0.14);animation:orbitSpin 22s linear infinite}
+.orbit-ring:nth-child(2){width:460px;height:460px;border:1px solid rgba(240,112,48,0.09);animation:orbitSpin 34s linear infinite reverse}
+.orbit-ring:nth-child(3){width:640px;height:640px;border:1px solid rgba(245,200,66,0.06);animation:orbitSpin 48s linear infinite}
+.orbit-ring:nth-child(4){width:850px;height:850px;border:1px solid rgba(100,50,200,0.05);animation:orbitSpin 65s linear infinite reverse}
+.orbit-dot{position:absolute;width:8px;height:8px;border-radius:50%;background:var(--gold);top:-4px;left:50%;margin-left:-4px;box-shadow:0 0 14px var(--gold),0 0 30px rgba(245,200,66,0.5)}
+.orbit-dot.orange{background:var(--orange);box-shadow:0 0 14px var(--orange)}
+@keyframes orbitSpin{from{transform:translate(-50%,-50%) rotate(0deg)}to{transform:translate(-50%,-50%) rotate(360deg)}}
+
+/* ── Aurora glow ── */
+.aurora{position:absolute;pointer-events:none;border-radius:50%;filter:blur(80px);opacity:0.12;animation:auroraPulse 8s ease-in-out infinite}
+.aurora-1{width:600px;height:300px;background:radial-gradient(ellipse,#F5C842,transparent);top:10%;left:-15%;animation-delay:0s}
+.aurora-2{width:500px;height:250px;background:radial-gradient(ellipse,#F07030,transparent);bottom:10%;right:-10%;animation-delay:3s}
+.aurora-3{width:400px;height:200px;background:radial-gradient(ellipse,#6B21A8,transparent);top:50%;left:50%;transform:translate(-50%,-50%);animation-delay:6s}
+@keyframes auroraPulse{0%,100%{opacity:0.08;transform:scale(1)}50%{opacity:0.18;transform:scale(1.15)}}
+
+/* ── BHUJI Logo ── */
+.bhuji-logo-wrap{position:relative;width:160px;height:160px;margin:0 auto 28px;animation:fadeUp 1s ease-out;z-index:2}
+.bhuji-hex-ring{position:absolute;inset:0;animation:spinGold 15s linear infinite}
+.bhuji-hex-ring-2{position:absolute;inset:12px;animation:spinGold 10s linear infinite reverse}
+.bhuji-logo-core{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.bhuji-icon-svg{width:80px;height:80px;filter:drop-shadow(0 0 20px rgba(245,200,66,0.9)) drop-shadow(0 0 50px rgba(245,200,66,0.5));animation:iconPulse 3s ease-in-out infinite}
+@keyframes spinGold{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes iconPulse{0%,100%{filter:drop-shadow(0 0 16px rgba(245,200,66,0.6)) drop-shadow(0 0 40px rgba(245,200,66,0.3))}50%{filter:drop-shadow(0 0 30px rgba(245,200,66,1)) drop-shadow(0 0 70px rgba(245,200,66,0.7))}}
+
+.hero-title{font-family:'Syne',sans-serif;font-size:clamp(5rem,14vw,10rem);font-weight:800;background:linear-gradient(135deg,#fff 0%,var(--gold) 30%,var(--orange) 65%,#FF6B35 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-0.02em;line-height:1;animation:fadeUp 0.9s ease-out,glowPulse 3s ease-in-out infinite alternate}
+@keyframes glowPulse{from{filter:drop-shadow(0 0 24px rgba(245,200,66,0.3))}to{filter:drop-shadow(0 0 70px rgba(245,200,66,0.9))}}
+.hero-sub{font-family:'Space Grotesk',sans-serif;font-size:clamp(1rem,2.5vw,1.5rem);color:var(--gold);letter-spacing:0.24em;text-transform:uppercase;margin-top:8px;margin-bottom:4px;animation:fadeUp 1s ease-out 0.2s both}
+.hero-tag{color:var(--muted);font-style:italic;font-size:0.92rem;margin-bottom:28px;animation:fadeUp 1s ease-out 0.3s both}
+.badge-row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:36px}
+.badge{display:inline-flex;align-items:center;gap:7px;padding:8px 16px;border-radius:999px;border:1px solid var(--border);background:var(--surface);backdrop-filter:blur(12px);color:var(--gold);font-size:0.84rem;font-weight:600;font-family:'Space Grotesk',sans-serif;transition:all 0.3s;animation:floatBadge 3s ease-in-out infinite,fadeUp 0.8s ease-out both}
+.badge:nth-child(1){animation-delay:0.1s}.badge:nth-child(2){animation-delay:0.2s}.badge:nth-child(3){animation-delay:0.3s}.badge:nth-child(4){animation-delay:0.4s}.badge:nth-child(5){animation-delay:0.5s}.badge:nth-child(6){animation-delay:0.6s}.badge:nth-child(7){animation-delay:0.7s}.badge:nth-child(8){animation-delay:0.8s}.badge:nth-child(9){animation-delay:0.9s}
+@keyframes floatBadge{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.badge:hover{background:var(--surface2);border-color:var(--gold);transform:translateY(-4px) scale(1.06);box-shadow:0 8px 24px rgba(245,200,66,0.2)}
+.cta-btn{background:linear-gradient(135deg,var(--gold),var(--orange));color:#060810;border:none;padding:18px 64px;border-radius:999px;font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;box-shadow:0 10px 50px rgba(245,200,66,0.55),0 0 0 1px rgba(255,255,255,0.1);transition:all 0.35s;position:relative;overflow:hidden;animation:fadeUp 0.8s ease-out 0.7s both}
+.cta-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.28),transparent);opacity:0;transition:opacity 0.3s}
+.cta-btn::after{content:'';position:absolute;inset:-2px;border-radius:999px;background:linear-gradient(135deg,var(--gold),var(--orange));z-index:-1;filter:blur(12px);opacity:0.6;animation:btnGlow 2.5s ease-in-out infinite alternate}
+@keyframes btnGlow{from{filter:blur(12px);opacity:0.5}to{filter:blur(20px);opacity:0.9}}
+.cta-btn:hover{transform:translateY(-5px) scale(1.05);box-shadow:0 22px 70px rgba(245,200,66,0.75)}
+.cta-btn:hover::before{opacity:1}
+
+/* ── Draggable Controls ── */
+.drag-ctrl{position:fixed;z-index:1002;border-radius:999px;cursor:move;display:flex;align-items:center;justify-content:center;gap:8px;user-select:none;transition:box-shadow 0.3s,transform 0.2s}
+.drag-ctrl:hover{transform:scale(1.08)}
+.drag-ctrl.dragging{cursor:grabbing;transform:scale(1.15) rotate(6deg);z-index:10000}
+#themeCtrl{top:20px;right:20px;width:56px;height:56px}
+#langCtrl{top:90px;right:20px;padding:10px 18px;height:46px;min-width:120px}
+.ctrl-icon{width:24px;height:24px;fill:var(--gold);pointer-events:none}
+.ctrl-text{color:var(--gold);font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:0.85rem;pointer-events:none}
+
+/* ── Language ── */
+#langDropdown{position:fixed;top:148px;right:20px;width:360px;max-width:calc(100vw - 40px);max-height:70vh;overflow-y:auto;border-radius:20px;padding:20px;z-index:1001;animation:dropIn 0.3s cubic-bezier(.4,0,.2,1)}
+@keyframes dropIn{from{opacity:0;transform:translateY(-16px) scale(0.96)}to{opacity:1;transform:none}}
+.lang-search-input{width:100%;padding:10px 14px;border-radius:12px;background:var(--surface2);border:1px solid var(--border);color:var(--text);font-size:0.9rem;outline:none;margin-bottom:14px;transition:border-color 0.2s}
+.lang-search-input:focus{border-color:var(--gold)}
+.lang-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px}
+.lang-opt{padding:10px 12px;border-radius:12px;background:var(--surface);border:1px solid var(--border2);cursor:pointer;text-align:center;transition:all 0.25s;font-size:0.85rem;color:var(--text)}
+.lang-opt:hover{background:var(--surface2);border-color:var(--gold);transform:translateY(-2px)}
+.lang-opt.active{background:linear-gradient(135deg,rgba(245,200,66,0.2),rgba(232,160,32,0.15));border-color:var(--gold);color:var(--gold)}
+
+/* ── Translation Overlay ── */
+.trans-overlay{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.92);backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:center;animation:fadeIn 0.3s ease}
+.trans-card{text-align:center;padding:40px;border-radius:28px;min-width:380px}
+.trans-title{color:var(--gold);font-family:'Syne',sans-serif;font-size:1.8rem;margin-bottom:20px}
+.trans-bar{height:6px;background:rgba(245,200,66,0.15);border-radius:99px;overflow:hidden;margin:16px 0}
+.trans-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--orange));border-radius:99px;transition:width 0.3s ease}
+.trans-step{padding:10px;margin:5px 0;border-radius:10px;background:var(--surface);color:var(--muted);font-size:0.9rem;transition:all 0.3s}
+.trans-step.active{background:rgba(245,200,66,0.12);border-left:3px solid var(--gold);color:var(--gold);font-weight:700}
+.trans-step.done{color:var(--accent-green)}
+
+/* ── Modals ── */
+.modal-overlay{position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,0.88);backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:center;padding:16px;animation:fadeIn 0.25s ease}
+.modal{border-radius:28px;padding:40px;max-width:580px;width:100%;max-height:92vh;overflow-y:auto;position:relative;animation:modalIn 0.35s cubic-bezier(.4,0,.2,1)}
+.modal.wide{max-width:820px}
+@keyframes modalIn{from{opacity:0;transform:translateY(-40px) scale(0.94)}to{opacity:1;transform:none}}
+.modal-close{position:absolute;top:16px;right:16px;width:36px;height:36px;border-radius:50%;background:rgba(255,50,50,0.1);border:1px solid rgba(255,50,50,0.25);color:#FF6B6B;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;z-index:10}
+.modal-close:hover{transform:rotate(90deg) scale(1.2);background:rgba(255,50,50,0.2)}
+.modal-title{font-family:'Syne',sans-serif;font-size:1.9rem;color:var(--gold);text-align:center;margin-bottom:28px}
+
+/* ── Form ── */
+.inp{width:100%;padding:14px 16px;margin-bottom:14px;background:var(--surface2);border:1px solid var(--border2);border-radius:14px;color:var(--text);font-size:0.97rem;font-family:'DM Sans',sans-serif;outline:none;transition:border-color 0.25s,box-shadow 0.25s}
+.inp:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(245,200,66,0.12)}
+textarea.inp{resize:vertical;min-height:80px}
+.sel{width:100%;padding:13px 16px;margin-bottom:14px;background:var(--surface2);border:1px solid var(--border2);border-radius:14px;color:var(--text);font-size:0.97rem;outline:none;cursor:pointer}
+.sel:focus{border-color:var(--gold)}
+.btn-primary{width:100%;padding:15px 18px;background:linear-gradient(135deg,var(--gold),var(--orange));border:none;border-radius:14px;color:#060810;font-size:1.05rem;font-weight:700;font-family:'Space Grotesk',sans-serif;cursor:pointer;transition:all 0.3s;box-shadow:0 6px 24px rgba(245,200,66,0.35)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 36px rgba(245,200,66,0.5)}
+.btn-primary:disabled{opacity:0.5;cursor:not-allowed;transform:none}
+.btn-ghost{padding:12px 20px;border-radius:14px;background:var(--surface);border:1px solid var(--border2);color:var(--gold);font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:0.95rem;cursor:pointer;transition:all 0.3s}
+.btn-ghost:hover{background:var(--surface2);border-color:var(--gold);transform:translateY(-1px)}
+.auth-link{text-align:center;margin-top:14px;color:var(--muted);font-size:0.9rem}
+.auth-link button{background:none;border:none;color:var(--gold);cursor:pointer;text-decoration:underline;font:inherit}
+.err{color:#FF7070;font-size:0.88rem;padding:10px 14px;background:rgba(255,50,50,0.08);border-radius:10px;margin-bottom:12px}
+.suc{color:#22C55E;font-size:0.88rem;padding:10px 14px;background:rgba(34,197,94,0.08);border-radius:10px;margin-bottom:12px}
+
+/* ── Main UI ── */
+.main-ui{display:flex;flex-direction:column;height:100vh;max-width:1440px;margin:0 auto;width:100%}
+.app-header{padding:14px 24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;border-bottom:1px solid var(--border2);backdrop-filter:var(--glass-blur);background:rgba(3,5,8,0.85);flex-shrink:0}
+[data-theme="light"] .app-header{background:rgba(240,237,232,0.92)}
+.header-left{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.logo-text{font-family:'Syne',sans-serif;font-size:1.75rem;font-weight:800;background:linear-gradient(135deg,var(--gold),var(--orange));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;cursor:pointer;transition:filter 0.3s;display:flex;align-items:center;gap:8px}
+.logo-text:hover{filter:drop-shadow(0 0 18px rgba(245,200,66,0.7))}
+.logo-hex-sm{width:32px;height:32px;flex-shrink:0}
+.creator-pill{display:flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;background:var(--surface);border:1px solid var(--border2);color:var(--gold);font-size:0.82rem;font-weight:600}
+.mode-tabs{display:flex;gap:6px;padding:6px;background:var(--surface);border-radius:14px;border:1px solid var(--border2);flex-wrap:wrap}
+.mode-tab{padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:700;font-family:'Space Grotesk',sans-serif;font-size:0.84rem;color:var(--muted);border:1px solid transparent;display:inline-flex;align-items:center;gap:6px;transition:all 0.25s;user-select:none;white-space:nowrap}
+.mode-tab:hover:not(.locked){color:var(--gold);border-color:var(--border)}
+.mode-tab.active{background:var(--surface2);color:var(--gold);border-color:var(--border);box-shadow:0 0 16px rgba(245,200,66,0.14)}
+.mode-tab.locked{opacity:0.5;cursor:not-allowed}
+.plan-badge{background:linear-gradient(135deg,var(--gold),var(--orange));color:#000;font-size:0.65rem;padding:2px 6px;border-radius:6px;font-weight:900}
+.header-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.user-pill{display:flex;align-items:center;gap:10px;padding:8px 14px;border-radius:999px;background:var(--surface);border:1px solid var(--border2)}
+.user-avatar{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--orange));display:flex;align-items:center;justify-content:center;color:#000;font-weight:900;font-size:0.95rem;font-family:'Space Grotesk',sans-serif}
+.user-name-label{color:var(--gold);font-weight:700;font-size:0.9rem;font-family:'Space Grotesk',sans-serif}
+.hdr-btn{padding:8px 13px;border-radius:12px;background:var(--surface);border:1px solid var(--border2);color:var(--gold);font-weight:700;font-family:'Space Grotesk',sans-serif;font-size:0.85rem;cursor:pointer;transition:all 0.25s;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.hdr-btn:hover{background:var(--surface2);border-color:var(--border);transform:translateY(-1px)}
+.hdr-btn.icon-only{width:38px;height:38px;padding:0;justify-content:center;border-radius:10px}
+.hdr-btn.garud-glow{background:rgba(245,200,66,0.1);border-color:var(--gold);animation:pulseGlow 2.5s ease-in-out infinite}
+.hdr-btn.card-glow{background:rgba(255,100,200,0.1);border-color:rgba(255,100,200,0.5);color:#FF64C8;animation:cardPulse 2.5s ease-in-out infinite}
+@keyframes pulseGlow{0%,100%{box-shadow:0 0 8px rgba(245,200,66,0.2)}50%{box-shadow:0 0 28px rgba(245,200,66,0.5)}}
+@keyframes cardPulse{0%,100%{box-shadow:0 0 8px rgba(255,100,200,0.2)}50%{box-shadow:0 0 28px rgba(255,100,200,0.5)}}
+
+/* ── Chat ── */
+.chat-scroll{flex:1;overflow-y:auto;padding:28px 24px;display:flex;flex-direction:column;gap:18px}
+.msg{display:flex;align-items:flex-start;gap:12px;animation:msgIn 0.4s cubic-bezier(.4,0,.2,1) both}
+@keyframes msgIn{from{opacity:0;transform:translateY(14px) scale(0.98)}to{opacity:1;transform:none}}
+.msg.user{justify-content:flex-end}
+.msg-bubble{max-width:84%;padding:20px 24px;border-radius:20px;line-height:1.85;transition:transform 0.3s,box-shadow 0.3s}
+.msg-bubble:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,0.25)}
+.msg.user .msg-bubble{background:linear-gradient(135deg,var(--gold),var(--orange));color:#060810;font-weight:600;box-shadow:0 6px 24px rgba(245,200,66,0.35);border:1px solid rgba(255,255,255,0.15)}
+.msg.assistant .msg-bubble{background:var(--surface);backdrop-filter:var(--glass-blur);border:1px solid var(--border2);color:var(--text)}
+.msg-bubble h3{color:var(--gold);margin:18px 0 12px;font-size:1.25rem;font-family:'Space Grotesk',sans-serif;font-weight:700;border-bottom:1px solid var(--border);padding-bottom:8px}
+.msg-bubble h4{color:var(--orange);margin:14px 0 10px;font-size:1.05rem;font-weight:700}
+.msg-bubble p{margin:12px 0}
+.msg-bubble ul{margin:12px 0 12px 24px}
+.msg-bubble li{margin:6px 0}
+.msg-bubble strong{color:var(--gold);font-weight:700}
+.msg-bubble a{color:var(--gold);text-decoration:underline}
+
+/* ── Answer blocks ── */
+.ans-block{background:rgba(245,200,66,0.06);border-left:3px solid var(--gold);padding:18px;margin:14px 0;border-radius:12px}
+.ans-block h3{color:var(--gold);font-family:'Space Grotesk',sans-serif;font-size:1.15rem;margin-bottom:10px}
+.src-google{background:rgba(66,133,244,0.08);border-left:3px solid var(--google-blue);padding:16px;margin:14px 0;border-radius:12px}
+.src-wiki{background:rgba(0,168,150,0.08);border-left:3px solid var(--wiki-teal);padding:16px;margin:14px 0;border-radius:12px}
+.src-duck{background:rgba(222,88,51,0.08);border-left:3px solid var(--duck-orange);padding:16px;margin:14px 0;border-radius:12px}
+.src-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:999px;font-size:0.8rem;font-weight:700;font-family:'Space Grotesk',sans-serif;border:1px solid;margin:4px 4px 4px 0}
+.sb-google{border-color:var(--google-blue);color:var(--google-blue);background:rgba(66,133,244,0.08)}
+.sb-wiki{border-color:var(--wiki-teal);color:var(--wiki-teal);background:rgba(0,168,150,0.08)}
+.sb-duck{border-color:var(--duck-orange);color:var(--duck-orange);background:rgba(222,88,51,0.08)}
+.src-link{display:block;text-decoration:none;color:var(--text);padding:14px 16px;margin:8px 0;background:var(--surface);border:1px solid var(--border2);border-radius:14px;transition:all 0.25s}
+.src-link:hover{background:var(--surface2);border-color:var(--gold);transform:translateX(6px)}
+.src-link-title{font-weight:700;color:var(--gold);font-size:0.95rem;margin-bottom:6px}
+.src-link-url{font-size:0.78rem;color:var(--muted);margin-bottom:6px;word-break:break-all}
+.src-link-snip{font-size:0.88rem;line-height:1.6;color:var(--text)}
+.res-item{background:var(--surface);border:1px solid var(--border2);border-radius:12px;padding:14px;margin:8px 0;transition:all 0.25s}
+.res-item:hover{background:var(--surface2);border-color:var(--border)}
+.res-title{font-weight:700;color:var(--gold);font-family:'Space Grotesk',sans-serif;margin-bottom:8px}
+.res-snip{font-size:0.9rem;line-height:1.65;margin-bottom:6px}
+.res-url{font-size:0.78rem;color:var(--muted);font-style:italic}
+.followup-strip{margin-top:20px;padding-top:20px;border-top:1px solid var(--border2)}
+.followup-label{font-size:0.9rem;color:var(--muted);margin-bottom:12px}
+.followup-btns{display:flex;gap:10px;flex-wrap:wrap}
+.followup-btn{padding:10px 20px;border-radius:999px;background:linear-gradient(135deg,var(--gold),var(--orange));border:none;color:#000;font-weight:700;font-family:'Space Grotesk',sans-serif;font-size:0.88rem;cursor:pointer;transition:all 0.25s;box-shadow:0 4px 16px rgba(245,200,66,0.3)}
+.followup-btn:hover{transform:translateY(-2px) scale(1.04);box-shadow:0 8px 24px rgba(245,200,66,0.5)}
+.followup-btn.ghost{background:var(--surface);border:1px solid var(--border);color:var(--gold);box-shadow:none}
+.followup-btn.ghost:hover{background:var(--surface2)}
+.typing-dots{display:flex;gap:6px;padding:10px 6px}
+.typing-dot{width:9px;height:9px;background:var(--gold);border-radius:50%;animation:typingBounce 1.3s infinite;box-shadow:0 0 8px var(--gold)}
+.typing-dot:nth-child(2){animation-delay:.18s}.typing-dot:nth-child(3){animation-delay:.36s}
+@keyframes typingBounce{0%,60%,100%{opacity:.25;transform:scale(.8)}30%{opacity:1;transform:scale(1.3)}}
+.stream-cur{display:inline-block;width:7px;height:18px;background:var(--gold);border-radius:2px;margin-left:3px;vertical-align:middle;animation:cursorBlink .9s infinite}
+@keyframes cursorBlink{0%,100%{opacity:1}50%{opacity:0}}
+
+/* ── Input area ── */
+.input-area{border-top:1px solid var(--border2);padding:18px 24px;background:rgba(3,5,8,0.85);backdrop-filter:var(--glass-blur);flex-shrink:0}
+[data-theme="light"] .input-area{background:rgba(240,237,232,0.92)}
+.file-mode-row{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.file-mode-btn{padding:8px 14px;border-radius:10px;background:var(--surface);border:1px solid var(--border2);color:var(--muted);font-size:0.85rem;font-weight:700;font-family:'Space Grotesk',sans-serif;cursor:pointer;transition:all 0.25s}
+.file-mode-btn:hover,.file-mode-btn.active{background:var(--surface2);border-color:var(--gold);color:var(--gold)}
+.file-preview-strip{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:12px;background:var(--surface);border:1px solid var(--border2);margin-bottom:12px}
+.file-preview-name{color:var(--gold);font-weight:700;font-size:0.9rem}
+.file-preview-size{color:var(--muted);font-size:0.78rem}
+.file-rm-btn{background:rgba(255,50,50,0.1);border:1px solid rgba(255,50,50,0.25);color:#FF6B6B;padding:6px 10px;border-radius:8px;cursor:pointer;font-size:0.8rem;font-weight:700;transition:all 0.2s}
+.file-rm-btn:hover{background:rgba(255,50,50,0.2)}
+.input-row{display:flex;gap:12px;align-items:center;background:var(--surface);border:1px solid var(--border2);border-radius:24px;padding:8px 12px;transition:border-color 0.25s,box-shadow 0.25s}
+.input-row:focus-within{border-color:var(--gold);box-shadow:0 0 0 3px rgba(245,200,66,0.1)}
+#msgInput{flex:1;background:none;border:none;outline:none;color:var(--text);font-size:1rem;font-family:'DM Sans',sans-serif;padding:10px 8px}
+#msgInput::placeholder{color:var(--muted)}
+.file-upload-wrap{position:relative;width:40px;height:40px;background:var(--surface);border:1px solid var(--border2);border-radius:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:1.2rem;transition:all 0.25s}
+.file-upload-wrap:hover{background:var(--surface2);border-color:var(--gold)}
+.file-upload-wrap input{position:absolute;inset:0;opacity:0;cursor:pointer}
+#sendBtn{background:linear-gradient(135deg,var(--gold),var(--orange));color:#060810;border:none;padding:12px 26px;border-radius:18px;cursor:pointer;font-weight:900;font-family:'Space Grotesk',sans-serif;font-size:0.95rem;box-shadow:0 4px 18px rgba(245,200,66,0.4);transition:all 0.3s}
+#sendBtn:hover:not(:disabled){transform:scale(1.06);box-shadow:0 8px 28px rgba(245,200,66,0.6)}
+#sendBtn:disabled{opacity:0.5;cursor:not-allowed;transform:none}
+#stopBtn{background:linear-gradient(135deg,#FF6B6B,#FF4757);color:#fff;border:none;padding:12px 26px;border-radius:18px;cursor:pointer;font-weight:900;font-family:'Space Grotesk',sans-serif;font-size:0.95rem;display:flex;align-items:center;gap:8px}
+.stop-sq{width:14px;height:14px;background:#fff;border-radius:3px}
+.voice-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:10px}
+.voice-pill{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;border:1px solid var(--border2);background:var(--surface);color:var(--gold);font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:0.85rem;cursor:pointer;transition:all 0.25s}
+.voice-pill.active{background:var(--surface2);border-color:var(--gold)}
+.voice-sel{padding:8px 12px;border-radius:12px;background:var(--surface);border:1px solid var(--border2);color:var(--text);font-size:0.88rem;outline:none;cursor:pointer}
+.status-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:10px}
+.status-note{font-size:0.83rem;color:var(--muted)}
+.api-status-badge{display:inline-flex;align-items:center;gap:5px;font-size:0.82rem;color:var(--muted);padding:4px 12px;border-radius:999px;background:var(--surface);border:1px solid var(--border2)}
+.api-status-badge.active{color:var(--accent-green);border-color:var(--accent-green)}
+.dl-btn{background:rgba(245,200,66,0.1);border:1px solid var(--border);color:var(--gold);padding:10px 16px;border-radius:12px;cursor:pointer;font-weight:700;font-family:'Space Grotesk',sans-serif;font-size:0.88rem;transition:all 0.25s;margin-top:12px}
+.dl-btn:hover{background:var(--surface2);transform:translateY(-2px)}
+.dl-btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+
+/* ── GARUD ── */
+.doc-type-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:12px;margin-bottom:24px}
+.doc-type-card{padding:18px 14px;border-radius:18px;background:var(--surface);border:1px solid var(--border2);cursor:pointer;text-align:center;transition:all 0.3s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden}
+.doc-type-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(245,200,66,0.06),transparent);opacity:0;transition:opacity 0.3s}
+.doc-type-card:hover{background:var(--surface2);border-color:var(--gold);transform:translateY(-5px);box-shadow:0 12px 36px rgba(245,200,66,0.18)}
+.doc-type-card:hover::before{opacity:1}
+.doc-type-card.selected{background:rgba(245,200,66,0.1);border-color:var(--gold);box-shadow:0 0 28px rgba(245,200,66,0.22)}
+.doc-type-card.excel-card{border-color:rgba(33,115,70,0.4)}
+.doc-type-card.excel-card:hover{border-color:#22C55E;box-shadow:0 12px 36px rgba(33,197,94,0.2)}
+.doc-type-card.excel-card.selected{background:rgba(33,197,94,0.1);border-color:#22C55E}
+.doc-type-icon{font-size:2rem;display:block;margin-bottom:10px}
+.doc-type-name{color:var(--gold);font-weight:700;font-family:'Space Grotesk',sans-serif;font-size:0.92rem}
+.doc-type-card.excel-card .doc-type-name{color:#22C55E}
+.doc-type-desc{color:var(--muted);font-size:0.76rem;margin-top:4px}
+.garud-step{display:none}
+.garud-step.active{display:block;animation:fadeUp 0.3s ease}
+.step-dots{display:flex;gap:8px;margin-bottom:20px;align-items:center}
+.step-dot{width:10px;height:10px;border-radius:50%;background:var(--border);transition:all 0.3s}
+.step-dot.active{background:var(--gold);box-shadow:0 0 8px var(--gold);transform:scale(1.3)}
+.step-dot.done{background:var(--accent-green)}
+.form-label{color:var(--gold);font-weight:700;font-family:'Space Grotesk',sans-serif;font-size:0.88rem;display:block;margin-bottom:6px;margin-top:4px}
+.skills-area{display:flex;flex-wrap:wrap;gap:6px;padding:10px;background:var(--surface2);border:1px solid var(--border2);border-radius:12px;min-height:46px;cursor:text;transition:border-color 0.25s;margin-bottom:14px}
+.skills-area:focus-within{border-color:var(--gold)}
+.skill-chip{display:inline-flex;align-items:center;gap:5px;background:rgba(245,200,66,0.12);border:1px solid var(--border);color:var(--gold);padding:4px 10px;border-radius:999px;font-size:0.82rem;font-weight:700}
+.skill-chip .rm{cursor:pointer;opacity:0.7;font-size:0.9rem}
+.skill-chip .rm:hover{opacity:1}
+.skill-txt{background:none;border:none;color:var(--text);font-size:0.9rem;outline:none;min-width:120px}
+.nav-btns{display:flex;gap:12px;margin-top:18px}
+.nav-btn-back{flex:1}.nav-btn-go{flex:2}
+.doc-preview-card{background:linear-gradient(135deg,rgba(245,200,66,0.08),rgba(232,160,32,0.05));border:1px solid var(--border);border-radius:20px;padding:24px;margin-bottom:20px;box-shadow:var(--shadow-gold)}
+.doc-preview-header{font-size:1.2rem;font-weight:700;color:var(--gold);font-family:'Space Grotesk',sans-serif;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.doc-preview-content{font-size:0.9rem;line-height:1.9;color:var(--text);white-space:pre-wrap;max-height:320px;overflow-y:auto;background:rgba(0,0,0,0.2);border-radius:12px;padding:16px}
+[data-theme="light"] .doc-preview-content{background:rgba(0,0,0,0.04)}
+.excel-preview-table{width:100%;border-collapse:collapse;font-size:0.85rem;margin-top:10px;overflow:auto;display:block;max-height:300px}
+.excel-preview-table th{background:rgba(33,197,94,0.15);color:#22C55E;font-weight:700;font-family:'Space Grotesk',sans-serif;padding:10px 12px;text-align:left;border:1px solid rgba(33,197,94,0.2);position:sticky;top:0}
+.excel-preview-table td{padding:8px 12px;border:1px solid var(--border2);color:var(--text)}
+.excel-preview-table tr:nth-child(even) td{background:rgba(255,255,255,0.02)}
+.excel-col-controls{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.excel-col-tag{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:8px;background:rgba(33,197,94,0.1);border:1px solid rgba(33,197,94,0.3);color:#22C55E;font-size:0.82rem;font-weight:700}
+.excel-col-tag .rm{cursor:pointer;opacity:0.7}
+.excel-col-tag .rm:hover{opacity:1}
+.excel-add-btn{padding:7px 14px;border-radius:8px;background:rgba(33,197,94,0.12);border:1px solid rgba(33,197,94,0.3);color:#22C55E;font-size:0.85rem;font-weight:700;cursor:pointer;transition:all 0.2s}
+.excel-add-btn:hover{background:rgba(33,197,94,0.2)}
+.star-row{display:flex;gap:10px;justify-content:center;margin:18px 0}
+.star-btn{font-size:2.2rem;cursor:pointer;border:none;background:none;opacity:0.35;transition:all 0.2s}
+.star-btn:hover,.star-btn.active{opacity:1;transform:scale(1.3)}
+.plan-card{background:var(--surface);border:1px solid var(--border2);border-radius:20px;padding:22px;margin-bottom:18px}
+.plan-card.featured{border-color:var(--gold);box-shadow:var(--shadow-gold)}
+.plan-name{color:var(--gold);font-weight:700;font-size:1.1rem;margin-bottom:10px}
+.plan-feat{color:var(--muted);font-size:0.88rem;margin:5px 0}
+.plan-feat strong{color:var(--text)}
+.hidden{display:none!important}
+.dl-btn-excel{background:rgba(33,197,94,0.1);border:1px solid rgba(33,197,94,0.35);color:#22C55E;padding:12px 20px;border-radius:12px;cursor:pointer;font-weight:700;font-family:'Space Grotesk',sans-serif;font-size:0.9rem;transition:all 0.25px;display:inline-flex;align-items:center;gap:8px}
+.dl-btn-excel:hover{background:rgba(33,197,94,0.18);transform:translateY(-2px)}
+
+/* ══════════════════════════════════════════════
+   DIGITAL CARDS MODULE — ENHANCED
+   ══════════════════════════════════════════════ */
+#cardBuilderModal .modal{max-width:1200px;width:96vw;max-height:95vh;padding:0;overflow:hidden;border-radius:28px;display:flex;flex-direction:column}
+.cb-header{padding:20px 28px;border-bottom:1px solid var(--border2);display:flex;align-items:center;justify-content:space-between;background:rgba(3,5,8,0.92);flex-shrink:0}
+.cb-title{font-family:'Syne',sans-serif;font-size:1.6rem;color:var(--gold)}
+.cb-body{display:flex;flex:1;overflow:hidden}
+.cb-sidebar{width:260px;min-width:220px;border-right:1px solid var(--border2);overflow-y:auto;flex-shrink:0;background:rgba(3,5,8,0.75)}
+.cb-main{flex:1;overflow-y:auto;background:rgba(6,8,16,0.5)}
+[data-theme="light"] .cb-sidebar{background:rgba(244,241,236,0.85)}
+[data-theme="light"] .cb-main{background:rgba(244,241,236,0.5)}
+.cat-item{display:flex;align-items:center;gap:10px;padding:12px 18px;cursor:pointer;transition:all 0.2s;border-left:3px solid transparent;font-size:0.9rem;color:var(--muted)}
+.cat-item:hover{background:var(--surface);color:var(--text);border-left-color:var(--border)}
+.cat-item.active{background:rgba(245,200,66,0.08);color:var(--gold);border-left-color:var(--gold)}
+.cat-icon{font-size:1.2rem;flex-shrink:0}
+.cb-section-title{padding:20px 24px 12px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.1rem;color:var(--gold)}
+.template-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:16px;padding:0 24px 24px}
+.tpl-card{border-radius:18px;overflow:hidden;cursor:pointer;transition:all 0.3s cubic-bezier(.4,0,.2,1);position:relative;aspect-ratio:3/4;border:2px solid transparent}
+.tpl-card:hover{transform:translateY(-8px) scale(1.03);box-shadow:0 24px 60px rgba(0,0,0,0.6)}
+.tpl-card.selected{border-color:var(--gold);box-shadow:0 0 0 3px rgba(245,200,66,0.35)}
+.tpl-preview{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px;text-align:center;position:relative;overflow:hidden}
+.tpl-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.5);opacity:0;transition:opacity 0.3s;display:flex;align-items:center;justify-content:center;gap:10px;flex-direction:column}
+.tpl-card:hover .tpl-overlay{opacity:1}
+.tpl-action-btn{padding:8px 18px;border-radius:999px;border:1px solid var(--gold);color:var(--gold);background:rgba(0,0,0,0.75);font-size:0.82rem;font-weight:700;cursor:pointer;backdrop-filter:blur(8px);font-family:'Space Grotesk',sans-serif;transition:all 0.2s}
+.tpl-action-btn:hover{background:var(--gold);color:#000}
+.tpl-name{position:absolute;bottom:0;left:0;right:0;padding:10px;background:linear-gradient(transparent,rgba(0,0,0,0.82));color:#fff;font-size:0.82rem;font-weight:700;font-family:'Space Grotesk',sans-serif}
+.tpl-badge{display:inline-block;padding:2px 8px;border-radius:6px;font-size:0.65rem;font-weight:900;font-family:'Space Grotesk',sans-serif;margin-bottom:4px}
+
+/* Card Editor */
+.card-editor-wrap{display:flex;gap:24px;padding:24px;min-height:100%}
+.card-editor-panel{width:340px;min-width:300px;flex-shrink:0;display:flex;flex-direction:column;gap:16px}
+.card-preview-panel{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:16px}
+.editor-section{background:var(--surface);border:1px solid var(--border2);border-radius:16px;padding:16px}
+.editor-section-title{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:0.9rem;color:var(--gold);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.editor-label{font-size:0.82rem;color:var(--muted);display:block;margin-bottom:5px;margin-top:10px}
+.editor-input{width:100%;padding:10px 12px;background:var(--surface2);border:1px solid var(--border2);border-radius:10px;color:var(--text);font-size:0.9rem;outline:none;transition:border-color 0.2s}
+.editor-input:focus{border-color:var(--gold)}
+.editor-textarea{width:100%;padding:10px 12px;background:var(--surface2);border:1px solid var(--border2);border-radius:10px;color:var(--text);font-size:0.9rem;outline:none;resize:vertical;min-height:70px;transition:border-color 0.2s}
+.editor-textarea:focus{border-color:var(--gold)}
+.font-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;max-height:200px;overflow-y:auto}
+.font-btn{padding:8px;border-radius:8px;background:var(--surface2);border:1px solid var(--border2);cursor:pointer;font-size:0.82rem;color:var(--text);text-align:center;transition:all 0.2s}
+.font-btn:hover,.font-btn.active{border-color:var(--gold);color:var(--gold);background:rgba(245,200,66,0.08)}
+.color-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.color-swatch{width:28px;height:28px;border-radius:50%;border:2px solid var(--border2);cursor:pointer;transition:transform 0.2s;flex-shrink:0}
+.color-swatch:hover,.color-swatch.active{transform:scale(1.35);border-color:var(--gold)}
+.bg-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.bg-option{aspect-ratio:3/2;border-radius:8px;cursor:pointer;border:2px solid transparent;transition:all 0.2s;overflow:hidden}
+.bg-option:hover,.bg-option.active{border-color:var(--gold);transform:scale(1.07)}
+.anim-btns{display:flex;gap:6px;flex-wrap:wrap}
+.anim-btn{padding:7px 12px;border-radius:8px;background:var(--surface2);border:1px solid var(--border2);color:var(--muted);font-size:0.8rem;cursor:pointer;transition:all 0.2s;font-family:'Space Grotesk',sans-serif;font-weight:600}
+.anim-btn:hover,.anim-btn.active{border-color:var(--gold);color:var(--gold);background:rgba(245,200,66,0.08)}
+.icon-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;max-height:150px;overflow-y:auto}
+.icon-btn{aspect-ratio:1;border-radius:8px;background:var(--surface2);border:1px solid var(--border2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:var(--muted);transition:all 0.2s}
+.icon-btn:hover{border-color:var(--gold);color:var(--gold);background:rgba(245,200,66,0.08)}
+#liveCardPreview{width:340px;min-height:480px;border-radius:24px;overflow:hidden;position:relative;box-shadow:0 30px 80px rgba(0,0,0,0.65);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:28px}
+.mobile-preview-frame{width:220px;height:420px;border:8px solid #2a2a2a;border-radius:32px;overflow:hidden;box-shadow:0 20px 40px rgba(0,0,0,0.5);position:relative;background:#000}
+.mobile-notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:80px;height:18px;background:#2a2a2a;border-radius:0 0 14px 14px;z-index:2}
+#mobileCardInner{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;overflow:hidden}
+.card-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:16px}
+.card-act-btn{padding:10px 18px;border-radius:12px;font-weight:700;font-family:'Space Grotesk',sans-serif;font-size:0.85rem;cursor:pointer;transition:all 0.25s;display:inline-flex;align-items:center;gap:7px;border:1px solid}
+.cab-dl{background:linear-gradient(135deg,var(--gold),var(--orange));border-color:var(--gold);color:#000}
+.cab-wa{background:linear-gradient(135deg,#25D366,#128C7E);border-color:#25D366;color:#fff}
+.cab-mob{background:var(--surface);border-color:var(--border);color:var(--gold)}
+.cab-save{background:var(--surface2);border-color:var(--border2);color:var(--muted)}
+.card-act-btn:hover{transform:translateY(-2px);filter:brightness(1.12)}
+
+/* ═════════════════ CARD ANIMATIONS ═════════════════ */
+/* Basic */
+.card-anim-fade{animation:cardFadeIn 1.2s ease both}
+@keyframes cardFadeIn{from{opacity:0}to{opacity:1}}
+.card-anim-slide{animation:cardSlideIn 0.9s cubic-bezier(.4,0,.2,1) both}
+@keyframes cardSlideIn{from{opacity:0;transform:translateY(50px)}to{opacity:1;transform:none}}
+.card-anim-zoom{animation:cardZoom 0.8s cubic-bezier(.4,0,.2,1) both}
+@keyframes cardZoom{from{opacity:0;transform:scale(0.7)}to{opacity:1;transform:scale(1)}}
+.card-anim-typewriter .card-typewriter-text{overflow:hidden;border-right:2px solid currentColor;white-space:nowrap;animation:typewrite 3.5s steps(40,end) 0.5s both,blink .75s step-end infinite}
+@keyframes typewrite{from{width:0}to{width:100%}}
+@keyframes blink{0%,100%{border-color:transparent}50%{border-color:currentColor}}
+
+/* Advanced template-specific animations */
+@keyframes shimmerBg{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+@keyframes floatParticle{0%{transform:translateY(110%) rotate(0deg) scale(0);opacity:0}10%{opacity:0.8;transform:translateY(90%) rotate(36deg) scale(1)}50%{opacity:0.5}90%{opacity:0.3}100%{transform:translateY(-10%) rotate(360deg) scale(0.5);opacity:0}}
+@keyframes twinkle{0%,100%{opacity:0.1;transform:scale(0.5)}50%{opacity:1;transform:scale(1)}}
+@keyframes heartBeat{0%,100%{transform:scale(1)}14%{transform:scale(1.3)}28%{transform:scale(1)}42%{transform:scale(1.15)}70%{transform:scale(1)}}
+@keyframes revealText{from{opacity:0;transform:translateY(20px) scale(0.95)}to{opacity:1;transform:none}}
+@keyframes petal{0%{transform:translateY(-20px) rotate(0deg);opacity:0}10%{opacity:1}80%{opacity:0.6}100%{transform:translateY(110%) rotate(360deg) translateX(30px);opacity:0}}
+@keyframes firework{0%{transform:scale(0) rotate(0deg);opacity:1}100%{transform:scale(1.5) rotate(45deg);opacity:0}}
+@keyframes snowfall{0%{transform:translateY(-20px) rotate(0deg)}100%{transform:translateY(110%) rotate(720deg)}}
+@keyframes scanLine{0%{transform:translateY(-100%)}100%{transform:translateY(400%)}}
+@keyframes neonFlicker{0%,100%{text-shadow:0 0 7px currentColor,0 0 10px currentColor,0 0 21px currentColor}50%{text-shadow:0 0 4px currentColor,0 0 7px currentColor}}
+@keyframes glitch{0%,100%{clip-path:inset(0 0 98% 0)}10%{clip-path:inset(10% 0 80% 0)}20%{clip-path:inset(40% 0 55% 0)}30%{clip-path:inset(70% 0 20% 0)}40%{clip-path:inset(20% 0 75% 0)}50%{clip-path:inset(60% 0 35% 0)}60%{clip-path:inset(5% 0 93% 0)}70%{clip-path:inset(85% 0 10% 0)}80%{clip-path:inset(45% 0 52% 0)}90%{clip-path:inset(30% 0 66% 0)}}
+@keyframes rotateIn{from{opacity:0;transform:rotate(-180deg) scale(0.5)}to{opacity:1;transform:rotate(0deg) scale(1)}}
+@keyframes bounceIn{0%{transform:scale(0.3) translateY(-50px);opacity:0}50%{transform:scale(1.05) translateY(5px)}70%{transform:scale(0.95)}100%{transform:scale(1);opacity:1}}
+@keyframes flipIn{from{transform:perspective(400px) rotateX(90deg);opacity:0}to{transform:perspective(400px) rotateX(0deg);opacity:1}}
+@keyframes auroraBg{0%,100%{filter:hue-rotate(0deg) brightness(1)}50%{filter:hue-rotate(60deg) brightness(1.3)}}
+@keyframes crystalShine{0%{box-shadow:inset 0 0 30px rgba(255,255,255,0.05)}50%{box-shadow:inset 0 0 60px rgba(255,255,255,0.18),0 0 40px rgba(255,255,255,0.08)}100%{box-shadow:inset 0 0 30px rgba(255,255,255,0.05)}}
+@keyframes metalSheen{0%{background-position:-200% 0}100%{background-position:200% 0}}
+@keyframes borderGlow{0%,100%{border-color:var(--a);box-shadow:0 0 15px var(--a)}50%{border-color:transparent;box-shadow:0 0 40px var(--a),0 0 80px var(--a)}}
+@keyframes spin20{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+
+/* Particle class helpers */
+.card-particle{position:absolute;border-radius:50%;pointer-events:none;animation:floatParticle linear infinite}
+.card-snowflake{position:absolute;pointer-events:none;animation:snowfall linear infinite;font-size:12px;opacity:0.6}
+.card-petal{position:absolute;pointer-events:none;animation:petal ease-in infinite;border-radius:50% 0;width:8px;height:10px}
+.card-star{position:absolute;pointer-events:none;animation:twinkle ease-in-out infinite}
+
+/* ── Responsive ── */
+@media(max-width:900px){
+  .cb-body{flex-direction:column}
+  .cb-sidebar{width:100%;min-width:unset;border-right:none;border-bottom:1px solid var(--border2);max-height:200px;display:flex;flex-wrap:wrap}
+  .cat-item{padding:8px 12px;font-size:0.8rem}
+  .card-editor-wrap{flex-direction:column}
+  .card-editor-panel{width:100%;min-width:unset}
+}
+@media(max-width:768px){
+  .app-header{padding:12px 16px}
+  .msg-bubble{max-width:92%;padding:16px 18px}
+  .chat-scroll{padding:18px 16px}
+  .doc-type-grid{grid-template-columns:repeat(2,1fr)}
+  .mode-tabs{gap:4px}
+  .mode-tab{padding:7px 9px;font-size:0.78rem}
+  .template-grid{grid-template-columns:repeat(2,1fr)}
+  #liveCardPreview{width:280px;min-height:380px}
+}
+</style>
+</head>
+<body>
+<canvas id="bgCanvas"></canvas>
+
+<!-- Translation Overlay -->
+<div id="transOverlay" class="trans-overlay hidden">
+  <div class="trans-card glass-gold">
+    <div class="trans-title">🌍 Translating...</div>
+    <div class="trans-bar"><div class="trans-fill" id="transFill" style="width:0%"></div></div>
+    <div id="transText" style="color:var(--muted);font-size:0.95rem;margin:10px 0;">Preparing...</div>
+    <div style="margin-top:16px;">
+      <div class="trans-step" id="tstep1">📝 Loading language pack</div>
+      <div class="trans-step" id="tstep2">🔤 Translating interface</div>
+      <div class="trans-step" id="tstep3">💬 Translating messages</div>
+      <div class="trans-step" id="tstep4">✨ Finalizing</div>
+    </div>
+  </div>
+</div>
+
+<!-- Draggable Theme -->
+<button class="drag-ctrl glass-gold" id="themeCtrl" title="Toggle theme">
+  <svg class="ctrl-icon" id="themeIcon" viewBox="0 0 24 24"><path d="M12 17.5C14.76 17.5 17 15.26 17 12.5S14.76 7.5 12 7.5 7 9.74 7 12.5 9.24 17.5 12 17.5ZM12 2l2.39 4.42 4.14 1.05-3.64 3.92.93 5.15L12 14.19l-4.82 2.35.93-5.15L4.47 7.47 8.61 6.42z"/></svg>
+</button>
+
+<!-- Draggable Language -->
+<div class="drag-ctrl glass-gold" id="langCtrl" title="Change language">
+  <svg class="ctrl-icon" viewBox="0 0 24 24" style="width:20px;height:20px;animation:spin20 20s linear infinite"><path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/></svg>
+  <span class="ctrl-text" id="curLangLabel">English</span>
+</div>
+
+<!-- Language Dropdown -->
+<div id="langDropdown" class="glass-intense hidden">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+    <span style="color:var(--gold);font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.2rem;">🌍 Select Language</span>
+    <button class="modal-close" onclick="toggleLangDD()" style="position:static;">×</button>
+  </div>
+  <input type="text" class="lang-search-input" id="langSearch" placeholder="🔍 Search language..." oninput="filterLangs()">
+  <div class="lang-grid" id="langGrid"></div>
+</div>
+
+<div class="app">
+  <!-- LANDING PAGE -->
+  <div id="landingPage" class="landing">
+    <div class="hero-orbit">
+      <div class="orbit-ring"><div class="orbit-dot"></div></div>
+      <div class="orbit-ring"><div class="orbit-dot orange"></div></div>
+      <div class="orbit-ring"><div class="orbit-dot"></div></div>
+      <div class="orbit-ring"><div class="orbit-dot orange"></div></div>
+    </div>
+    <div class="aurora aurora-1"></div>
+    <div class="aurora aurora-2"></div>
+    <div class="aurora aurora-3"></div>
+
+    <!-- Enhanced BHUJI Logo -->
+    <div class="bhuji-logo-wrap">
+      <svg class="bhuji-hex-ring" viewBox="0 0 160 160">
+        <polygon points="80,4 148,42 148,118 80,156 12,118 12,42" fill="none" stroke="url(#hexGrad1)" stroke-width="1.5" opacity="0.7"/>
+        <polygon points="80,14 138,48 138,112 80,146 22,112 22,48" fill="none" stroke="url(#hexGrad1)" stroke-width="1" opacity="0.4"/>
+        <defs>
+          <linearGradient id="hexGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#F5C842"/><stop offset="100%" stop-color="#F07030"/>
+          </linearGradient>
+        </defs>
+        <!-- Orbit dots on hex -->
+        <circle cx="80" cy="4" r="3.5" fill="#F5C842"><animate attributeName="opacity" values="0;1;0" dur="2s" repeatCount="indefinite"/></circle>
+        <circle cx="148" cy="42" r="3" fill="#F07030"><animate attributeName="opacity" values="0;1;0" dur="2.5s" begin="0.5s" repeatCount="indefinite"/></circle>
+        <circle cx="148" cy="118" r="3.5" fill="#F5C842"><animate attributeName="opacity" values="0;1;0" dur="1.8s" begin="1s" repeatCount="indefinite"/></circle>
+        <circle cx="80" cy="156" r="3" fill="#F07030"><animate attributeName="opacity" values="0;1;0" dur="2.2s" begin="1.5s" repeatCount="indefinite"/></circle>
+        <circle cx="12" cy="118" r="3.5" fill="#F5C842"><animate attributeName="opacity" values="0;1;0" dur="2s" begin="0.3s" repeatCount="indefinite"/></circle>
+        <circle cx="12" cy="42" r="3" fill="#F07030"><animate attributeName="opacity" values="0;1;0" dur="2.4s" begin="0.8s" repeatCount="indefinite"/></circle>
+      </svg>
+      <svg class="bhuji-hex-ring-2" viewBox="0 0 136 136">
+        <polygon points="68,5 126,37 126,99 68,131 10,99 10,37" fill="none" stroke="rgba(245,200,66,0.3)" stroke-width="1" stroke-dasharray="6 4"/>
+      </svg>
+      <div class="bhuji-logo-core">
+        <svg class="bhuji-icon-svg" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="cg2" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#fff" stop-opacity="0.95"/>
+              <stop offset="35%" stop-color="#F5C842"/>
+              <stop offset="100%" stop-color="#F07030"/>
+            </radialGradient>
+            <linearGradient id="cg" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#F5C842"/>
+              <stop offset="50%" stop-color="#E8A020"/>
+              <stop offset="100%" stop-color="#F07030"/>
+            </linearGradient>
+          </defs>
+          <!-- Chakra rings -->
+          <circle cx="40" cy="40" r="36" fill="none" stroke="url(#cg)" stroke-width="1.2" opacity="0.5"/>
+          <circle cx="40" cy="40" r="30" fill="none" stroke="url(#cg)" stroke-width="1.8"/>
+          <circle cx="40" cy="40" r="23" fill="none" stroke="url(#cg)" stroke-width="1.5"/>
+          <circle cx="40" cy="40" r="15" fill="none" stroke="url(#cg)" stroke-width="1.5"/>
+          <!-- Spokes -->
+          <line x1="40" y1="4" x2="40" y2="76" stroke="url(#cg)" stroke-width="0.8"/>
+          <line x1="4" y1="40" x2="76" y2="40" stroke="url(#cg)" stroke-width="0.8"/>
+          <line x1="9" y1="9" x2="71" y2="71" stroke="url(#cg)" stroke-width="0.8"/>
+          <line x1="71" y1="9" x2="9" y2="71" stroke="url(#cg)" stroke-width="0.8"/>
+          <line x1="40" y1="4" x2="74" y2="22" stroke="url(#cg)" stroke-width="0.5" opacity="0.5"/>
+          <line x1="40" y1="4" x2="6" y2="22" stroke="url(#cg)" stroke-width="0.5" opacity="0.5"/>
+          <line x1="40" y1="76" x2="74" y2="58" stroke="url(#cg)" stroke-width="0.5" opacity="0.5"/>
+          <line x1="40" y1="76" x2="6" y2="58" stroke="url(#cg)" stroke-width="0.5" opacity="0.5"/>
+          <!-- Center -->
+          <circle cx="40" cy="40" r="8" fill="url(#cg2)"/>
+          <!-- Cardinal dots -->
+          <circle cx="40" cy="10" r="2.5" fill="url(#cg)"/>
+          <circle cx="40" cy="70" r="2.5" fill="url(#cg)"/>
+          <circle cx="10" cy="40" r="2.5" fill="url(#cg)"/>
+          <circle cx="70" cy="40" r="2.5" fill="url(#cg)"/>
+          <circle cx="17" cy="17" r="2" fill="url(#cg)" opacity="0.7"/>
+          <circle cx="63" cy="17" r="2" fill="url(#cg)" opacity="0.7"/>
+          <circle cx="17" cy="63" r="2" fill="url(#cg)" opacity="0.7"/>
+          <circle cx="63" cy="63" r="2" fill="url(#cg)" opacity="0.7"/>
+        </svg>
+      </div>
+    </div>
+
+    <h1 class="hero-title">BHUJI</h1>
+    <h2 class="hero-sub">Complete AI Intelligence</h2>
+    <p class="hero-tag">Inspired by Kalki 2898 AD &bull; Crafted by Himanshu</p>
+    <div class="badge-row">
+      <span class="badge"><i class="fas fa-search"></i> Google Search</span>
+      <span class="badge"><i class="fas fa-book"></i> Wikipedia</span>
+      <span class="badge"><i class="fab fa-github-alt"></i> DuckDuckGo</span>
+      <span class="badge"><i class="fas fa-globe"></i> 50+ Languages</span>
+      <span class="badge"><i class="fas fa-file"></i> File Tools</span>
+      <span class="badge"><i class="fas fa-microphone"></i> Voice AI</span>
+      <span class="badge"><i class="fas fa-scroll"></i> GARUD Docs</span>
+      <span class="badge"><i class="fas fa-table"></i> Excel Builder</span>
+      <span class="badge"><i class="fas fa-heart"></i> Digital Cards</span>
+    </div>
+    <button class="cta-btn" onclick="showAuth()">✨ Begin Your Journey</button>
+    <div style="margin-top:22px;display:flex;gap:20px;justify-content:center;flex-wrap:wrap;animation:fadeUp 0.8s ease-out 1s both">
+      <span style="color:var(--muted);font-size:0.85rem;display:flex;align-items:center;gap:6px;"><i class="fas fa-shield-alt" style="color:var(--gold)"></i> Secure & Private</span>
+      <span style="color:var(--muted);font-size:0.85rem;display:flex;align-items:center;gap:6px;"><i class="fas fa-bolt" style="color:var(--gold)"></i> Real-Time Results</span>
+      <span style="color:var(--muted);font-size:0.85rem;display:flex;align-items:center;gap:6px;"><i class="fas fa-infinity" style="color:var(--gold)"></i> Free to Start</span>
+    </div>
+  </div>
+
+  <!-- MAIN UI -->
+  <div id="mainUI" class="main-ui hidden">
+    <header class="app-header glass">
+      <div class="header-left">
+        <div class="logo-text" onclick="scrollTop()">
+          <svg class="logo-hex-sm" viewBox="0 0 32 32">
+            <defs>
+              <linearGradient id="logoG" x1="0%"y1="0%"x2="100%"y2="100%">
+                <stop offset="0%" stop-color="#F5C842"/><stop offset="100%" stop-color="#F07030"/>
+              </linearGradient>
+            </defs>
+            <polygon points="16,1 29,8.5 29,23.5 16,31 3,23.5 3,8.5" fill="none" stroke="url(#logoG)" stroke-width="1.5"/>
+            <circle cx="16" cy="16" r="5" fill="url(#logoG)" opacity="0.9"/>
+            <line x1="16" y1="3" x2="16" y2="29" stroke="url(#logoG)" stroke-width="0.6" opacity="0.4"/>
+            <line x1="3" y1="16" x2="29" y2="16" stroke="url(#logoG)" stroke-width="0.6" opacity="0.4"/>
+          </svg>
+          BHUJI AI
+        </div>
+        <div class="creator-pill">👨‍💻 by Himanshu</div>
+        <div class="mode-tabs glass">
+          <div class="mode-tab active" data-mode="auto" onclick="selectMode('auto')">✨ Auto</div>
+          <div class="mode-tab" data-mode="bhuj" onclick="selectMode('bhuj')">⚡ BHUJ</div>
+          <div class="mode-tab locked" data-mode="bhuji" onclick="selectMode('bhuji')">🔥 Bhuji <span class="plan-badge">₹49</span></div>
+          <div class="mode-tab locked" data-mode="garud" onclick="selectMode('garud')">🦅 GARUD <span class="plan-badge">₹119</span></div>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="user-pill glass">
+          <div class="user-avatar" id="userAvatar">U</div>
+          <span class="user-name-label" id="userNameLabel">User</span>
+        </div>
+        <button class="hdr-btn icon-only" onclick="toggleVoiceMode()" title="Voice mode"><span id="voiceIcon">🎙</span></button>
+        <button class="hdr-btn card-glow" onclick="openCardBuilder()">💌 Digital Cards</button>
+        <button class="hdr-btn garud-glow" id="docBuilderBtn" onclick="openGarud()" style="display:none;">📋 Build Doc</button>
+        <button class="hdr-btn" onclick="showPricing()">💎 Upgrade</button>
+        <button class="hdr-btn" onclick="showSettings()">⚙️ Settings</button>
+        <button class="hdr-btn" onclick="doLogout()">🚪 Logout</button>
+      </div>
+    </header>
+    <div class="chat-scroll" id="chatArea"></div>
+    <div class="input-area glass">
+      <div id="voiceControls" class="voice-row hidden">
+        <div class="voice-pill" id="micBtn" onclick="toggleMic()">🎤 Mic</div>
+        <div class="voice-pill active" id="speakBtn" onclick="toggleSpeak()">🔊 Speak</div>
+        <select class="voice-sel" onchange="setPersona(this.value)">
+          <option value="BHUJI">BHUJI (Women)</option>
+          <option value="GARUD">GARUD (Men)</option>
+          <option value="BHAIRAVA">BHAIRAVA (Men)</option>
+        </select>
+      </div>
+      <div id="fileModeRow" class="file-mode-row hidden">
+        <button class="file-mode-btn active" data-mode="analyze" onclick="setFileMode('analyze')">📊 Analyze</button>
+        <button class="file-mode-btn" data-mode="to-pdf" onclick="setFileMode('to-pdf')">📄 → PDF</button>
+        <button class="file-mode-btn" data-mode="to-xlsx" onclick="setFileMode('to-xlsx')">📈 → Excel</button>
+        <button class="file-mode-btn" data-mode="pdf-watermark" onclick="setFileMode('pdf-watermark')">🔖 Watermark</button>
+      </div>
+      <div id="filePreviewStrip" class="file-preview-strip hidden">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-size:1.3rem;">📎</span>
+          <div>
+            <div class="file-preview-name" id="fileNameLabel">—</div>
+            <div class="file-preview-size" id="fileSizeLabel">—</div>
+          </div>
+        </div>
+        <button class="file-rm-btn" onclick="removeFile()">✕ Remove</button>
+      </div>
+      <div class="input-row">
+        <input type="text" id="msgInput" placeholder="🔍 Ask anything — Google + Wikipedia + DuckDuckGo, or try: 'build my resume' / 'create invitation card'" onkeypress="if(event.key==='Enter')sendMsg()">
+        <div class="file-upload-wrap" title="Upload file">
+          <span>📎</span>
+          <input type="file" id="fileInput" onchange="handleFile(event)" accept=".pdf,.docx,.txt,.json,.csv,.xlsx,.png,.jpg,.jpeg,.html">
+        </div>
+        <button id="stopBtn" onclick="stopStream()" class="hidden"><span class="stop-sq"></span> Stop</button>
+        <button id="sendBtn" onclick="sendMsg()">🚀 Search</button>
+      </div>
+      <div class="status-row">
+        <span class="status-note">✨ <strong>Google + Wikipedia + DuckDuckGo + GARUD Docs + Excel + Digital Cards!</strong></span>
+        <span class="api-status-badge" id="apiStatusBadge">⚙️ Free Mode</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- AUTH MODAL -->
+<div id="authModal" class="modal-overlay hidden">
+  <div class="modal glass-intense">
+    <button class="modal-close" onclick="closeAuth()">×</button>
+    <div id="loginForm">
+      <h2 class="modal-title">Welcome Back!</h2>
+      <input type="email" id="loginEmail" class="inp" placeholder="Email Address">
+      <input type="password" id="loginPass" class="inp" placeholder="Password">
+      <div id="loginErr" class="err hidden"></div>
+      <button class="btn-primary" onclick="doLogin()">Login</button>
+      <div class="auth-link">Don't have an account? <button onclick="switchAuth()">Sign Up</button></div>
+    </div>
+    <div id="signupForm" class="hidden">
+      <h2 class="modal-title">Join BHUJI AI</h2>
+      <input type="text" id="signupName" class="inp" placeholder="Full Name">
+      <input type="email" id="signupEmail" class="inp" placeholder="Email Address">
+      <input type="password" id="signupPass" class="inp" placeholder="Password (min 8 chars)">
+      <input type="password" id="signupConfirm" class="inp" placeholder="Confirm Password">
+      <div id="signupErr" class="err hidden"></div>
+      <button class="btn-primary" onclick="doSignup()">Create Account</button>
+      <div class="auth-link">Already have an account? <button onclick="switchAuth()">Login</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- SETTINGS MODAL -->
+<div id="settingsModal" class="modal-overlay hidden">
+  <div class="modal glass-intense">
+    <button class="modal-close" onclick="closeSettings()">×</button>
+    <h2 class="modal-title">⚙️ Settings</h2>
+    <div class="glass-gold" style="border-radius:16px;padding:20px;margin-bottom:22px;">
+      <div style="color:var(--gold);font-weight:700;font-family:'Space Grotesk',sans-serif;margin-bottom:12px;font-size:1.1rem;">🔑 Google API (Optional)</div>
+      <div class="status-note" style="margin-bottom:12px;">✅ Working in Free Mode. Add keys for 100 enhanced searches/day.</div>
+      <input type="text" id="gApiKey" class="inp" placeholder="Google Custom Search API Key">
+      <input type="text" id="gCseId" class="inp" placeholder="Custom Search Engine ID">
+      <button class="btn-primary" onclick="saveApiKeys()">💾 Save Keys</button>
+    </div>
+    <div>
+      <div style="color:var(--gold);font-family:'Space Grotesk',sans-serif;font-weight:700;margin-bottom:10px;">👤 Account</div>
+      <div class="status-note">📧 Email: <strong id="settingsEmailLabel" style="color:var(--gold)">—</strong></div>
+      <div class="status-note" style="margin-top:6px;">💎 Plan: <strong id="settingsPlanLabel" style="color:var(--gold)">Free</strong></div>
+    </div>
+  </div>
+</div>
+
+<!-- PRICING MODAL -->
+<div id="pricingModal" class="modal-overlay hidden">
+  <div class="modal glass-intense">
+    <button class="modal-close" onclick="closePricing()">×</button>
+    <h2 class="modal-title">💎 Upgrade Plan</h2>
+    <div class="plan-card">
+      <div class="plan-name">🔥 Bhuji Plan — ₹49</div>
+      <div class="plan-feat">✅ File processing & conversions</div>
+      <div class="plan-feat">✅ PDF, Excel, Word tools</div>
+    </div>
+    <div class="plan-card featured">
+      <div class="plan-name">🦅 GARUD Plan — ₹119 <span style="font-size:0.7rem;background:var(--gold);color:#000;padding:2px 8px;border-radius:6px;margin-left:6px;">BEST</span></div>
+      <div class="plan-feat">✅ All Bhuji features</div>
+      <div class="plan-feat">✅ <strong>📋 GARUD Doc Builder</strong> — Resume, Letters & more</div>
+      <div class="plan-feat">✅ <strong>📊 Excel Sheet Builder</strong> — Custom spreadsheets</div>
+      <div class="plan-feat">✅ <strong>💌 Digital Invitation Cards</strong> — All categories</div>
+      <div class="plan-feat">✅ Download as .doc, .xlsx, image</div>
+    </div>
+    <input type="number" class="inp" id="payAmt" placeholder="Enter amount (₹49 or ₹119)" min="49">
+    <div id="payErr" class="err hidden"></div>
+    <div id="payOk" class="suc hidden"></div>
+    <button class="btn-primary" onclick="doPay()">Pay Now 🚀</button>
+    <div class="status-note" style="margin-top:12px;text-align:center;">🔒 Demo Mode — Instant Activation</div>
+  </div>
+</div>
+
+<!-- GARUD MODAL -->
+<div id="garudModal" class="modal-overlay hidden">
+  <div class="modal glass-intense wide">
+    <button class="modal-close" onclick="closeGarud()">×</button>
+    <h2 class="modal-title" id="garudTitle">📋 GARUD Document Builder</h2>
+    <div class="step-dots" id="garudStepDots"></div>
+    <div id="garudStep1" class="garud-step active">
+      <p style="color:var(--muted);margin-bottom:18px;font-size:0.93rem;">Choose the document you want to create:</p>
+      <div class="doc-type-grid" id="docTypeGrid"></div>
+    </div>
+    <div id="garudStep2" class="garud-step">
+      <div id="garudFormArea"></div>
+      <div class="nav-btns">
+        <button class="btn-ghost nav-btn-back" onclick="garudBack()">← Back</button>
+        <button class="btn-primary nav-btn-go" id="garudGenerateBtn" onclick="garudGenerate()">🚀 Generate Document</button>
+      </div>
+    </div>
+    <div id="garudStep3" class="garud-step">
+      <div id="garudPreviewArea"></div>
+      <div class="nav-btns" id="garudDownloadBtns">
+        <button class="btn-ghost nav-btn-back" onclick="garudBack()">← Edit</button>
+        <button class="btn-primary nav-btn-go" id="garudDlBtn" onclick="garudDownload()">⬇️ Download File</button>
+      </div>
+      <div style="margin-top:14px;text-align:center;">
+        <button class="btn-ghost" onclick="garudReset()" style="width:auto;padding:10px 24px;">📋 Build Another</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FEEDBACK MODAL -->
+<div id="feedbackModal" class="modal-overlay hidden">
+  <div class="modal glass-intense" style="max-width:420px;">
+    <button class="modal-close" onclick="closeFeedback()">×</button>
+    <div id="feedbackBody">
+      <h2 class="modal-title">🌟 Rate Your Experience</h2>
+      <div class="star-row">
+        <button class="star-btn" id="s1" onclick="rateStar(1)">⭐</button>
+        <button class="star-btn" id="s2" onclick="rateStar(2)">⭐</button>
+        <button class="star-btn" id="s3" onclick="rateStar(3)">⭐</button>
+        <button class="star-btn" id="s4" onclick="rateStar(4)">⭐</button>
+        <button class="star-btn" id="s5" onclick="rateStar(5)">⭐</button>
+      </div>
+      <textarea class="inp" id="fbText" placeholder="Any suggestions? (Optional)" style="min-height:70px;"></textarea>
+      <button class="btn-primary" onclick="submitFeedback()">Send Feedback ✨</button>
+    </div>
+  </div>
+</div>
+
+<!-- DIGITAL CARD BUILDER MODAL -->
+<div id="cardBuilderModal" class="modal-overlay hidden" style="padding:0;">
+  <div class="modal glass-intense" style="max-width:1200px;width:96vw;max-height:96vh;padding:0;overflow:hidden;border-radius:28px;display:flex;flex-direction:column;">
+    <div class="cb-header">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div style="width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,#FF64C8,#8B5CF6);display:flex;align-items:center;justify-content:center;font-size:1.3rem;box-shadow:0 4px 16px rgba(255,100,200,0.4);">💌</div>
+        <div>
+          <div class="cb-title">Digital Cards & e-Invites</div>
+          <div style="color:var(--muted);font-size:0.82rem;">18+ categories • 120+ stunning animated templates</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <button id="cbBackBtn" class="btn-ghost" onclick="cardBuilderBack()" style="display:none;padding:8px 16px;font-size:0.85rem;">← Templates</button>
+        <button class="modal-close" onclick="closeCardBuilder()" style="position:static;">×</button>
+      </div>
+    </div>
+    <div class="cb-body" id="cbBody">
+      <div class="cb-sidebar" id="cbSidebar">
+        <div style="padding:14px 18px 8px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:0.82rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;">Categories</div>
+        <div id="catList"></div>
+      </div>
+      <div class="cb-main" id="cbMain">
+        <div id="cbTemplateView"></div>
+        <div id="cbEditorView" class="hidden"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════
+// BHUJI AI v4.0 — Ultra Animated Digital Cards + Cosmos
+// ══════════════════════════════════════════════════════
+
+let currentTheme='dark';
+let currentUser=null;
+let messages=[];
+let isLoading=false;
+let currentMode='auto';
+let uploadedFile=null;
+let fileMode='analyze';
+let voiceMode=false;
+let speakReplies=true;
+let recognition=null;
+let recognizing=false;
+let googleApiKey=localStorage.getItem('bhuji_gapi')||'';
+let googleCseId=localStorage.getItem('bhuji_gcse')||'';
+let currentLang='en';
+let textAnim=null;
+let selectedRating=0;
+let garudDocType=null,garudDocData={},garudSkills=[],garudStep=1;
+let excelColumns=[],excelRows=[];
+let currentCategory='wedding';
+let selectedTemplate=null;
+let cardData={
+  title:'',name1:'',name2:'',parents:'',datetime:'',venue:'',rsvp:'',message:'',
+  font:'Great Vibes',textColor:'#fff',accentColor:'#F5C842',
+  bg:0,bgCustom:'',animation:'fade',icons:[],uploadedBg:''
+};
+
+// ── LANGUAGES ──────────────────────────────────────────
+const LANGUAGES=[
+  {code:'en',name:'English',native:'English'},{code:'hi',name:'Hindi',native:'हिन्दी'},
+  {code:'es',name:'Spanish',native:'Español'},{code:'fr',name:'French',native:'Français'},
+  {code:'de',name:'German',native:'Deutsch'},{code:'zh-CN',name:'Chinese',native:'简体中文'},
+  {code:'ja',name:'Japanese',native:'日本語'},{code:'ko',name:'Korean',native:'한국어'},
+  {code:'ar',name:'Arabic',native:'العربية'},{code:'pt',name:'Portuguese',native:'Português'},
+  {code:'ru',name:'Russian',native:'Русский'},{code:'it',name:'Italian',native:'Italiano'},
+  {code:'nl',name:'Dutch',native:'Nederlands'},{code:'pl',name:'Polish',native:'Polski'},
+  {code:'tr',name:'Turkish',native:'Türkçe'},{code:'vi',name:'Vietnamese',native:'Tiếng Việt'},
+  {code:'th',name:'Thai',native:'ไทย'},{code:'id',name:'Indonesian',native:'Bahasa Indonesia'},
+  {code:'bn',name:'Bengali',native:'বাংলা'},{code:'ta',name:'Tamil',native:'தமிழ்'},
+  {code:'te',name:'Telugu',native:'తెలుగు'},{code:'mr',name:'Marathi',native:'मराठी'},
+  {code:'gu',name:'Gujarati',native:'ગુજરાતી'},{code:'kn',name:'Kannada',native:'ಕನ್ನಡ'},
+  {code:'ml',name:'Malayalam',native:'മലയാളം'},{code:'pa',name:'Punjabi',native:'ਪੰਜਾਬੀ'},
+  {code:'ur',name:'Urdu',native:'اردو'},{code:'fa',name:'Persian',native:'فارسی'},
+  {code:'he',name:'Hebrew',native:'עברית'},{code:'sw',name:'Swahili',native:'Kiswahili'},
+  {code:'el',name:'Greek',native:'Ελληνικά'},{code:'cs',name:'Czech',native:'Čeština'},
+  {code:'sv',name:'Swedish',native:'Svenska'},{code:'hu',name:'Hungarian',native:'Magyar'},
+  {code:'ro',name:'Romanian',native:'Română'},{code:'uk',name:'Ukrainian',native:'Українська'},
+  {code:'ms',name:'Malay',native:'Bahasa Melayu'},{code:'fi',name:'Finnish',native:'Suomi'},
+  {code:'da',name:'Danish',native:'Dansk'},{code:'no',name:'Norwegian',native:'Norsk'},
+  {code:'bg',name:'Bulgarian',native:'Български'},{code:'az',name:'Azerbaijani',native:'Azərbaycan'},
+  {code:'ka',name:'Georgian',native:'ქართული'},{code:'hy',name:'Armenian',native:'Հայերեն'},
+  {code:'kk',name:'Kazakh',native:'Қазақ'},{code:'uz',name:'Uzbek',native:'Oʻzbek'},
+  {code:'sq',name:'Albanian',native:'Shqip'},{code:'sk',name:'Slovak',native:'Slovenčina'}
+];
+
+// ── TRANSLATION ────────────────────────────────────────
+const Translator={
+  cache:{},
+  async translate(text,lang){
+    if(lang==='en'||!text||text.length<2)return text;
+    const key=`${lang}:${text.slice(0,80)}`;
+    if(this.cache[key])return this.cache[key];
+    try{
+      const url=`https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${lang}&dt=t&q=${encodeURIComponent(text)}`;
+      const d=await(await fetch(url)).json();
+      const r=d[0]?.map(i=>i[0]).join('')||text;
+      this.cache[key]=r;return r;
+    }catch{return text;}
+  },
+  async batch(texts,lang){
+    if(lang==='en'){const r={};texts.forEach(t=>r[t]=t);return r;}
+    const results={};
+    await Promise.all(texts.map(async t=>{results[t]=await this.translate(t,lang);}));
+    return results;
+  }
+};
+
+const TranslateUI={
+  show(){document.getElementById('transOverlay').classList.remove('hidden');this.reset();},
+  hide(){setTimeout(()=>document.getElementById('transOverlay').classList.add('hidden'),300);},
+  reset(){
+    document.getElementById('transFill').style.width='0%';
+    document.getElementById('transText').textContent='Starting...';
+    ['tstep1','tstep2','tstep3','tstep4'].forEach(id=>document.getElementById(id).classList.remove('active','done'));
+  },
+  async step(n,pct,text){
+    document.getElementById('transFill').style.width=pct+'%';
+    document.getElementById('transText').textContent=text;
+    ['tstep1','tstep2','tstep3','tstep4'].forEach((id,i)=>{
+      const el=document.getElementById(id);
+      el.classList.toggle('done',i+1<n);el.classList.toggle('active',i+1===n);
+    });
+    await new Promise(r=>setTimeout(r,60));
+  },
+  async run(lang){
+    if(lang==='en'){renderMsgs();return;}
+    this.show();
+    try{
+      await this.step(1,15,'Loading...');
+      await this.step(2,45,'Translating interface...');
+      const inp=document.getElementById('msgInput');
+      if(inp)inp.placeholder=await Translator.translate('🔍 Ask anything!',lang);
+      await this.step(3,80,'Translating messages...');
+      if(messages.length>0){
+        const texts=messages.filter(m=>m.content).map(m=>m.content);
+        const tr=await Translator.batch(texts,lang);
+        messages=messages.map(m=>({...m,content:m.content?(tr[m.content]||m.content):m.content}));
+        renderMsgs();
+      }
+      await this.step(4,100,'Done!');
+      await new Promise(r=>setTimeout(r,250));
+    }finally{this.hide();}
+  }
+};
+
+// ── BACKGROUND CANVAS ──────────────────────────────────
+function initBg(){
+  const canvas=document.getElementById('bgCanvas');
+  const ctx=canvas.getContext('2d');
+  let W=canvas.width=window.innerWidth;
+  let H=canvas.height=window.innerHeight;
+  window.addEventListener('resize',()=>{W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;});
+
+  const stars=Array.from({length:280},()=>({
+    x:Math.random()*W,y:Math.random()*H,
+    r:Math.random()*1.8+0.2,
+    vx:(Math.random()-0.5)*0.12,vy:(Math.random()-0.5)*0.12,
+    a:Math.random()*0.7+0.2,twinkle:Math.random()*Math.PI*2,
+    color:Math.random()>0.85?'240,200,120':Math.random()>0.7?'180,200,255':'245,200,66'
+  }));
+
+  const shootingStars=Array.from({length:3},()=>({x:0,y:0,active:false,timer:0,interval:Math.random()*400+200}));
+
+  const nebulas=[
+    {x:W*0.15,y:H*0.25,rx:W*0.35,ry:H*0.3,c:'245,200,66',a:0.04},
+    {x:W*0.8,y:H*0.7,rx:W*0.3,ry:H*0.28,c:'240,112,48',a:0.03},
+    {x:W*0.55,y:H*0.5,rx:W*0.45,ry:H*0.4,c:'80,40,180',a:0.025},
+    {x:W*0.3,y:H*0.75,rx:W*0.25,ry:H*0.2,c:'0,180,160',a:0.02}
+  ];
+
+  const orbitals=Array.from({length:10},(_,i)=>({
+    angle:(i/10)*Math.PI*2,
+    radius:Math.min(W,H)*(0.28+Math.random()*0.18),
+    speed:0.0002+Math.random()*0.0006,
+    size:1.5+Math.random()*3,
+    color:i%3===0?'245,200,66':i%3===1?'240,112,48':'180,160,255'
+  }));
+
+  let frame=0;
+
+  function draw(){
+    frame++;
+    ctx.clearRect(0,0,W,H);
+    const isDark=currentTheme==='dark';
+
+    // Deep cosmos gradient
+    const bg=ctx.createRadialGradient(W*0.45,H*0.35,0,W*0.45,H*0.35,Math.max(W,H));
+    if(isDark){
+      bg.addColorStop(0,'#06081A');
+      bg.addColorStop(0.35,'#030510');
+      bg.addColorStop(0.7,'#020308');
+      bg.addColorStop(1,'#010204');
+    }else{
+      bg.addColorStop(0,'#F2EFE8');bg.addColorStop(1,'#E4E0DA');
+    }
+    ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
+
+    // Nebula clouds
+    nebulas.forEach(n=>{
+      const g=ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,Math.max(n.rx,n.ry));
+      const pulse=0.5+0.5*Math.sin(frame*0.004+n.x);
+      g.addColorStop(0,`rgba(${n.c},${n.a*(0.7+0.3*pulse)})`);
+      g.addColorStop(0.5,`rgba(${n.c},${n.a*0.3})`);
+      g.addColorStop(1,'transparent');
+      ctx.save();
+      ctx.translate(n.x,n.y);
+      ctx.scale(n.rx/Math.max(n.rx,n.ry),n.ry/Math.max(n.rx,n.ry));
+      ctx.beginPath();ctx.arc(0,0,Math.max(n.rx,n.ry),0,Math.PI*2);
+      ctx.fillStyle=g;ctx.fill();
+      ctx.restore();
+    });
+
+    // Stars
+    stars.forEach(s=>{
+      s.twinkle+=0.015+Math.random()*0.005;
+      const alpha=s.a*(0.4+0.6*Math.sin(s.twinkle));
+      ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+      ctx.fillStyle=isDark?`rgba(${s.color},${alpha})`:`rgba(160,130,20,${alpha*0.35})`;
+      ctx.fill();
+      if(s.r>1.4&&Math.sin(s.twinkle)>0.88){
+        ctx.strokeStyle=isDark?`rgba(255,255,220,${alpha*0.55})`:'transparent';
+        ctx.lineWidth=0.4;
+        const d=s.r*4;
+        ctx.beginPath();ctx.moveTo(s.x-d,s.y);ctx.lineTo(s.x+d,s.y);ctx.stroke();
+        ctx.beginPath();ctx.moveTo(s.x,s.y-d);ctx.lineTo(s.x,s.y+d);ctx.stroke();
+      }
+      s.x+=s.vx;s.y+=s.vy;
+      if(s.x<-2)s.x=W+2;if(s.x>W+2)s.x=-2;
+      if(s.y<-2)s.y=H+2;if(s.y>H+2)s.y=-2;
+    });
+
+    // Shooting stars
+    if(isDark){
+      shootingStars.forEach(ss=>{
+        ss.timer++;
+        if(!ss.active&&ss.timer>ss.interval){
+          ss.active=true;ss.timer=0;
+          ss.x=Math.random()*W*0.7;ss.y=Math.random()*H*0.4;
+          ss.dx=3+Math.random()*4;ss.dy=1.5+Math.random()*2;
+          ss.len=80+Math.random()*80;ss.life=0;ss.maxLife=40+Math.random()*20;
+          ss.interval=Math.random()*500+200;
+        }
+        if(ss.active){
+          ss.life++;
+          const p=1-ss.life/ss.maxLife;
+          ctx.beginPath();
+          ctx.moveTo(ss.x,ss.y);
+          ctx.lineTo(ss.x-ss.dx*(ss.len/40),ss.y-ss.dy*(ss.len/40));
+          const grad=ctx.createLinearGradient(ss.x,ss.y,ss.x-ss.dx*2,ss.y-ss.dy*2);
+          grad.addColorStop(0,`rgba(255,255,200,${p*0.9})`);
+          grad.addColorStop(1,'transparent');
+          ctx.strokeStyle=grad;ctx.lineWidth=1.5;ctx.stroke();
+          ss.x+=ss.dx;ss.y+=ss.dy;
+          if(ss.life>=ss.maxLife)ss.active=false;
+        }
+      });
+    }
+
+    // Orbital particles (landing only)
+    if(!document.getElementById('landingPage').classList.contains('hidden')){
+      orbitals.forEach(o=>{
+        o.angle+=o.speed;
+        const ox=W/2+Math.cos(o.angle)*o.radius;
+        const oy=H/2+Math.sin(o.angle)*(o.radius*0.42);
+        const gp=ctx.createRadialGradient(ox,oy,0,ox,oy,o.size*3.5);
+        gp.addColorStop(0,`rgba(${o.color},0.95)`);
+        gp.addColorStop(0.4,`rgba(${o.color},0.25)`);
+        gp.addColorStop(1,'transparent');
+        ctx.beginPath();ctx.arc(ox,oy,o.size*3.5,0,Math.PI*2);
+        ctx.fillStyle=gp;ctx.fill();
+      });
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+}
+
+// ── DRAGGABLE ──────────────────────────────────────────
+class Draggable{
+  constructor(el){
+    this.el=el;this.dx=0;this.dy=0;this.ix=0;this.iy=0;this.dragging=false;
+    const saved=localStorage.getItem('dp_'+el.id);
+    if(saved){const p=JSON.parse(saved);this.dx=p.x;this.dy=p.y;this.setPos(p.x,p.y);}
+    el.addEventListener('mousedown',e=>this.start(e));
+    el.addEventListener('touchstart',e=>this.start(e),{passive:false});
+    document.addEventListener('mousemove',e=>this.move(e));
+    document.addEventListener('touchmove',e=>this.move(e),{passive:false});
+    document.addEventListener('mouseup',()=>this.end());
+    document.addEventListener('touchend',()=>this.end());
+  }
+  start(e){const t=e.touches?e.touches[0]:e;this.ix=t.clientX-this.dx;this.iy=t.clientY-this.dy;this.dragging=true;this.el.classList.add('dragging');}
+  move(e){if(!this.dragging)return;e.preventDefault();const t=e.touches?e.touches[0]:e;this.dx=t.clientX-this.ix;this.dy=t.clientY-this.iy;this.setPos(this.dx,this.dy);}
+  end(){if(!this.dragging)return;this.dragging=false;this.el.classList.remove('dragging');localStorage.setItem('dp_'+this.el.id,JSON.stringify({x:this.dx,y:this.dy}));}
+  setPos(x,y){this.el.style.transform=`translate3d(${x}px,${y}px,0)`;}
+}
+
+// ── THEME ──────────────────────────────────────────────
+function toggleTheme(){
+  currentTheme=currentTheme==='dark'?'light':'dark';
+  document.documentElement.setAttribute('data-theme',currentTheme);
+  localStorage.setItem('bhuji_theme',currentTheme);
+  const icon=document.getElementById('themeIcon');
+  icon.innerHTML=currentTheme==='dark'
+    ?'<path d="M12 17.5C14.76 17.5 17 15.26 17 12.5S14.76 7.5 12 7.5 7 9.74 7 12.5 9.24 17.5 12 17.5ZM12 2l2.39 4.42 4.14 1.05-3.64 3.92.93 5.15L12 14.19l-4.82 2.35.93-5.15L4.47 7.47 8.61 6.42z"/>'
+    :'<path d="M12 3C7.03 3 3 7.03 3 12s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36C19.92 12.01 18.32 12.9 16.5 12.9c-3.04 0-5.5-2.46-5.5-5.5 0-1.82.89-3.42 2.26-4.4z"/>';
+}
+function initLangGrid(){
+  const grid=document.getElementById('langGrid');
+  grid.innerHTML=LANGUAGES.map(l=>`
+    <div class="lang-opt ${l.code===currentLang?'active':''}" onclick="changeLang('${l.code}','${l.name}','${l.native}')">
+      <div style="font-weight:700;">${l.native}</div>
+      <div style="font-size:0.72rem;opacity:0.65;">${l.name}</div>
+    </div>`).join('');
+}
+function toggleLangDD(){document.getElementById('langDropdown').classList.toggle('hidden');}
+function filterLangs(){
+  const q=document.getElementById('langSearch').value.toLowerCase();
+  document.querySelectorAll('.lang-opt').forEach(o=>o.style.display=o.textContent.toLowerCase().includes(q)?'':'none');
+}
+async function changeLang(code,name,native){
+  currentLang=code;
+  document.getElementById('curLangLabel').textContent=native;
+  document.querySelectorAll('.lang-opt').forEach(o=>o.classList.remove('active'));
+  event.target.closest('.lang-opt')?.classList.add('active');
+  toggleLangDD();
+  await TranslateUI.run(code);
+  const note=`🌍 Language changed to ${name}!`;
+  addMsg('assistant',code!=='en'?await Translator.translate(note,code):note,['System']);
+}
+
+// ── SECURITY ──────────────────────────────────────────
+const Sec={
+  clean:s=>String(s).replace(/[<>"']/g,''),
+  hash:p=>{try{return CryptoJS.SHA256(p).toString();}catch{return btoa(p);}},
+  rateOk:()=>{
+    const now=Date.now();
+    if(!window._rts)window._rts=[];
+    window._rts=window._rts.filter(t=>now-t<60000);
+    if(window._rts.length>=50)return false;
+    window._rts.push(now);return true;
+  }
+};
+
+// ── AUTH ───────────────────────────────────────────────
+function showAuth(){document.getElementById('authModal').classList.remove('hidden');}
+function closeAuth(){document.getElementById('authModal').classList.add('hidden');}
+function switchAuth(){
+  document.getElementById('loginForm').classList.toggle('hidden');
+  document.getElementById('signupForm').classList.toggle('hidden');
+}
+function showErr(id,msg){const el=document.getElementById(id);el.textContent=msg;el.classList.remove('hidden');}
+function hideErr(id){document.getElementById(id)?.classList.add('hidden');}
+
+function doSignup(){
+  const name=document.getElementById('signupName').value.trim();
+  const email=document.getElementById('signupEmail').value.trim();
+  const pass=document.getElementById('signupPass').value;
+  const conf=document.getElementById('signupConfirm').value;
+  hideErr('signupErr');
+  if(!name){showErr('signupErr','Name is required');return;}
+  if(!email){showErr('signupErr','Email is required');return;}
+  if(pass.length<8){showErr('signupErr','Password must be at least 8 characters');return;}
+  if(pass!==conf){showErr('signupErr','Passwords do not match');return;}
+  const users=JSON.parse(localStorage.getItem('bhuji_users')||'{}');
+  if(users[email]){showErr('signupErr','Account already exists');return;}
+  users[email]={name,email,hash:Sec.hash(pass),plan:'free'};
+  localStorage.setItem('bhuji_users',JSON.stringify(users));
+  currentUser=users[email];persistSession();closeAuth();startMainUI();
+}
+function doLogin(){
+  const email=document.getElementById('loginEmail').value.trim();
+  const pass=document.getElementById('loginPass').value;
+  hideErr('loginErr');
+  const users=JSON.parse(localStorage.getItem('bhuji_users')||'{}');
+  const u=users[email];
+  if(!u||u.hash!==Sec.hash(pass)){showErr('loginErr','Invalid email or password');return;}
+  currentUser=u;persistSession();closeAuth();startMainUI();
+}
+function persistSession(){
+  if(!currentUser)return;
+  localStorage.setItem('bhuji_session',JSON.stringify({email:currentUser.email,ts:Date.now()}));
+}
+function restoreSession(){
+  try{
+    const s=localStorage.getItem('bhuji_session');
+    if(!s)return false;
+    const{email}=JSON.parse(s);
+    const users=JSON.parse(localStorage.getItem('bhuji_users')||'{}');
+    if(!users[email])return false;
+    currentUser=users[email];return true;
+  }catch{return false;}
+}
+function doLogout(){
+  localStorage.removeItem('bhuji_session');
+  currentUser=null;messages=[];
+  document.getElementById('mainUI').classList.add('hidden');
+  document.getElementById('landingPage').classList.remove('hidden');
+}
+
+// ── PLAN ──────────────────────────────────────────────
+function getPlan(){
+  const users=JSON.parse(localStorage.getItem('bhuji_users')||'{}');
+  return currentUser?(users[currentUser.email]?.plan||'free'):'free';
+}
+function setPlan(plan){
+  const users=JSON.parse(localStorage.getItem('bhuji_users')||'{}');
+  if(currentUser){users[currentUser.email].plan=plan;localStorage.setItem('bhuji_users',JSON.stringify(users));currentUser.plan=plan;updateLocks();}
+}
+function unlocked(mode){
+  const p=getPlan();
+  if(mode==='auto'||mode==='bhuj')return true;
+  if(mode==='bhuji')return p==='analyze'||p==='garud';
+  if(mode==='garud')return p==='garud';
+  return false;
+}
+function updateLocks(){
+  document.querySelectorAll('.mode-tab').forEach(t=>t.classList.toggle('locked',!unlocked(t.getAttribute('data-mode'))));
+  document.getElementById('docBuilderBtn').style.display=unlocked('garud')?'flex':'none';
+}
+function selectMode(mode){
+  if(!unlocked(mode)){showPricing();return;}
+  currentMode=mode;
+  document.querySelectorAll('.mode-tab').forEach(t=>t.classList.toggle('active',t.getAttribute('data-mode')===mode));
+}
+function showSettings(){
+  document.getElementById('settingsEmailLabel').textContent=currentUser?.email||'—';
+  document.getElementById('settingsPlanLabel').textContent=getPlan();
+  document.getElementById('gApiKey').value=googleApiKey;
+  document.getElementById('gCseId').value=googleCseId;
+  document.getElementById('settingsModal').classList.remove('hidden');
+}
+function closeSettings(){document.getElementById('settingsModal').classList.add('hidden');}
+function saveApiKeys(){
+  googleApiKey=document.getElementById('gApiKey').value.trim();
+  googleCseId=document.getElementById('gCseId').value.trim();
+  localStorage.setItem('bhuji_gapi',googleApiKey);
+  localStorage.setItem('bhuji_gcse',googleCseId);
+  updateApiStatus();
+  alert(googleApiKey&&googleCseId?'✅ Google API keys saved!':'✅ Settings saved');
+  closeSettings();
+}
+function updateApiStatus(){
+  const el=document.getElementById('apiStatusBadge');
+  if(googleApiKey&&googleCseId){el.textContent='✅ Google API Active';el.classList.add('active');}
+  else{el.textContent='⚙️ Free Mode (Working!)';el.classList.remove('active');}
+}
+function showPricing(){document.getElementById('pricingModal').classList.remove('hidden');}
+function closePricing(){document.getElementById('pricingModal').classList.add('hidden');}
+function doPay(){
+  const amt=parseInt(document.getElementById('payAmt').value);
+  hideErr('payErr');document.getElementById('payOk').classList.add('hidden');
+  if(!amt||(amt!==49&&amt!==119)){showErr('payErr','Please enter ₹49 or ₹119');return;}
+  const btn=document.querySelector('#pricingModal .btn-primary');
+  btn.disabled=true;btn.textContent='Processing...';
+  setTimeout(()=>{
+    const plan=amt>=119?'garud':'analyze';
+    setPlan(plan);
+    document.getElementById('payOk').textContent=`✓ ${plan.toUpperCase()} plan activated! 🎉`;
+    document.getElementById('payOk').classList.remove('hidden');
+    btn.disabled=false;btn.textContent='Pay Now 🚀';
+    setTimeout(()=>{
+      closePricing();
+      addMsg('assistant',`🎉 **${plan.toUpperCase()} plan activated!** ${plan==='garud'?'📋 Doc Builder + 📊 Excel + 💌 Digital Cards are now fully unlocked!':'All Bhuji features unlocked! 🚀'}`,['Payment System']);
+    },1800);
+  },2000);
+}
+
+// ══════════════════════════════════════════════════════════
+// DIGITAL CARDS — ULTRA ANIMATED TEMPLATES
+// ══════════════════════════════════════════════════════════
+
+const CARD_CATEGORIES=[
+  {id:'wedding',icon:'💍',name:'Wedding'},
+  {id:'engagement',icon:'💑',name:'Ring Ceremony'},
+  {id:'mehndi',icon:'🌿',name:'Mehndi / Haldi'},
+  {id:'sangeet',icon:'🎵',name:'Sangeet Night'},
+  {id:'reception',icon:'🥂',name:'Reception'},
+  {id:'babyshower',icon:'🍼',name:'Baby Shower'},
+  {id:'birthday',icon:'🎂',name:'Birthday'},
+  {id:'firstbirthday',icon:'🎈',name:'1st Birthday'},
+  {id:'anniversary',icon:'❤️',name:'Anniversary'},
+  {id:'savedate',icon:'📅',name:'Save the Date'},
+  {id:'housewarming',icon:'🏠',name:'Ghar Pravesh'},
+  {id:'naming',icon:'👶',name:'Naming Ceremony'},
+  {id:'diwali',icon:'🪔',name:'Diwali'},
+  {id:'christmas',icon:'🎄',name:'Christmas'},
+  {id:'newyear',icon:'🎆',name:'New Year'},
+  {id:'valentine',icon:'💕',name:"Valentine's Day"},
+  {id:'eid',icon:'🌙',name:'Eid Mubarak'},
+  {id:'graduation',icon:'🎓',name:'Graduation'},
+];
+
+// ── Template helper: generates animated background CSS strings
+const TBG={
+  royalGold:'linear-gradient(135deg,#0d0500 0%,#2a1200 40%,#1a0800 70%,#0d0500 100%)',
+  cosmicPurple:'linear-gradient(135deg,#06001a 0%,#120030 50%,#1a0040 100%)',
+  deepOcean:'linear-gradient(135deg,#000d1a 0%,#001433 60%,#000d1a 100%)',
+  rubyRed:'linear-gradient(135deg,#120005 0%,#240010 50%,#120005 100%)',
+  emeraldForest:'linear-gradient(135deg,#001408 0%,#002814 50%,#001408 100%)',
+  midnightBlue:'linear-gradient(135deg,#03050f 0%,#060e20 50%,#03050f 100%)',
+  sunsetOrange:'linear-gradient(135deg,#1a0800 0%,#2d1400 50%,#1a0800 100%)',
+  mysticTeal:'linear-gradient(135deg,#001414 0%,#002828 50%,#001414 100%)',
+  velvetPink:'linear-gradient(135deg,#140010 0%,#280020 50%,#140010 100%)',
+  charcoal:'linear-gradient(135deg,#080808 0%,#141414 50%,#080808 100%)',
+  auroraGreen:'linear-gradient(135deg,#001808 0%,#003015 50%,#001808 100%)',
+  galaxyBlue:'linear-gradient(to bottom,#030310 0%,#080820 50%,#030310 100%)',
+  rosewood:'linear-gradient(135deg,#180008 0%,#2e0015 50%,#180008 100%)',
+  amberWarm:'linear-gradient(135deg,#120d00 0%,#241a00 50%,#120d00 100%)',
+  indigoDeep:'linear-gradient(135deg,#08000f 0%,#14001e 50%,#08000f 100%)',
+  shimmerGold:'linear-gradient(90deg,#0d0800,#2a1800,#0d0800)',
+  neonCyber:'linear-gradient(135deg,#000d0d 0%,#001414 50%,#000d0d 100%)',
+  christmasGreen:'linear-gradient(135deg,#001400 0%,#002800 50%,#001400 100%)',
+  winterFrost:'linear-gradient(135deg,#000a14 0%,#001428 50%,#000a14 100%)',
+  warmSaffron:'linear-gradient(135deg,#150900 0%,#2a1200 50%,#150900 100%)',
+};
+
+// Build template preview HTML (used inside template cards)
+function mkPrev(font,accent,content){
+  return `<div style="color:${accent};font-family:'${font}',serif,cursive;text-align:center;padding:8px;">${content}</div>`;
+}
+// Build particle decorations (appears in template preview thumbnails)
+function mkDots(color,n=5){
+  return Array.from({length:n},(_,i)=>`<div style="position:absolute;width:${2+i%3}px;height:${2+i%3}px;border-radius:50%;background:${color};left:${10+i*18}%;top:${15+(i*37)%65}%;animation:twinkle ${1.5+i*0.4}s ease-in-out infinite;animation-delay:${i*0.3}s;opacity:0.7;"></div>`).join('');
+}
+
+const CARD_TEMPLATES={
+  wedding:[
+    {id:'w1',name:'Royal Gold',tag:'CLASSIC',tagColor:'#F5C842',bg:TBG.royalGold,accent:'#F5C842',font:'Great Vibes',anim:'fade',
+     preview:mkDots('#F5C842')+mkPrev('Great Vibes','#F5C842','<div style="font-size:2.8rem;line-height:1.1">Aarav</div><div style="font-size:1.1rem;opacity:0.65;margin:2px 0">&</div><div style="font-size:2.8rem;line-height:1.1">Priya</div><div style="font-size:0.75rem;letter-spacing:3px;margin-top:10px;font-family:\'DM Sans\',sans-serif;opacity:0.7">WEDDING INVITATION</div>')},
+    {id:'w2',name:'Floral Rose',tag:'POPULAR',tagColor:'#FB7185',bg:TBG.velvetPink,accent:'#FFB3C6',font:'Cormorant Garamond',anim:'slide',
+     preview:mkDots('#FB7185')+`<div style="position:absolute;font-size:18px;top:10%;left:10%;animation:petal 4s ease-in infinite;">🌸</div><div style="position:absolute;font-size:14px;top:20%;right:15%;animation:petal 5s ease-in infinite;animation-delay:1s;">🌺</div>`+mkPrev('Cormorant Garamond','#FFB3C6','<div style="font-size:0.75rem;letter-spacing:4px;opacity:0.65;margin-bottom:6px">TOGETHER FOREVER</div><div style="font-size:2.4rem;font-style:italic">Rohan & Nisha</div><div style="font-size:0.75rem;margin-top:10px;opacity:0.7;font-family:\'DM Sans\',sans-serif">You are cordially invited</div>')},
+    {id:'w3',name:'Starry Blue',tag:'TRENDING',tagColor:'#60A5FA',bg:TBG.midnightBlue,accent:'#93C5FD',font:'Cinzel',anim:'zoom',
+     preview:mkDots('#60A5FA')+`<div style="position:absolute;inset:0;overflow:hidden">${Array.from({length:8},(_,i)=>`<div style="position:absolute;width:2px;height:2px;background:#93C5FD;border-radius:50%;left:${i*13}%;top:${10+(i*23)%50}%;animation:twinkle ${1+i*0.5}s ease-in-out infinite;animation-delay:${i*0.2}s;"></div>`).join('')}</div>`+mkPrev('Cinzel','#93C5FD','<div style="font-size:2rem;line-height:1.2">ARJUN</div><div style="font-size:0.85rem;opacity:0.55;margin:3px 0">WEDS</div><div style="font-size:2rem;line-height:1.2">KAVYA</div>')},
+    {id:'w4',name:'Forest Bloom',tag:'NATURAL',tagColor:'#6EE7B7',bg:TBG.emeraldForest,accent:'#86EFAC',font:'Playfair Display',anim:'fade',
+     preview:mkDots('#86EFAC')+mkPrev('Playfair Display','#86EFAC','<div style="font-size:0.75rem;letter-spacing:3px;opacity:0.6">THE WEDDING OF</div><div style="font-size:2.2rem;font-style:italic;margin:6px 0">Vikram & Anjali</div><div style="font-size:0.75rem;opacity:0.6">Save The Date</div>')},
+    {id:'w5',name:'Neon Purple',tag:'MODERN',tagColor:'#C084FC',bg:TBG.cosmicPurple,accent:'#C084FC',font:'Dancing Script',anim:'slide',
+     preview:mkDots('#C084FC')+`<div style="position:absolute;width:60%;height:60%;left:20%;top:20%;background:radial-gradient(ellipse,rgba(120,40,200,0.2),transparent);border-radius:50%;"></div>`+mkPrev('Dancing Script','#C084FC','<div style="font-size:2.6rem">Rahul & Sneha</div><div style="font-size:0.8rem;opacity:0.7;font-family:\'DM Sans\',sans-serif;margin-top:6px">Cordially invite you</div>')},
+    {id:'w6',name:'Crystal White',tag:'ELEGANT',tagColor:'#E0E7FF',bg:TBG.charcoal,accent:'#F1F5F9',font:'Libre Baskerville',anim:'zoom',
+     preview:mkDots('#E0E7FF')+mkPrev('Libre Baskerville','#F1F5F9','<div style="font-size:0.7rem;letter-spacing:5px;opacity:0.55;margin-bottom:8px">UNITED IN LOVE</div><div style="font-size:2rem;font-style:italic">Together</div><div style="font-size:0.75rem;opacity:0.6;margin-top:6px;font-family:\'DM Sans\',sans-serif">Wedding Celebration</div>')},
+    {id:'w7',name:'Golden Shimmer',tag:'LUXE',tagColor:'#FDE68A',bg:TBG.shimmerGold,accent:'#FDE68A',font:'Bodoni Moda',anim:'fade',
+     preview:mkDots('#FDE68A')+`<div style="position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(253,230,138,0.06),transparent);animation:metalSheen 3s linear infinite;background-size:200% 100%;"></div>`+mkPrev('Bodoni Moda','#FDE68A','<div style="font-size:2.2rem;font-style:italic">Suraj & Maya</div><div style="font-size:0.75rem;letter-spacing:3px;opacity:0.6;margin-top:8px;font-family:\'DM Sans\',sans-serif">ETERNAL LOVE</div>')},
+    {id:'w8',name:'Cyber Neon',tag:'UNIQUE',tagColor:'#22D3EE',bg:TBG.neonCyber,accent:'#22D3EE',font:'Josefin Sans',anim:'slide',
+     preview:mkDots('#22D3EE')+`<div style="position:absolute;left:0;right:0;height:1px;background:rgba(34,211,238,0.3);top:35%;animation:scanLine 4s linear infinite;"></div>`+mkPrev('Josefin Sans','#22D3EE','<div style="font-size:1.8rem;font-weight:700;letter-spacing:2px">LOVE.EXE</div><div style="font-size:0.7rem;opacity:0.55;margin-top:8px;letter-spacing:3px;font-family:\'DM Sans\',sans-serif">LOADING...</div>')},
+  ],
+  engagement:[
+    {id:'e1',name:'Diamond Blush',tag:'ROMANTIC',tagColor:'#FFC0CB',bg:TBG.velvetPink,accent:'#FFC0CB',font:'Great Vibes',anim:'fade',
+     preview:mkDots('#FFC0CB')+mkPrev('Great Vibes','#FFC0CB','<div style="font-size:0.75rem;letter-spacing:3px;font-family:\'DM Sans\',sans-serif;opacity:0.65;margin-bottom:6px">💍 RING CEREMONY</div><div style="font-size:2.6rem">Aditya & Shruti</div>')},
+    {id:'e2',name:'Champagne Gold',tag:'LUXE',tagColor:'#FFD700',bg:TBG.amberWarm,accent:'#FFD700',font:'Cinzel',anim:'zoom',
+     preview:mkDots('#FFD700')+mkPrev('Cinzel','#FFD700','<div style="font-size:1.8rem">ENGAGEMENT</div><div style="font-size:0.85rem;opacity:0.55;margin:6px 0">CELEBRATION</div><div style="font-size:1.6rem">Karan & Pooja</div>')},
+    {id:'e3',name:'Rose Gold Dream',tag:'POPULAR',tagColor:'#F9A8D4',bg:TBG.rosewood,accent:'#F9A8D4',font:'Pacifico',anim:'slide',
+     preview:mkDots('#F9A8D4')+`<div style="position:absolute;font-size:16px;top:12%;left:12%;animation:heartBeat 1.5s infinite;">💖</div>`+mkPrev('Pacifico','#F9A8D4','<div style="font-size:2rem">Two Hearts</div><div style="font-size:0.8rem;opacity:0.7;margin-top:6px;font-family:\'DM Sans\',sans-serif">Engagement Party 💍</div>')},
+  ],
+  mehndi:[
+    {id:'m1',name:'Henna Green',tag:'TRADITIONAL',tagColor:'#86EFAC',bg:TBG.emeraldForest,accent:'#86EFAC',font:'Dancing Script',anim:'fade',
+     preview:mkDots('#86EFAC')+mkPrev('Dancing Script','#86EFAC','<div style="font-size:0.75rem;letter-spacing:3px;font-family:\'DM Sans\',sans-serif;opacity:0.65;margin-bottom:6px">🌿 MEHNDI NIGHT</div><div style="font-size:2.6rem">Come Celebrate!</div>')},
+    {id:'m2',name:'Saffron Haldi',tag:'VIBRANT',tagColor:'#FCD34D',bg:TBG.warmSaffron,accent:'#FCD34D',font:'Pacifico',anim:'zoom',
+     preview:mkDots('#FCD34D')+mkPrev('Pacifico','#FCD34D','<div style="font-size:0.8rem;font-family:\'DM Sans\',sans-serif;opacity:0.65;margin-bottom:6px">HALDI CEREMONY</div><div style="font-size:2rem">You\'re Invited!</div>')},
+    {id:'m3',name:'Lotus Pink',tag:'BEAUTIFUL',tagColor:'#FDA4AF',bg:TBG.rosewood,accent:'#FDA4AF',font:'Satisfy',anim:'slide',
+     preview:mkDots('#FDA4AF')+`<div style="position:absolute;font-size:14px;bottom:25%;left:15%;animation:petal 3.5s ease-in infinite;">🪷</div>`+mkPrev('Satisfy','#FDA4AF','<div style="font-size:2.2rem">Mehndi Raat</div><div style="font-size:0.75rem;opacity:0.65;margin-top:8px;font-family:\'DM Sans\',sans-serif">🌸 The Night Before</div>')},
+  ],
+  sangeet:[
+    {id:'sa1',name:'Neon Beats',tag:'ELECTRIC',tagColor:'#E879F9',bg:TBG.indigoDeep,accent:'#E879F9',font:'Montserrat',anim:'zoom',
+     preview:mkDots('#E879F9')+`<div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 80%,rgba(232,121,249,0.15),transparent);"></div>`+mkPrev('Montserrat','#E879F9','<div style="font-size:1.8rem;font-weight:900;letter-spacing:4px">SANGEET</div><div style="font-size:0.8rem;opacity:0.65;margin-top:6px">NIGHT TO REMEMBER 🎵</div>')},
+    {id:'sa2',name:'Bollywood Glam',tag:'DESI',tagColor:'#FF6B6B',bg:TBG.rubyRed,accent:'#FF6B6B',font:'Raleway',anim:'slide',
+     preview:mkDots('#FF6B6B')+mkPrev('Raleway','#FF6B6B','<div style="font-size:1.7rem;font-weight:800">🎵 Let\'s Dance!</div><div style="font-size:0.8rem;opacity:0.65;margin-top:8px">Sangeet Celebration</div>')},
+    {id:'sa3',name:'Retro Disco',tag:'FUN',tagColor:'#FDE68A',bg:TBG.charcoal,accent:'#FDE68A',font:'Josefin Sans',anim:'fade',
+     preview:mkDots('#FDE68A')+`<div style="position:absolute;width:80px;height:80px;left:50%;top:50%;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(253,230,138,0.1),transparent);border-radius:50%;animation:heartBeat 2s infinite;"></div>`+mkPrev('Josefin Sans','#FDE68A','<div style="font-size:1.6rem;font-weight:700">DANCE NIGHT</div><div style="font-size:0.75rem;opacity:0.6;margin-top:6px;letter-spacing:2px">SANGEET PARTY</div>')},
+  ],
+  reception:[
+    {id:'r1',name:'Grand Gala',tag:'FORMAL',tagColor:'#A78BFA',bg:TBG.cosmicPurple,accent:'#A78BFA',font:'Playfair Display',anim:'fade',
+     preview:mkDots('#A78BFA')+mkPrev('Playfair Display','#A78BFA','<div style="font-size:0.75rem;letter-spacing:4px;opacity:0.6;margin-bottom:8px">🥂 RECEPTION</div><div style="font-size:2.2rem;font-style:italic">An Evening to Remember</div>')},
+    {id:'r2',name:'Silver Elegance',tag:'CLASSIC',tagColor:'#E5E7EB',bg:TBG.charcoal,accent:'#E5E7EB',font:'Cinzel',anim:'zoom',
+     preview:mkDots('#E5E7EB')+mkPrev('Cinzel','#E5E7EB','<div style="font-size:1.7rem">RECEPTION CEREMONY</div><div style="font-size:0.8rem;opacity:0.55;margin-top:8px">Black Tie Event</div>')},
+    {id:'r3',name:'Champagne Night',tag:'LUXE',tagColor:'#FEF3C7',bg:TBG.amberWarm,accent:'#FEF3C7',font:'Great Vibes',anim:'slide',
+     preview:mkDots('#FEF3C7')+`<div style="position:absolute;font-size:14px;top:15%;right:15%;animation:floatParticle 3s linear infinite;">✨</div>`+mkPrev('Great Vibes','#FEF3C7','<div style="font-size:2.4rem">Celebrate Love</div><div style="font-size:0.75rem;opacity:0.65;margin-top:8px;font-family:\'DM Sans\',sans-serif">Reception Party 🥂</div>')},
+  ],
+  babyshower:[
+    {id:'bs1',name:'Baby Blue Stars',tag:'ADORABLE',tagColor:'#93C5FD',bg:TBG.deepOcean,accent:'#93C5FD',font:'Dancing Script',anim:'fade',
+     preview:mkDots('#93C5FD')+mkPrev('Dancing Script','#93C5FD','<div style="font-size:2.3rem">Baby Shower</div><div style="font-size:0.8rem;font-family:\'DM Sans\',sans-serif;opacity:0.7;margin-top:8px">🍼 Join us to celebrate!</div>')},
+    {id:'bs2',name:'Blush Pink',tag:'GIRL',tagColor:'#FBCFE8',bg:TBG.velvetPink,accent:'#FBCFE8',font:'Pacifico',anim:'zoom',
+     preview:mkDots('#FBCFE8')+mkPrev('Pacifico','#FBCFE8','<div style="font-size:1.9rem">It\'s A Girl!</div><div style="font-size:0.75rem;font-family:\'DM Sans\',sans-serif;opacity:0.7;margin-top:8px">Baby Shower Party 🎀</div>')},
+    {id:'bs3',name:'Mint Green',tag:'BOY',tagColor:'#6EE7B7',bg:TBG.auroraGreen,accent:'#6EE7B7',font:'Dancing Script',anim:'slide',
+     preview:mkDots('#6EE7B7')+mkPrev('Dancing Script','#6EE7B7','<div style="font-size:2.1rem">A New Life!</div><div style="font-size:0.75rem;font-family:\'DM Sans\',sans-serif;opacity:0.7;margin-top:8px">🌿 Baby Shower Invite</div>')},
+    {id:'bs4',name:'Rainbow Joy',tag:'BRIGHT',tagColor:'#FCD34D',bg:TBG.indigoDeep,accent:'#FCD34D',font:'Pacifico',anim:'bounce',
+     preview:mkDots('#FCD34D')+`<div style="position:absolute;font-size:12px;top:10%;left:10%;animation:bounceIn 2s infinite;">🌈</div>`+mkPrev('Pacifico','#FCD34D','<div style="font-size:1.8rem">We\'re Expecting!</div><div style="font-size:0.75rem;opacity:0.65;margin-top:6px;font-family:\'DM Sans\',sans-serif">Baby Shower 🍼</div>')},
+  ],
+  birthday:[
+    {id:'b1',name:'Cosmic Party',tag:'TRENDING',tagColor:'#FBBF24',bg:TBG.cosmicPurple,accent:'#FBBF24',font:'Pacifico',anim:'zoom',
+     preview:mkDots('#FBBF24')+`<div style="position:absolute;font-size:14px;top:12%;right:14%;animation:bounceIn 1.5s infinite;">🎂</div>`+mkPrev('Pacifico','#FBBF24','<div style="font-size:2.1rem">Happy Birthday!</div><div style="font-size:0.75rem;font-family:\'DM Sans\',sans-serif;opacity:0.7;margin-top:8px">🎂 Join the celebration!</div>')},
+    {id:'b2',name:'Neon Glow',tag:'ELECTRIC',tagColor:'#38BDF8',bg:TBG.midnightBlue,accent:'#38BDF8',font:'Montserrat',anim:'slide',
+     preview:mkDots('#38BDF8')+`<div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 100%,rgba(56,189,248,0.15),transparent);"></div>`+mkPrev('Montserrat','#38BDF8','<div style="font-size:1.9rem;font-weight:900">CELEBRATE!</div><div style="font-size:0.8rem;opacity:0.65;margin-top:8px">Birthday Party 🎈</div>')},
+    {id:'b3',name:'Rainbow Pop',tag:'FUN',tagColor:'#F472B6',bg:TBG.indigoDeep,accent:'#F472B6',font:'Raleway',anim:'bounce',
+     preview:mkDots('#F472B6')+mkPrev('Raleway','#F472B6','<div style="font-size:1.9rem;font-weight:800">IT\'S MY BIRTHDAY!</div><div style="font-size:0.8rem;opacity:0.65;margin-top:8px">🎈 Party Time!</div>')},
+    {id:'b4',name:'Golden Glam',tag:'LUXE',tagColor:'#F5C842',bg:TBG.royalGold,accent:'#F5C842',font:'Great Vibes',anim:'fade',
+     preview:mkDots('#F5C842')+mkPrev('Great Vibes','#F5C842','<div style="font-size:2.5rem">Birthday Wishes</div><div style="font-size:0.75rem;letter-spacing:3px;font-family:\'DM Sans\',sans-serif;opacity:0.65;margin-top:8px">YOU ARE LOVED 🎂</div>')},
+    {id:'b5',name:'Dark Galaxy',tag:'UNIQUE',tagColor:'#A78BFA',bg:TBG.galaxyBlue,accent:'#A78BFA',font:'Josefin Sans',anim:'zoom',
+     preview:mkDots('#A78BFA')+Array.from({length:6},(_,i)=>`<div style="position:absolute;width:2px;height:2px;background:#A78BFA;border-radius:50%;left:${i*16+5}%;top:${10+(i*23)%50}%;animation:twinkle ${1+i*0.3}s ease-in-out infinite;animation-delay:${i*0.2}s;"></div>`).join('')+mkPrev('Josefin Sans','#A78BFA','<div style="font-size:1.7rem;font-weight:700;letter-spacing:2px">GALAXY BIRTHDAY</div><div style="font-size:0.75rem;opacity:0.6;margin-top:6px">Among The Stars 🌌</div>')},
+  ],
+  firstbirthday:[
+    {id:'fb1',name:'One is Fun',tag:'SWEET',tagColor:'#FCA5A5',bg:TBG.sunsetOrange,accent:'#FCA5A5',font:'Pacifico',anim:'bounce',
+     preview:mkDots('#FCA5A5')+`<div style="position:absolute;font-size:16px;top:8%;right:12%;animation:heartBeat 1.8s infinite;">🎈</div>`+mkPrev('Pacifico','#FCA5A5','<div style="font-size:3rem;line-height:1">1</div><div style="font-size:1.6rem">Year Old!</div><div style="font-size:0.7rem;font-family:\'DM Sans\',sans-serif;opacity:0.7;margin-top:6px">First Birthday Party 🎉</div>')},
+    {id:'fb2',name:'Stars & Moon',tag:'DREAMY',tagColor:'#FDE68A',bg:TBG.galaxyBlue,accent:'#FDE68A',font:'Dancing Script',anim:'fade',
+     preview:mkDots('#FDE68A')+mkPrev('Dancing Script','#FDE68A','<div style="font-size:1.9rem">Turning ONE!</div><div style="font-size:0.8rem;font-family:\'DM Sans\',sans-serif;opacity:0.65;margin-top:8px">⭐ 1st Birthday Bash</div>')},
+    {id:'fb3',name:'Candy Land',tag:'COLORFUL',tagColor:'#86EFAC',bg:TBG.auroraGreen,accent:'#86EFAC',font:'Pacifico',anim:'zoom',
+     preview:mkDots('#86EFAC')+mkPrev('Pacifico','#86EFAC','<div style="font-size:2rem">ONE & DONE!</div><div style="font-size:0.75rem;opacity:0.65;margin-top:6px;font-family:\'DM Sans\',sans-serif">🍭 First Birthday!</div>')},
+  ],
+  anniversary:[
+    {id:'an1',name:'Golden Years',tag:'CLASSIC',tagColor:'#F59E0B',bg:TBG.amberWarm,accent:'#F59E0B',font:'Playfair Display',anim:'fade',
+     preview:mkDots('#F59E0B')+mkPrev('Playfair Display','#F59E0B','<div style="font-size:2.4rem;font-style:italic">25 Years</div><div style="font-size:0.75rem;letter-spacing:3px;opacity:0.65;margin-top:8px">SILVER JUBILEE 💍</div>')},
+    {id:'an2',name:'Red Romance',tag:'PASSIONATE',tagColor:'#F87171',bg:TBG.rubyRed,accent:'#F87171',font:'Great Vibes',anim:'slide',
+     preview:mkDots('#F87171')+`<div style="position:absolute;font-size:16px;top:10%;left:15%;animation:heartBeat 1.5s infinite;">❤️</div>`+mkPrev('Great Vibes','#F87171','<div style="font-size:2.5rem">Always & Forever</div><div style="font-size:0.75rem;font-family:\'DM Sans\',sans-serif;opacity:0.65;margin-top:8px">Anniversary Celebration 💕</div>')},
+    {id:'an3',name:'Starlit Night',tag:'DREAMY',tagColor:'#C4B5FD',bg:TBG.cosmicPurple,accent:'#C4B5FD',font:'Satisfy',anim:'zoom',
+     preview:mkDots('#C4B5FD')+mkPrev('Satisfy','#C4B5FD','<div style="font-size:2.2rem">Endless Love</div><div style="font-size:0.75rem;opacity:0.65;margin-top:8px;font-family:\'DM Sans\',sans-serif">Anniversary Night ✨</div>')},
+  ],
+  savedate:[
+    {id:'sd1',name:'Minimal Chic',tag:'MODERN',tagColor:'#E0E7FF',bg:TBG.charcoal,accent:'#E0E7FF',font:'Josefin Sans',anim:'fade',
+     preview:mkPrev('Josefin Sans','#E0E7FF','<div style="font-size:0.75rem;letter-spacing:5px;opacity:0.55">PLEASE</div><div style="font-size:1.9rem;font-weight:700;margin:3px 0">SAVE THE DATE</div><div style="font-size:0.75rem;letter-spacing:3px;opacity:0.55">12.12.2025</div>')},
+    {id:'sd2',name:'Botanical',tag:'NATURAL',tagColor:'#A7F3D0',bg:TBG.auroraGreen,accent:'#A7F3D0',font:'Italiana',anim:'slide',
+     preview:mkDots('#A7F3D0')+mkPrev('Italiana','#A7F3D0','<div style="font-size:1.9rem">Save The Date</div><div style="font-size:0.75rem;opacity:0.65;margin-top:8px">We are getting married 🌿</div>')},
+    {id:'sd3',name:'Galactic',tag:'UNIQUE',tagColor:'#67E8F9',bg:TBG.galaxyBlue,accent:'#67E8F9',font:'Cinzel',anim:'zoom',
+     preview:mkDots('#67E8F9')+mkPrev('Cinzel','#67E8F9','<div style="font-size:1.6rem">MARK YOUR</div><div style="font-size:1.8rem;margin:4px 0">CALENDAR</div><div style="font-size:0.75rem;opacity:0.55;margin-top:6px;letter-spacing:3px">2025</div>')},
+  ],
+  housewarming:[
+    {id:'hw1',name:'Warm Home',tag:'TRADITIONAL',tagColor:'#FCD34D',bg:TBG.warmSaffron,accent:'#FCD34D',font:'Pacifico',anim:'fade',
+     preview:mkDots('#FCD34D')+`<div style="position:absolute;font-size:20px;top:10%;right:12%;animation:bounceIn 2.5s infinite;">🏠</div>`+mkPrev('Pacifico','#FCD34D','<div style="font-size:1.9rem">Ghar Pravesh!</div><div style="font-size:0.75rem;font-family:\'DM Sans\',sans-serif;opacity:0.7;margin-top:8px">🏠 Housewarming Invitation</div>')},
+    {id:'hw2',name:'Modern Minimal',tag:'MODERN',tagColor:'#7DD3FC',bg:TBG.deepOcean,accent:'#7DD3FC',font:'Raleway',anim:'slide',
+     preview:mkDots('#7DD3FC')+mkPrev('Raleway','#7DD3FC','<div style="font-size:1.9rem;font-weight:800">NEW HOME!</div><div style="font-size:0.8rem;opacity:0.65;margin-top:8px">Join the celebration 🏠</div>')},
+  ],
+  naming:[
+    {id:'nc1',name:'Sweet Stars',tag:'CUTE',tagColor:'#C4B5FD',bg:TBG.indigoDeep,accent:'#C4B5FD',font:'Dancing Script',anim:'fade',
+     preview:mkDots('#C4B5FD')+mkPrev('Dancing Script','#C4B5FD','<div style="font-size:2.3rem">Namkaran</div><div style="font-size:0.8rem;font-family:\'DM Sans\',sans-serif;opacity:0.7;margin-top:8px">👶 Naming Ceremony</div>')},
+    {id:'nc2',name:'Pastel Dream',tag:'SOFT',tagColor:'#86EFAC',bg:TBG.auroraGreen,accent:'#86EFAC',font:'Pacifico',anim:'slide',
+     preview:mkDots('#86EFAC')+mkPrev('Pacifico','#86EFAC','<div style="font-size:1.9rem">A New Name!</div><div style="font-size:0.75rem;opacity:0.65;margin-top:6px;font-family:\'DM Sans\',sans-serif">Naming Ceremony 🌟</div>')},
+  ],
+  diwali:[
+    {id:'d1',name:'Diya Glow',tag:'CLASSIC',tagColor:'#FCD34D',bg:'radial-gradient(ellipse at center,#1e0d00 0%,#0a0500 100%)',accent:'#FCD34D',font:'Cinzel',anim:'fade',
+     preview:mkDots('#FCD34D')+`<div style="position:absolute;font-size:18px;bottom:15%;left:15%;animation:heartBeat 2s infinite;">🪔</div><div style="position:absolute;font-size:14px;bottom:18%;right:18%;animation:heartBeat 2s infinite;animation-delay:0.5s;">🪔</div>`+mkPrev('Cinzel','#FCD34D','<div style="font-size:2.2rem">HAPPY</div><div style="font-size:1.8rem;margin:2px 0">DIWALI</div><div style="font-size:0.9rem;opacity:0.65;margin-top:6px">🪔 Festival of Lights</div>')},
+    {id:'d2',name:'Firework Night',tag:'VIBRANT',tagColor:'#FB923C',bg:TBG.indigoDeep,accent:'#FB923C',font:'Pacifico',anim:'zoom',
+     preview:mkDots('#FB923C')+`<div style="position:absolute;font-size:14px;top:10%;right:10%;animation:firework 2s ease-out infinite;">🎆</div>`+mkPrev('Pacifico','#FB923C','<div style="font-size:1.9rem">Diwali Celebration!</div><div style="font-size:0.75rem;font-family:\'DM Sans\',sans-serif;opacity:0.7;margin-top:8px">You\'re cordially invited 🎆</div>')},
+    {id:'d3',name:'Lakshmi Gold',tag:'SPIRITUAL',tagColor:'#F59E0B',bg:TBG.royalGold,accent:'#F59E0B',font:'Great Vibes',anim:'slide',
+     preview:mkDots('#F59E0B')+mkPrev('Great Vibes','#F59E0B','<div style="font-size:2.5rem">Shubh Deepawali</div><div style="font-size:0.75rem;font-family:\'DM Sans\',sans-serif;opacity:0.7;margin-top:8px">May light triumph 🙏</div>')},
+    {id:'d4',name:'Rangoli Dreams',tag:'COLORFUL',tagColor:'#EC4899',bg:TBG.velvetPink,accent:'#EC4899',font:'Dancing Script',anim:'fade',
+     preview:mkDots('#EC4899')+mkPrev('Dancing Script','#EC4899','<div style="font-size:2.4rem">Diwali</div><div style="font-size:0.75rem;opacity:0.65;margin-top:8px;font-family:\'DM Sans\',sans-serif">🎊 Rangoli & Diyas</div>')},
+  ],
+  christmas:[
+    {id:'c1',name:'Christmas Eve',tag:'FESTIVE',tagColor:'#FCA5A5',bg:TBG.christmasGreen,accent:'#FCA5A5',font:'Pacifico',anim:'fade',
+     preview:mkDots('#FCA5A5')+`<div style="position:absolute;font-size:16px;top:10%;left:12%;animation:snowfall 3s linear infinite;">❄️</div><div style="position:absolute;font-size:14px;top:15%;right:15%;animation:snowfall 4s linear infinite;animation-delay:1s;">❄️</div>`+mkPrev('Pacifico','#FCA5A5','<div style="font-size:1.9rem">Merry Christmas!</div><div style="font-size:0.75rem;font-family:\'DM Sans\',sans-serif;opacity:0.7;margin-top:8px">🎄 Wishing you joy!</div>')},
+    {id:'c2',name:'Winter Frost',tag:'ELEGANT',tagColor:'#BAE6FD',bg:TBG.winterFrost,accent:'#BAE6FD',font:'Cinzel',anim:'zoom',
+     preview:mkDots('#BAE6FD')+mkPrev('Cinzel','#BAE6FD','<div style="font-size:1.8rem">CHRISTMAS</div><div style="font-size:0.85rem;opacity:0.6;margin:5px 0">CELEBRATION</div><div style="font-size:1.3rem;opacity:0.8">❄️ 25th December</div>')},
+    {id:'c3',name:'Santa Night',tag:'FUN',tagColor:'#FEF9C3',bg:TBG.rubyRed,accent:'#FEF9C3',font:'Dancing Script',anim:'slide',
+     preview:mkDots('#FEF9C3')+mkPrev('Dancing Script','#FEF9C3','<div style="font-size:2.2rem">Santa\'s Coming!</div><div style="font-size:0.75rem;opacity:0.65;margin-top:6px;font-family:\'DM Sans\',sans-serif">🎅 Holiday Party</div>')},
+  ],
+  newyear:[
+    {id:'ny1',name:'Countdown',tag:'ELECTRIC',tagColor:'#FBBF24',bg:'radial-gradient(ellipse at center,#0a0014 0%,#050008 100%)',accent:'#FBBF24',font:'Syne',anim:'zoom',
+     preview:mkDots('#FBBF24')+`<div style="position:absolute;font-size:14px;top:12%;right:10%;animation:firework 1.8s ease-out infinite;">🎆</div>`+mkPrev('Syne','#FBBF24','<div style="font-size:2.2rem;font-weight:800">HAPPY NEW YEAR!</div><div style="font-size:0.8rem;opacity:0.65;margin-top:8px">🎆 2025</div>')},
+    {id:'ny2',name:'Midnight Cheer',tag:'PURPLE',tagColor:'#E879F9',bg:TBG.indigoDeep,accent:'#E879F9',font:'Montserrat',anim:'slide',
+     preview:mkDots('#E879F9')+mkPrev('Montserrat','#E879F9','<div style="font-size:2rem;font-weight:900">NEW YEAR PARTY</div><div style="font-size:0.8rem;opacity:0.65;margin-top:8px">Let\'s Ring It In! 🥂</div>')},
+    {id:'ny3',name:'Galaxy Countdown',tag:'UNIQUE',tagColor:'#67E8F9',bg:TBG.galaxyBlue,accent:'#67E8F9',font:'Josefin Sans',anim:'fade',
+     preview:mkDots('#67E8F9')+mkPrev('Josefin Sans','#67E8F9','<div style="font-size:1.7rem;font-weight:700;letter-spacing:2px">2 0 2 5</div><div style="font-size:0.8rem;letter-spacing:4px;opacity:0.55;margin-top:6px">CELEBRATE</div>')},
+  ],
+  valentine:[
+    {id:'v1',name:'Love Bloom',tag:'ROMANTIC',tagColor:'#FB7185',bg:TBG.rubyRed,accent:'#FB7185',font:'Great Vibes',anim:'fade',
+     preview:mkDots('#FB7185')+`<div style="position:absolute;font-size:16px;top:12%;right:12%;animation:heartBeat 1.5s infinite;">💕</div>`+mkPrev('Great Vibes','#FB7185','<div style="font-size:2.6rem">Be My Valentine!</div><div style="font-size:0.75rem;font-family:\'DM Sans\',sans-serif;opacity:0.7;margin-top:8px">💕 February 14th</div>')},
+    {id:'v2',name:'Roses Red',tag:'CLASSIC',tagColor:'#FCA5A5',bg:TBG.velvetPink,accent:'#FCA5A5',font:'Satisfy',anim:'slide',
+     preview:mkDots('#FCA5A5')+mkPrev('Satisfy','#FCA5A5','<div style="font-size:2.3rem">With All My Love</div><div style="font-size:0.75rem;font-family:\'DM Sans\',sans-serif;opacity:0.7;margin-top:8px">❤️ Happy Valentine\'s Day</div>')},
+    {id:'v3',name:'Pink Cosmos',tag:'DREAMY',tagColor:'#F9A8D4',bg:TBG.indigoDeep,accent:'#F9A8D4',font:'Dancing Script',anim:'zoom',
+     preview:mkDots('#F9A8D4')+`<div style="position:absolute;font-size:12px;top:15%;left:15%;animation:floatParticle 4s linear infinite;animation-delay:0.5s;">💗</div>`+mkPrev('Dancing Script','#F9A8D4','<div style="font-size:2.4rem">You & Me</div><div style="font-size:0.75rem;opacity:0.65;margin-top:8px;font-family:\'DM Sans\',sans-serif">Valentine\'s Day 🌹</div>')},
+  ],
+  eid:[
+    {id:'eid1',name:'Golden Crescent',tag:'SPIRITUAL',tagColor:'#FCD34D',bg:TBG.amberWarm,accent:'#FCD34D',font:'Cinzel',anim:'fade',
+     preview:mkDots('#FCD34D')+`<div style="position:absolute;font-size:20px;top:10%;right:12%;animation:rotateIn 3s ease-in-out infinite;">🌙</div>`+mkPrev('Cinzel','#FCD34D','<div style="font-size:2rem">EID MUBARAK!</div><div style="font-size:0.8rem;opacity:0.65;margin-top:8px">🌙 Wishing you blessings</div>')},
+    {id:'eid2',name:'Starry Night',tag:'BEAUTIFUL',tagColor:'#86EFAC',bg:TBG.mysticTeal,accent:'#86EFAC',font:'Great Vibes',anim:'zoom',
+     preview:mkDots('#86EFAC')+mkPrev('Great Vibes','#86EFAC','<div style="font-size:2.4rem">Eid Mubarak!</div><div style="font-size:0.75rem;opacity:0.65;margin-top:6px;font-family:\'DM Sans\',sans-serif">May this Eid bring joy ☪️</div>')},
+  ],
+  graduation:[
+    {id:'g1',name:'Academic Gold',tag:'PROUD',tagColor:'#F59E0B',bg:TBG.amberWarm,accent:'#F59E0B',font:'Playfair Display',anim:'fade',
+     preview:mkDots('#F59E0B')+`<div style="position:absolute;font-size:18px;top:10%;right:12%;animation:bounceIn 2s infinite;">🎓</div>`+mkPrev('Playfair Display','#F59E0B','<div style="font-size:1.9rem;font-style:italic">Graduation</div><div style="font-size:0.75rem;letter-spacing:3px;opacity:0.65;margin-top:8px">CLASS OF 2025 🎓</div>')},
+    {id:'g2',name:'Cap & Gown',tag:'CLASSIC',tagColor:'#6EE7B7',bg:TBG.auroraGreen,accent:'#6EE7B7',font:'Raleway',anim:'slide',
+     preview:mkDots('#6EE7B7')+mkPrev('Raleway','#6EE7B7','<div style="font-size:1.9rem;font-weight:800">GRADUATE!</div><div style="font-size:0.8rem;opacity:0.65;margin-top:8px">Graduation Celebration 🎓</div>')},
+    {id:'g3',name:'Cosmic Scholar',tag:'UNIQUE',tagColor:'#C4B5FD',bg:TBG.cosmicPurple,accent:'#C4B5FD',font:'Josefin Sans',anim:'zoom',
+     preview:mkDots('#C4B5FD')+mkPrev('Josefin Sans','#C4B5FD','<div style="font-size:1.6rem;font-weight:700;letter-spacing:2px">THE FUTURE</div><div style="font-size:1.4rem;letter-spacing:1px;opacity:0.7;margin-top:4px">IS BRIGHT</div><div style="font-size:0.7rem;opacity:0.5;margin-top:6px;letter-spacing:3px">GRADUATE 2025</div>')},
+  ],
+};
+
+const ALL_FONTS=['Great Vibes','Dancing Script','Pacifico','Sacramento','Satisfy','Playfair Display','Cormorant Garamond','Cinzel','Libre Baskerville','Italiana','Bodoni Moda','Montserrat','Raleway','Syne','Josefin Sans','Space Grotesk','DM Sans','Georgia','Times New Roman'];
+
+const BG_PRESETS=[
+  {css:TBG.royalGold,label:'Gold Night'},{css:TBG.cosmicPurple,label:'Deep Purple'},
+  {css:TBG.auroraGreen,label:'Forest Dark'},{css:TBG.deepOcean,label:'Ocean Blue'},
+  {css:TBG.rubyRed,label:'Ruby Red'},{css:TBG.charcoal,label:'Black'},
+  {css:TBG.amberWarm,label:'Warm Black'},{css:TBG.midnightBlue,label:'Midnight'},
+  {css:'radial-gradient(ellipse,#1a0a00,#050300)',label:'Radial Gold'},
+  {css:TBG.galaxyBlue,label:'Dark Sky'},
+  {css:TBG.mysticTeal,label:'Emerald'},{css:TBG.indigoDeep,label:'Cosmic'},
+  {css:TBG.velvetPink,label:'Rose Dark'},{css:TBG.shimmerGold,label:'Shimmer'},
+  {css:TBG.neonCyber,label:'Cyber'},{css:TBG.sunsetOrange,label:'Sunset'},
+];
+
+const CARD_ICONS=['fa-heart','fa-ring','fa-star','fa-crown','fa-gem','fa-dove','fa-music','fa-glass-cheers','fa-calendar-alt','fa-map-marker-alt','fa-envelope','fa-phone','fa-camera','fa-baby','fa-cake-candles','fa-tree','fa-snowflake','fa-sun','fa-moon','fa-fire','fa-leaf','fa-home','fa-pray','fa-graduation-cap','fa-infinity','fa-anchor','fa-clock','fa-gift'];
+const TEXT_COLORS=['#ffffff','#F5C842','#FCA5A5','#A78BFA','#86EFAC','#7DD3FC','#FCD34D','#F9A8D4','#C084FC','#34D399','#000000'];
+
+// ── Card Builder Functions ──────────────────────────────
+function openCardBuilder(){
+  document.getElementById('cardBuilderModal').classList.remove('hidden');
+  renderCatList();showCategoryTemplates(currentCategory);
+}
+function closeCardBuilder(){document.getElementById('cardBuilderModal').classList.add('hidden');}
+function cardBuilderBack(){
+  document.getElementById('cbBackBtn').style.display='none';
+  document.getElementById('cbTemplateView').classList.remove('hidden');
+  document.getElementById('cbEditorView').classList.add('hidden');
+  selectedTemplate=null;
+}
+
+function renderCatList(){
+  document.getElementById('catList').innerHTML=CARD_CATEGORIES.map(c=>`
+    <div class="cat-item ${c.id===currentCategory?'active':''}" onclick="showCategoryTemplates('${c.id}')">
+      <span class="cat-icon">${c.icon}</span><span>${c.name}</span>
+    </div>`).join('');
+}
+
+function showCategoryTemplates(catId){
+  currentCategory=catId;renderCatList();
+  const cat=CARD_CATEGORIES.find(c=>c.id===catId);
+  const templates=CARD_TEMPLATES[catId]||[];
+  const view=document.getElementById('cbTemplateView');
+  view.innerHTML=`
+    <div class="cb-section-title">${cat.icon} ${cat.name} — ${templates.length} Animated Templates</div>
+    <div class="template-grid">
+      ${templates.map(t=>`
+        <div class="tpl-card ${selectedTemplate?.id===t.id?'selected':''}" onclick="selectTemplate('${catId}','${t.id}')">
+          <div class="tpl-preview" style="background:${t.bg};">
+            ${t.preview}
+            <div class="tpl-overlay">
+              <span class="tpl-badge" style="background:${t.tagColor||'#F5C842'}22;color:${t.tagColor||'#F5C842'};border:1px solid ${t.tagColor||'#F5C842'}66;">${t.tag||'TEMPLATE'}</span>
+              <button class="tpl-action-btn" onclick="event.stopPropagation();editTemplate('${catId}','${t.id}')">✏️ Customize</button>
+            </div>
+          </div>
+          <div class="tpl-name">${t.name}</div>
+        </div>
+      `).join('')}
+    </div>`;
+}
+
+function selectTemplate(catId,tplId){
+  const templates=CARD_TEMPLATES[catId]||[];
+  selectedTemplate=templates.find(t=>t.id===tplId);
+  showCategoryTemplates(catId);
+}
+
+function editTemplate(catId,tplId){
+  const templates=CARD_TEMPLATES[catId]||[];
+  const tpl=templates.find(t=>t.id===tplId);
+  if(!tpl)return;
+  selectedTemplate=tpl;
+  const saved=localStorage.getItem(`card_draft_${tplId}`);
+  if(saved){try{Object.assign(cardData,JSON.parse(saved));}catch{}}
+  cardData.font=tpl.font||'Great Vibes';
+  cardData.accentColor=tpl.accent||'#F5C842';
+  cardData.bg=BG_PRESETS.findIndex(b=>b.css===tpl.bg);
+  if(cardData.bg<0)cardData.bg=0;
+  cardData.bgCustom=tpl.bg;
+  cardData.animation=tpl.anim||'fade';
+  document.getElementById('cbTemplateView').classList.add('hidden');
+  document.getElementById('cbEditorView').classList.remove('hidden');
+  document.getElementById('cbBackBtn').style.display='flex';
+  renderCardEditor(tpl);
+}
+
+function renderCardEditor(tpl){
+  document.getElementById('cbEditorView').innerHTML=`
+    <div class="card-editor-wrap">
+      <div class="card-editor-panel">
+        <div class="editor-section">
+          <div class="editor-section-title">✏️ Card Text</div>
+          <label class="editor-label">Title / Event Name</label>
+          <input class="editor-input" id="ec_title" placeholder="e.g. Wedding Invitation" value="${cardData.title||tpl.name||''}" oninput="updateCard()">
+          <label class="editor-label">Name 1 (Bride/Celebrant)</label>
+          <input class="editor-input" id="ec_name1" placeholder="e.g. Priya Sharma" value="${cardData.name1||''}" oninput="updateCard()">
+          <label class="editor-label">Name 2 (Groom/Co-host)</label>
+          <input class="editor-input" id="ec_name2" placeholder="e.g. Rohan Verma" value="${cardData.name2||''}" oninput="updateCard()">
+          <label class="editor-label">Parents Names</label>
+          <input class="editor-input" id="ec_parents" placeholder="Mr. & Mrs. Sharma | Mr. & Mrs. Verma" value="${cardData.parents||''}" oninput="updateCard()">
+          <label class="editor-label">Date & Time</label>
+          <input class="editor-input" id="ec_datetime" placeholder="Dec 25, 2025 | 7:00 PM" value="${cardData.datetime||''}" oninput="updateCard()">
+          <label class="editor-label">Venue</label>
+          <input class="editor-input" id="ec_venue" placeholder="The Grand Palace, Mumbai" value="${cardData.venue||''}" oninput="updateCard()">
+          <label class="editor-label">Custom Message</label>
+          <textarea class="editor-textarea" id="ec_message" placeholder="Together with their families, we invite you..." oninput="updateCard()">${cardData.message||''}</textarea>
+          <label class="editor-label">RSVP</label>
+          <input class="editor-input" id="ec_rsvp" placeholder="+91 98765 43210 | name@email.com" value="${cardData.rsvp||''}" oninput="updateCard()">
+        </div>
+        <div class="editor-section">
+          <div class="editor-section-title">🔤 Font Style</div>
+          <div class="font-grid">${ALL_FONTS.map(f=>`<div class="font-btn ${cardData.font===f?'active':''}" style="font-family:'${f}',serif;" onclick="setFont('${f}')" title="${f}">${f.split(' ')[0]}</div>`).join('')}</div>
+        </div>
+        <div class="editor-section">
+          <div class="editor-section-title">🎨 Background</div>
+          <div class="bg-grid">${BG_PRESETS.map((b,i)=>`<div class="bg-option ${cardData.bg===i?'active':''}" style="background:${b.css}" onclick="setBg(${i})" title="${b.label}"></div>`).join('')}</div>
+          <div style="margin-top:10px;"><label class="editor-label">Upload Background Image</label><input type="file" id="bgUpload" accept="image/*" onchange="handleBgUpload(event)" style="color:var(--muted);font-size:0.82rem;width:100%;"></div>
+        </div>
+        <div class="editor-section">
+          <div class="editor-section-title">🎨 Text Color</div>
+          <div class="color-row">${TEXT_COLORS.map(c=>`<div class="color-swatch ${cardData.textColor===c?'active':''}" style="background:${c}" onclick="setTextColor('${c}')"></div>`).join('')}<input type="color" value="${cardData.textColor||'#fff'}" oninput="setTextColor(this.value)" style="width:28px;height:28px;border-radius:50%;border:none;cursor:pointer;background:none;"></div>
+          <div class="editor-section-title" style="margin-top:12px;">✨ Accent Color</div>
+          <div class="color-row">${TEXT_COLORS.map(c=>`<div class="color-swatch ${cardData.accentColor===c?'active':''}" style="background:${c}" onclick="setAccentColor('${c}')"></div>`).join('')}<input type="color" value="${cardData.accentColor||'#F5C842'}" oninput="setAccentColor(this.value)" style="width:28px;height:28px;border-radius:50%;border:none;cursor:pointer;background:none;"></div>
+        </div>
+        <div class="editor-section">
+          <div class="editor-section-title">✨ Animation Effect</div>
+          <div class="anim-btns">${['fade','slide','zoom','bounce','typewriter','none'].map(a=>`<div class="anim-btn ${cardData.animation===a?'active':''}" onclick="setAnimation('${a}')">${a.charAt(0).toUpperCase()+a.slice(1)}</div>`).join('')}</div>
+        </div>
+        <div class="editor-section">
+          <div class="editor-section-title">⭐ Add Icons</div>
+          <div class="icon-grid">${CARD_ICONS.map(ic=>`<div class="icon-btn" onclick="addIcon('${ic}')"><i class="fas ${ic}" style="color:${cardData.accentColor||'#F5C842'}"></i></div>`).join('')}</div>
+        </div>
+      </div>
+      <div class="card-preview-panel">
+        <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--muted);font-size:0.85rem;margin-bottom:12px;">LIVE PREVIEW</div>
+        <div id="liveCardPreview"></div>
+        <div class="card-actions">
+          <button class="card-act-btn cab-dl" onclick="downloadCard()"><i class="fas fa-download"></i> Download</button>
+          <button class="card-act-btn cab-wa" onclick="shareWhatsApp()"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+          <button class="card-act-btn cab-mob" onclick="toggleMobilePreview()"><i class="fas fa-mobile-alt"></i> Mobile</button>
+          <button class="card-act-btn cab-save" onclick="saveDraft()"><i class="fas fa-save"></i> Draft</button>
+        </div>
+        <div id="mobilePreviewContainer" class="hidden" style="margin-top:20px;display:flex;flex-direction:column;align-items:center;gap:10px;">
+          <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--muted);font-size:0.8rem;">MOBILE PREVIEW</div>
+          <div class="mobile-preview-frame"><div class="mobile-notch"></div><div id="mobileCardInner"></div></div>
+        </div>
+        <div style="margin-top:16px;width:100%;max-width:360px;">
+          <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--muted);font-size:0.8rem;margin-bottom:8px;">💬 Ask BHUJI AI for ideas</div>
+          <div style="display:flex;gap:8px;">
+            <input type="text" id="cardAiInput" class="editor-input" placeholder="Suggest shayari, hashtags, songs..." style="flex:1;margin-bottom:0;">
+            <button onclick="askCardAI()" style="padding:10px 14px;border-radius:10px;background:linear-gradient(135deg,var(--gold),var(--orange));border:none;color:#000;font-weight:700;cursor:pointer;white-space:nowrap;font-family:'Space Grotesk',sans-serif;">Ask AI</button>
+          </div>
+          <div id="cardAiResponse" style="margin-top:10px;padding:12px;background:var(--surface);border:1px solid var(--border2);border-radius:12px;font-size:0.85rem;line-height:1.7;color:var(--text);display:none;"></div>
+        </div>
+      </div>
+    </div>`;
+  updateCard();
+}
+
+function setFont(f){cardData.font=f;document.querySelectorAll('.font-btn').forEach(b=>b.classList.toggle('active',b.title===f));updateCard();}
+function setBg(i){cardData.bg=i;cardData.bgCustom='';cardData.uploadedBg='';document.querySelectorAll('.bg-option').forEach((b,j)=>b.classList.toggle('active',j===i));updateCard();}
+function setTextColor(c){cardData.textColor=c;updateCard();}
+function setAccentColor(c){cardData.accentColor=c;updateCard();}
+function setAnimation(a){cardData.animation=a;document.querySelectorAll('.anim-btn').forEach(b=>b.classList.toggle('active',b.textContent.toLowerCase()===a));updateCard();}
+function addIcon(ic){if(!cardData.icons)cardData.icons=[];if(cardData.icons.length<5)cardData.icons.push(ic);updateCard();}
+function handleBgUpload(e){const f=e.target.files[0];if(!f)return;const reader=new FileReader();reader.onload=ev=>{cardData.uploadedBg=ev.target.result;updateCard();};reader.readAsDataURL(f);}
+
+function renderLiveParticles(color,anim){
+  if(anim==='none')return'';
+  const c=color||'#F5C842';
+  // Choose particle type based on accent color
+  if(/#[Ff][A-Fa-f0-9]/.test(c)||/#F[5-9]/.test(c))return renderGoldParticles(c);
+  if(/#[89aAbB][0-9a-fA-F]/.test(c))return renderTwinkleStars(c);
+  return renderGoldParticles(c);
+}
+function renderGoldParticles(c){
+  return Array.from({length:14},(_,i)=>`<div style="position:absolute;width:${1.5+Math.floor(i%3)}px;height:${1.5+Math.floor(i%3)}px;border-radius:50%;background:${c};left:${Math.floor(Math.random()*88)+6}%;animation:floatParticle ${3+i*0.6}s linear infinite;animation-delay:${i*0.4}s;opacity:0.45;"></div>`).join('');
+}
+function renderTwinkleStars(c){
+  return Array.from({length:10},(_,i)=>`<div style="position:absolute;width:2px;height:2px;background:${c};border-radius:50%;left:${i*10+5}%;top:${10+(i*23)%70}%;animation:twinkle ${1.5+i*0.3}s ease-in-out infinite;animation-delay:${i*0.2}s;"></div>`).join('');
+}
+
+function buildCardHTML(){
+  const bg=cardData.uploadedBg?`url('${cardData.uploadedBg}') center/cover`:(cardData.bgCustom||BG_PRESETS[cardData.bg]?.css||BG_PRESETS[0].css);
+  const animClass=`card-anim-${cardData.animation}`;
+  const icons=(cardData.icons||[]).map(ic=>`<i class="fas ${ic}" style="margin:0 5px;color:${cardData.accentColor};font-size:1.2rem;"></i>`).join('');
+  return `
+    <div id="cardInner" class="${animClass}" style="background:${bg};width:100%;min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px;text-align:center;position:relative;overflow:hidden;border-radius:inherit;">
+      ${renderLiveParticles(cardData.accentColor,cardData.animation)}
+      ${icons?`<div style="margin-bottom:14px;">${icons}</div>`:''}
+      ${cardData.title?`<div style="font-family:'${cardData.font}',serif,cursive;color:${cardData.accentColor};font-size:0.95rem;letter-spacing:4px;opacity:0.9;margin-bottom:10px;font-weight:600;">${cardData.title}</div>`:''}
+      ${cardData.name1?`<div style="font-family:'${cardData.font}',serif,cursive;color:${cardData.textColor};font-size:2.5rem;line-height:1.1;" class="${cardData.animation==='typewriter'?'card-typewriter-text':''}">${cardData.name1}</div>`:''}
+      ${cardData.name1&&cardData.name2?`<div style="color:${cardData.accentColor};font-size:1.3rem;margin:4px 0;opacity:0.85;">&</div>`:''}
+      ${cardData.name2?`<div style="font-family:'${cardData.font}',serif,cursive;color:${cardData.textColor};font-size:2.5rem;line-height:1.1;">${cardData.name2}</div>`:''}
+      ${cardData.parents?`<div style="color:${cardData.textColor};opacity:0.65;font-size:0.78rem;margin-top:12px;font-style:italic;">${cardData.parents}</div>`:''}
+      ${cardData.message?`<div style="color:${cardData.textColor};opacity:0.82;font-size:0.84rem;margin:14px 0;line-height:1.75;max-width:290px;">${cardData.message}</div>`:''}
+      ${cardData.datetime?`<div style="color:${cardData.accentColor};font-size:0.88rem;margin-top:10px;font-weight:700;">📅 ${cardData.datetime}</div>`:''}
+      ${cardData.venue?`<div style="color:${cardData.textColor};opacity:0.72;font-size:0.8rem;margin-top:4px;">📍 ${cardData.venue}</div>`:''}
+      ${cardData.rsvp?`<div style="color:${cardData.accentColor};font-size:0.76rem;margin-top:12px;opacity:0.8;">RSVP: ${cardData.rsvp}</div>`:''}
+      <div style="position:absolute;bottom:10px;right:14px;font-size:0.6rem;opacity:0.25;font-family:'DM Sans',sans-serif;color:#fff;">BHUJI AI</div>
+    </div>`;
+}
+
+function updateCard(){
+  cardData.title=document.getElementById('ec_title')?.value||cardData.title||'';
+  cardData.name1=document.getElementById('ec_name1')?.value||cardData.name1||'';
+  cardData.name2=document.getElementById('ec_name2')?.value||cardData.name2||'';
+  cardData.parents=document.getElementById('ec_parents')?.value||cardData.parents||'';
+  cardData.datetime=document.getElementById('ec_datetime')?.value||cardData.datetime||'';
+  cardData.venue=document.getElementById('ec_venue')?.value||cardData.venue||'';
+  cardData.message=document.getElementById('ec_message')?.value||cardData.message||'';
+  cardData.rsvp=document.getElementById('ec_rsvp')?.value||cardData.rsvp||'';
+  const preview=document.getElementById('liveCardPreview');
+  if(!preview)return;
+  preview.innerHTML=buildCardHTML();
+  const mob=document.getElementById('mobileCardInner');
+  if(mob&&!document.getElementById('mobilePreviewContainer')?.classList.contains('hidden')){
+    mob.innerHTML=buildCardHTML();
+  }
+}
+function toggleMobilePreview(){
+  const c=document.getElementById('mobilePreviewContainer');
+  c.classList.toggle('hidden');
+  if(!c.classList.contains('hidden')){const mob=document.getElementById('mobileCardInner');if(mob)mob.innerHTML=buildCardHTML();}
+}
+async function downloadCard(){
+  const el=document.getElementById('liveCardPreview');
+  if(!el){alert('No card to download!');return;}
+  try{
+    const canvas=await html2canvas(el,{backgroundColor:null,scale:2.5,useCORS:true,logging:false});
+    const a=document.createElement('a');
+    a.href=canvas.toDataURL('image/png');
+    a.download=`BHUJI_Card_${Date.now()}.png`;
+    a.click();
+    addMsg('assistant','📥 **Card downloaded!** Beautiful digital invitation saved as PNG. Share on WhatsApp, Instagram, or print it! 🎉',['Card Builder']);
+  }catch(e){alert('Download error: '+e.message);}
+}
+function shareWhatsApp(){
+  const txt=encodeURIComponent(`🎉 *${cardData.title||'Invitation'}*\n\n👫 ${[cardData.name1,cardData.name2].filter(Boolean).join(' & ')}\n📅 ${cardData.datetime||''}\n📍 ${cardData.venue||''}\n\n${cardData.message||'You are cordially invited!'}\n\n✨ Created with BHUJI AI`);
+  window.open(`https://wa.me/?text=${txt}`,'_blank');
+}
+function saveDraft(){
+  if(!selectedTemplate)return;
+  localStorage.setItem(`card_draft_${selectedTemplate.id}`,JSON.stringify(cardData));
+  const btn=document.querySelector('.cab-save');
+  if(btn){const old=btn.innerHTML;btn.innerHTML='✅ Saved!';setTimeout(()=>btn.innerHTML=old,2000);}
+}
+
+const CARD_AI_RESPONSES={
+  shayari:['💕 "Pyaar ki duniya mein aao, khushiyon ki bahar lao..."','🌸 "Do phool khile, do dil mile, zindagi ho gayi hasin..."','💌 "Teri aankhon ki chamak mein, mujhe mera kal nazar aata hai..."'],
+  hashtag:['💍 Trending Wedding Hashtags:\n#ForeverTogether #LoveStory2025 #WeddingBells #JaiHo #DulhaDulhan #BigFatIndianWedding #DesiWedding #WeddingGoals #CoupleGoals #BridalDiaries'],
+  song:['🎵 Top Wedding Songs 2025:\n• Tum Hi Ho\n• Kesariya\n• Raataan Lambiyan\n• Tera Ban Jaunga\n• Dil Ko Karaar Aaya'],
+  wish:['🎊 Wish Ideas:\n• "May your love story be written in stars!"\n• "Two hearts, one beautiful journey begins..."\n• "Wishing you a lifetime of happiness!"'],
+  default:['✨ BHUJI AI Suggestions:\n• Use contrasting text colors\n• Keep message short & meaningful\n• Add exact venue with landmark\n• Include RSVP deadline\n• Choose elegant fonts for formal events']
+};
+async function askCardAI(){
+  const inp=document.getElementById('cardAiInput');
+  const q=(inp?.value||'').toLowerCase();
+  const resp=document.getElementById('cardAiResponse');
+  if(!resp)return;
+  resp.style.display='block';
+  resp.innerHTML='<div style="display:flex;gap:6px;"><div style="width:8px;height:8px;background:var(--gold);border-radius:50%;animation:typingBounce 1s infinite;"></div><div style="width:8px;height:8px;background:var(--gold);border-radius:50%;animation:typingBounce 1s infinite;animation-delay:0.2s;"></div><div style="width:8px;height:8px;background:var(--gold);border-radius:50%;animation:typingBounce 1s infinite;animation-delay:0.4s;"></div></div>';
+  await new Promise(r=>setTimeout(r,900));
+  let ans;
+  if(/shayari|poetry|poem|romantic/.test(q)) ans=CARD_AI_RESPONSES.shayari[Math.floor(Math.random()*CARD_AI_RESPONSES.shayari.length)];
+  else if(/hashtag|tag/.test(q)) ans=CARD_AI_RESPONSES.hashtag[0];
+  else if(/song|music|sangeet/.test(q)) ans=CARD_AI_RESPONSES.song[0];
+  else if(/wish|greet|message/.test(q)) ans=CARD_AI_RESPONSES.wish[0];
+  else ans=CARD_AI_RESPONSES.default[0];
+  resp.innerHTML=ans.replace(/\n/g,'<br>');
+  if(inp)inp.value='';
+}
+
+// ── Search Engine ──────────────────────────────────────
+const Search={
+  async google(query){
+    if(googleApiKey&&googleCseId){
+      try{
+        const url=`https://www.googleapis.com/customsearch/v1?key=${googleApiKey}&cx=${googleCseId}&q=${encodeURIComponent(query)}&num=8`;
+        const d=await(await fetch(url)).json();
+        if(d.items?.length){return{ok:true,results:d.items.map(i=>({title:i.title,link:i.link,snippet:i.snippet||'',displayLink:i.displayLink||''})),live:true,source:'Google Custom Search'};}
+      }catch(e){console.warn('Google API:',e.message);}
+    }
+    try{
+      const d=await(await fetch(`https://api.duckduckgo.com/?q=${encodeURIComponent(query)}&format=json&no_html=1&skip_disambig=1`)).json();
+      const r=[];
+      if(d.Abstract?.length>40)r.push({title:d.AbstractSource||'Top Result',link:d.AbstractURL||`https://www.google.com/search?q=${encodeURIComponent(query)}`,snippet:d.Abstract});
+      d.RelatedTopics?.slice(0,6).forEach(t=>{if(t.Text?.length>30)r.push({title:t.Text.slice(0,60),link:t.FirstURL||`https://www.google.com/search?q=${encodeURIComponent(query)}`,snippet:t.Text});});
+      if(r.length)return{ok:true,results:r,live:true,source:'DuckDuckGo'};
+    }catch{}
+    return{ok:true,results:this.mockResults(query),live:false,source:'BHUJI Intelligence'};
+  },
+  mockResults(query){
+    return[
+      {title:`${query} — Complete Expert Guide`,link:`https://www.google.com/search?q=${encodeURIComponent(query)}`,snippet:`A comprehensive guide covering all key aspects of ${query}. Includes practical tips, expert insights and the latest research.`},
+      {title:`${query} | Wikipedia`,link:`https://en.wikipedia.org/wiki/${encodeURIComponent(query.replace(/ /g,'_'))}`,snippet:`${query} is a multifaceted topic with rich history and modern applications.`},
+      {title:`${query}: Expert Analysis`,link:`https://www.google.com/search?q=${encodeURIComponent(query+' guide')}`,snippet:`Expert insights about ${query} — covering proven methods, real-world examples, and practical steps.`}
+    ];
+  },
+  async wikipedia(query){
+    try{
+      const sr=await(await fetch(`https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(query)}&format=json&origin=*&srlimit=1`)).json();
+      if(!sr.query?.search?.length)return{ok:false};
+      const title=sr.query.search[0].title;
+      const cr=await(await fetch(`https://en.wikipedia.org/w/api.php?action=query&prop=extracts&explaintext=true&titles=${encodeURIComponent(title)}&format=json&origin=*`)).json();
+      const pages=cr.query.pages;
+      const extract=pages[Object.keys(pages)[0]].extract||'';
+      if(extract.length>80)return{ok:true,title,extract,url:`https://en.wikipedia.org/wiki/${encodeURIComponent(title.replace(/ /g,'_'))}`};
+    }catch{}
+    return{ok:false};
+  },
+  async duckduckgo(query){
+    try{
+      const d=await(await fetch(`https://api.duckduckgo.com/?q=${encodeURIComponent(query)}&format=json&no_html=1&skip_disambig=1`)).json();
+      const results=[];
+      if(d.Abstract?.length>50)results.push({type:'abstract',text:d.Abstract,url:d.AbstractURL,src:d.AbstractSource||'DuckDuckGo'});
+      d.RelatedTopics?.slice(0,4).forEach(t=>{if(t.Text?.length>40)results.push({type:'related',text:t.Text,url:t.FirstURL});});
+      return results.length?{ok:true,results}:{ok:false};
+    }catch{return{ok:false};}
+  },
+  async all(query){
+    const[g,w,d]=await Promise.all([this.google(query),this.wikipedia(query),this.duckduckgo(query)]);
+    return{query,google:g,wiki:w,duck:d};
+  },
+  synthesize(query,data){
+    const parts=[];
+    parts.push(`<div class="ans-block"><h3>🤖 BHUJI's Answer: <em>${query}</em></h3>`);
+    let wc=0;
+    const addPara=text=>{if(!text||wc>390)return;wc+=text.trim().split(' ').length;parts.push(`<p>${text.trim()}</p>`);};
+    if(data.wiki?.ok){data.wiki.extract.split('\n\n').filter(p=>p.trim().length>60).slice(0,4).forEach(p=>addPara(p.trim()));}
+    if(data.google?.ok&&wc<280)data.google.results.slice(0,3).forEach(r=>{if(r.snippet)addPara(r.snippet);});
+    if(data.duck?.ok&&wc<350){const abs=data.duck.results.find(r=>r.type==='abstract');if(abs?.text)addPara(abs.text);}
+    const q=query.toLowerCase();
+    if(/diet|nutrition|food|meal/.test(q)&&wc<350)addPara('Key nutritional principles: aim for 50% complex carbohydrates, 25–30% lean protein, and 20–25% healthy fats. Eat 5–6 smaller meals daily and stay hydrated.');
+    else if(/workout|gym|exercise/.test(q)&&wc<350)addPara('Training fundamentals: warm up 5–10 minutes, apply progressive overload, prioritise compound movements, rest 48 hours between same muscle group training.');
+    else if(/invest|stock|finance/.test(q)&&wc<350)addPara('Financial fundamentals: diversify across asset classes, start early for compound growth, build 3–6 month emergency fund, consider low-cost index funds.');
+    parts.push('</div>');
+    const wordCount=parts.join('').replace(/<[^>]+>/g,'').trim().split(/\s+/).length;
+    const srcList=[data.wiki?.ok?'Wikipedia':'',data.google?.ok?`${data.google.source||'Google'}`:'',data.duck?.ok?'DuckDuckGo':''].filter(Boolean);
+    parts.push(`<div style="font-size:0.78rem;color:var(--muted);margin:6px 0;">📊 ~${wordCount} words | Sources: ${srcList.join(', ')||'BHUJI AI'}</div>`);
+    return parts.join('');
+  },
+  format(data,query){
+    const links=[];
+    let html=this.synthesize(query,data);
+    if(data.wiki?.ok){
+      const paras=data.wiki.extract.split('\n\n').filter(p=>p.length>50);
+      html+=`<div class="src-wiki"><h3>📚 Wikipedia — ${data.wiki.title}</h3>${paras.slice(3,7).map(p=>`<p>${p}</p>`).join('')}</div>`;
+      links.push({title:`📖 Wikipedia: ${data.wiki.title}`,url:data.wiki.url,snippet:data.wiki.extract.slice(0,280)+'...',cls:'sb-wiki'});
+    }
+    if(data.google?.ok&&data.google.results?.length){
+      html+=`<div class="src-google"><h3>🔍 ${data.google.live?'Google Results':'Top Web Results'}:</h3>`;
+      data.google.results.slice(0,5).forEach((r,i)=>{
+        html+=`<div class="res-item"><div class="res-title">${i+1}. ${r.title}</div><div class="res-snip">${r.snippet}</div><div class="res-url">${r.link}</div></div>`;
+        links.push({title:`🔗 ${r.title}`,url:r.link,snippet:r.snippet,cls:'sb-google'});
+      });
+      html+=`</div>`;
+    }
+    if(data.duck?.ok&&data.duck.results?.length){
+      html+=`<div class="src-duck"><h3>🦆 DuckDuckGo:</h3>`;
+      data.duck.results.forEach(r=>{
+        html+=`<div class="res-item"><div class="res-snip">${r.text}</div>${r.url?`<div class="res-url">${r.url}</div>`:''}</div>`;
+        if(r.url)links.push({title:`🦆 ${r.text.slice(0,60)}...`,url:r.url,snippet:r.text,cls:'sb-duck'});
+      });
+      html+=`</div>`;
+    }
+    const qe=query.replace(/'/g,"\\'");
+    html+=`<div class="followup-strip"><div class="followup-label">🤔 Want to explore more?</div><div class="followup-btns"><button class="followup-btn" onclick="wantMore('${qe}','detail')">🔍 More Detail</button><button class="followup-btn" onclick="wantMore('${qe}','examples')">💡 Examples</button><button class="followup-btn ghost" onclick="wantMore('${qe}','related')">🔗 Related</button><button class="followup-btn ghost" onclick="wantMore('${qe}','latest')">📰 Latest News</button></div></div>`;
+    return{html,links};
+  }
+};
+
+async function wantMore(query,type){
+  const ex={detail:`Explain in depth with history, mechanisms, statistics: ${query}`,examples:`Give 5 real-world examples and applications of: ${query}`,related:`Key related topics around: ${query}`,latest:`Latest news and developments in 2025 about: ${query}`};
+  document.getElementById('msgInput').value=ex[type]||`Tell me more about ${query}`;
+  await sendMsg();
+}
+
+// ── Document Type Detection ────────────────────────────
+const DOC_PATTERNS={
+  resume:[/build.*resume/i,/create.*resume/i,/make.*resume/i,/write.*cv/i,/create.*cv/i,/my.*resume/i,/resume/i],
+  leave:[/leave.*application/i,/write.*leave/i,/leave.*letter/i],
+  love:[/love.*letter/i,/write.*love/i,/romantic.*letter/i],
+  friendship:[/friendship.*letter/i,/friend.*letter/i],
+  cover:[/cover.*letter/i,/job.*application/i,/write.*cover/i],
+  complaint:[/complaint.*letter/i,/write.*complaint/i],
+  apology:[/apology.*letter/i,/sorry.*letter/i],
+  thank:[/thank.*you.*letter/i,/thank.*letter/i],
+  recommendation:[/recommendation/i,/recommend.*letter/i],
+  excel:[/excel.*sheet/i,/create.*excel/i,/make.*excel/i,/spreadsheet/i],
+  card:[/create.*card/i,/make.*card/i,/invitation.*card/i,/digital.*card/i,/wedding.*card/i,/birthday.*card/i,/build.*invite/i]
+};
+function detectDoc(msg){for(const[type,pats]of Object.entries(DOC_PATTERNS)){if(pats.some(p=>p.test(msg)))return type;}return null;}
+
+// ── GARUD Document Builder ─────────────────────────────
+const GARUD_TYPES=[
+  {id:'resume',icon:'📄',name:'Resume / CV',desc:'Professional resume'},
+  {id:'leave',icon:'📩',name:'Leave Application',desc:'Formal leave request'},
+  {id:'love',icon:'💌',name:'Love Letter',desc:'Heartfelt romantic letter'},
+  {id:'friendship',icon:'🤝',name:'Friendship Letter',desc:'Dear friend letter'},
+  {id:'cover',icon:'💼',name:'Cover Letter',desc:'Job application letter'},
+  {id:'complaint',icon:'📢',name:'Complaint Letter',desc:'Formal complaint'},
+  {id:'apology',icon:'🙏',name:'Apology Letter',desc:'Sincere apology'},
+  {id:'thank',icon:'💛',name:'Thank You Letter',desc:'Gratitude letter'},
+  {id:'recommendation',icon:'⭐',name:'Recommendation Letter',desc:'Reference letter'},
+  {id:'invitation',icon:'🎉',name:'Invitation Letter',desc:'Event invitation'},
+  {id:'farewell',icon:'👋',name:'Farewell Letter',desc:'Goodbye message'},
+  {id:'business',icon:'🏢',name:'Business Letter',desc:'Business correspondence'},
+  {id:'excel',icon:'📊',name:'Excel Sheet',desc:'Custom spreadsheet',isExcel:true}
+];
+const GARUD_FIELDS={
+  resume:[{id:'name',label:'Full Name *',type:'text',ph:'Himanshu Sharma'},{id:'email',label:'Email *',type:'email',ph:'him@email.com'},{id:'phone',label:'Phone *',type:'text',ph:'+91 98765 43210'},{id:'dob',label:'Date of Birth',type:'date',ph:''},{id:'address',label:'City / Address',type:'text',ph:'Mumbai, Maharashtra'},{id:'linkedin',label:'LinkedIn / Portfolio',type:'text',ph:'linkedin.com/in/himanshu'},{id:'objective',label:'Career Objective',type:'textarea',ph:'Brief objective...'},{id:'education',label:'Education *',type:'textarea',ph:'B.Tech CS – XYZ Univ (2024)\n12th – ABC School (2020)'},{id:'skills',label:'Skills',type:'skills',ph:'Add a skill...'},{id:'experience',label:'Work Experience',type:'textarea',ph:'Software Dev at TechCorp (2023–Now)\n– Built web apps in React\nOR write "Fresher"'},{id:'achievements',label:'Achievements / Certs',type:'textarea',ph:'– Google Cloud Certified\n– Hackathon Winner 2023'},{id:'declaration',label:'Declaration',type:'textarea',ph:'I hereby declare...'}],
+  leave:[{id:'name',label:'Your Full Name *',type:'text',ph:'Your Name'},{id:'desig',label:'Designation / Class',type:'text',ph:'Software Engineer'},{id:'to',label:'To (Manager Name) *',type:'text',ph:'Mr. Rajesh Kumar'},{id:'company',label:'Company / School *',type:'text',ph:'TechSolutions Pvt Ltd'},{id:'subject',label:'Subject *',type:'text',ph:'Application for Sick Leave'},{id:'fromDate',label:'Leave From *',type:'date',ph:''},{id:'toDate',label:'Leave To *',type:'date',ph:''},{id:'reason',label:'Reason *',type:'textarea',ph:'I am suffering from high fever...'},{id:'date',label:'Application Date',type:'date',ph:''}],
+  love:[{id:'yourName',label:'Your Name *',type:'text',ph:'Your Name'},{id:'theirName',label:"Partner's Name *",type:'text',ph:"Partner's Name"},{id:'howLong',label:'How long together?',type:'text',ph:'2 years, since college'},{id:'tone',label:'Tone / Style',type:'select',options:['Romantic & Poetic','Sweet & Simple','Passionate & Deep','Cute & Playful']},{id:'memories',label:'A special memory',type:'textarea',ph:'The day we first met...'},{id:'message',label:'Your Message *',type:'textarea',ph:'What you want to express...'}],
+  friendship:[{id:'yourName',label:'Your Name *',type:'text',ph:'Your Name'},{id:'friendName',label:"Friend's Name *",type:'text',ph:"Friend's Name"},{id:'duration',label:'Years of Friendship',type:'text',ph:'5 years, since school'},{id:'occasion',label:'Occasion / Reason',type:'text',ph:'Birthday, Moving away...'},{id:'memories',label:'Shared memories',type:'textarea',ph:'Our trip, late nights...'},{id:'message',label:'Your Message *',type:'textarea',ph:'What this friendship means...'}],
+  cover:[{id:'name',label:'Your Full Name *',type:'text',ph:'Your Name'},{id:'email',label:'Email *',type:'email',ph:'you@email.com'},{id:'phone',label:'Phone',type:'text',ph:'+91 XXXXXXXXXX'},{id:'company',label:'Company Name *',type:'text',ph:'Google India'},{id:'position',label:'Position Applied *',type:'text',ph:'Software Engineer'},{id:'skills',label:'Key Skills',type:'skills',ph:'Add a skill...'},{id:'experience',label:'Experience *',type:'textarea',ph:'5 years in full-stack dev...'},{id:'why',label:'Why this company?',type:'textarea',ph:"I admire the company's work in..."},{id:'date',label:'Date',type:'date',ph:''}],
+  complaint:[{id:'yourName',label:'Your Name *',type:'text',ph:'Your Name'},{id:'address',label:'Your Address',type:'textarea',ph:'123, Street, City'},{id:'to',label:'To (Authority) *',type:'text',ph:'The Manager / Principal'},{id:'subject',label:'Subject *',type:'text',ph:'Complaint about defective product'},{id:'details',label:'Complaint Details *',type:'textarea',ph:'On [date] I purchased...'},{id:'resolution',label:'Expected Resolution',type:'textarea',ph:'I request you to replace / refund...'},{id:'date',label:'Date *',type:'date',ph:''}],
+  apology:[{id:'yourName',label:'Your Name *',type:'text',ph:'Your Name'},{id:'toName',label:"To (Person's Name) *",type:'text',ph:'Person you are apologizing to'},{id:'incident',label:'What happened? *',type:'textarea',ph:'I missed the deadline...'},{id:'feeling',label:'How you feel',type:'textarea',ph:'I deeply regret my actions...'},{id:'assurance',label:'Your assurance',type:'textarea',ph:'Going forward I will...'}],
+  thank:[{id:'yourName',label:'Your Name *',type:'text',ph:'Your Name'},{id:'recipName',label:"Recipient's Name *",type:'text',ph:'Name of person to thank'},{id:'reason',label:'Reason for Thanks *',type:'textarea',ph:'For the opportunity, the gift...'},{id:'tone',label:'Tone',type:'select',options:['Formal & Professional','Warm & Personal','Brief & Simple']}],
+  recommendation:[{id:'recommender',label:'Your Name & Title *',type:'text',ph:'Dr. A. Sharma, HOD'},{id:'candidate',label:"Candidate's Name *",type:'text',ph:'Himanshu Gupta'},{id:'relation',label:'Your Relationship *',type:'text',ph:'Student / Employee for 3 years'},{id:'qualities',label:'Key Qualities *',type:'textarea',ph:'Exceptional skills, reliable...'},{id:'purpose',label:'Purpose *',type:'text',ph:'Higher studies / Job application'},{id:'date',label:'Date',type:'date',ph:''}],
+  invitation:[{id:'host',label:'Host / Your Name *',type:'text',ph:'Himanshu / ABC Company'},{id:'guestName',label:"Guest's Name *",type:'text',ph:'Mr. Rajesh Kumar'},{id:'eventName',label:'Event Name *',type:'text',ph:'Annual Reunion'},{id:'eventDate',label:'Event Date *',type:'date',ph:''},{id:'eventTime',label:'Event Time',type:'text',ph:'6:00 PM onwards'},{id:'venue',label:'Venue *',type:'text',ph:'Hotel Grand Palace, Mumbai'},{id:'extra',label:'Additional Info',type:'textarea',ph:'Dress code: Formal.'}],
+  farewell:[{id:'yourName',label:'Your Name *',type:'text',ph:'Your Name'},{id:'toName',label:'To (Person / Team) *',type:'text',ph:'My dear team / John'},{id:'reason',label:'Reason for leaving',type:'text',ph:'New job / Relocating'},{id:'duration',label:'How long together?',type:'text',ph:'3 years, 5 months'},{id:'memories',label:'Memories to mention',type:'textarea',ph:'Project launches, team lunches...'},{id:'wishes',label:'Final wishes *',type:'textarea',ph:'I wish everyone all the best...'}],
+  business:[{id:'senderName',label:'Sender / Company *',type:'text',ph:'Himanshu Enterprises'},{id:'recipName',label:'Recipient / Company *',type:'text',ph:'XYZ Suppliers Ltd.'},{id:'subject',label:'Subject *',type:'text',ph:'Quotation Request'},{id:'body',label:'Letter Body *',type:'textarea',ph:'Write the main content...'}],
+  excel:[{id:'sheetName',label:'Sheet / File Name *',type:'text',ph:'Monthly Sales Report'},{id:'purpose',label:'Purpose / Description',type:'text',ph:'Track monthly revenue'},{id:'columns',label:'Column Names *',type:'excel-cols',ph:'Add column...'},{id:'rowCount',label:'Number of empty rows',type:'number',ph:'10'},{id:'sampleData',label:'Include sample data?',type:'select',options:['Yes - add sample rows','No - blank rows only']}]
+};
+
+function openGarud(){if(!unlocked('garud')){showPricing();return;}garudStep=1;garudDocType=null;garudDocData={};garudSkills=[];excelColumns=[];renderGarudStep(1);document.getElementById('garudModal').classList.remove('hidden');}
+function closeGarud(){document.getElementById('garudModal').classList.add('hidden');}
+function renderGarudStep(n){
+  garudStep=n;
+  document.querySelectorAll('.garud-step').forEach((s,i)=>s.classList.toggle('active',i+1===n));
+  document.getElementById('garudStepDots').innerHTML=[1,2,3].map(i=>`<div class="step-dot ${i<n?'done':''} ${i===n?'active':''}"></div>`).join('');
+  const isExcel=garudDocType==='excel';
+  if(n===1)renderDocGrid();
+  if(n===2)isExcel?renderExcelForm():renderGarudForm();
+  if(n===3)isExcel?renderExcelPreview():renderGarudPreview();
+  const titles={1:'📋 GARUD Document Builder',2:isExcel?'📊 Configure Your Excel Sheet':'✏️ Fill in Details',3:isExcel?'📊 Excel Preview':'✅ Document Ready!'};
+  document.getElementById('garudTitle').textContent=titles[n];
+  const dlBtn=document.getElementById('garudDlBtn');
+  if(dlBtn)dlBtn.textContent=isExcel?'⬇️ Download .xlsx File':'⬇️ Download .doc File';
+}
+function renderDocGrid(){document.getElementById('docTypeGrid').innerHTML=GARUD_TYPES.map(t=>`<div class="doc-type-card ${t.isExcel?'excel-card':''} ${garudDocType===t.id?'selected':''}" onclick="pickDocType('${t.id}')"><span class="doc-type-icon">${t.icon}</span><div class="doc-type-name">${t.name}</div><div class="doc-type-desc">${t.desc}</div></div>`).join('');}
+function pickDocType(id){garudDocType=id;excelColumns=[];setTimeout(()=>renderGarudStep(2),300);}
+function renderGarudForm(){
+  const fields=GARUD_FIELDS[garudDocType]||[];let html='';
+  fields.forEach(f=>{
+    const val=garudDocData[f.id]||'';
+    if(f.type==='skills')html+=`<label class="form-label">${f.label} (press Enter to add)</label><div class="skills-area" onclick="document.getElementById('skillInp').focus()"><div id="skillChips"></div><input class="skill-txt" id="skillInp" placeholder="${f.ph}" onkeydown="addSkill(event)"></div>`;
+    else if(f.type==='textarea')html+=`<label class="form-label">${f.label}</label><textarea class="inp" id="gf_${f.id}" placeholder="${f.ph}" rows="3">${val}</textarea>`;
+    else if(f.type==='select')html+=`<label class="form-label">${f.label}</label><select class="sel" id="gf_${f.id}">${(f.options||[]).map(o=>`<option ${val===o?'selected':''}>${o}</option>`).join('')}</select>`;
+    else html+=`<label class="form-label">${f.label}</label><input type="${f.type||'text'}" class="inp" id="gf_${f.id}" placeholder="${f.ph}" value="${val}">`;
+  });
+  document.getElementById('garudFormArea').innerHTML=html;
+  const decl=document.getElementById('gf_declaration');
+  if(decl&&!decl.value)decl.value='I hereby declare that the above information is true to the best of my knowledge.';
+  renderSkillChips();
+}
+function renderExcelForm(){
+  document.getElementById('garudFormArea').innerHTML=`
+    <label class="form-label">Sheet / File Name *</label>
+    <input type="text" class="inp" id="gf_sheetName" placeholder="e.g. Monthly Sales Report" value="${garudDocData.sheetName||''}">
+    <label class="form-label">Purpose / Description</label>
+    <input type="text" class="inp" id="gf_purpose" placeholder="e.g. Track monthly revenue" value="${garudDocData.purpose||''}">
+    <label class="form-label">Column Headers * (press Enter to add)</label>
+    <div class="excel-col-controls" id="excelColTags"></div>
+    <div style="display:flex;gap:8px;margin-bottom:14px;">
+      <input type="text" class="inp" id="excelColInp" placeholder="Column name..." style="margin-bottom:0;flex:1;" onkeydown="addExcelCol(event)">
+      <button class="excel-add-btn" onclick="addExcelColBtn()">+ Add</button>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div><label class="form-label">Number of rows</label><input type="number" class="inp" id="gf_rowCount" placeholder="10" min="1" max="100" value="${garudDocData.rowCount||'10'}"></div>
+      <div><label class="form-label">Include sample data?</label><select class="sel" id="gf_sampleData"><option value="yes">Yes</option><option value="no">No</option></select></div>
+    </div>
+    <label class="form-label">Quick Template</label>
+    <select class="sel" id="gf_template" onchange="applyExcelTemplate(this.value)">
+      <option value="">— Choose —</option>
+      <option value="sales">Sales Report</option><option value="attendance">Attendance Sheet</option>
+      <option value="budget">Budget Tracker</option><option value="inventory">Inventory</option>
+      <option value="contacts">Contact List</option><option value="tasks">Task Tracker</option>
+      <option value="student">Student Marks</option><option value="expense">Expense Tracker</option>
+    </select>`;
+  renderExcelColTags();
+}
+const EXCEL_TEMPLATES={sales:['Product Name','Quantity','Unit Price (₹)','Total (₹)','Region','Sales Rep','Month'],attendance:['Employee Name','Date','Status (P/A/L)','In Time','Out Time','Remarks'],budget:['Category','Planned Amount (₹)','Actual Amount (₹)','Variance (₹)','Notes'],inventory:['Item Name','SKU Code','Quantity','Unit Price (₹)','Total Value (₹)','Supplier'],contacts:['Full Name','Email','Phone','Company','City','Country'],tasks:['Task','Assigned To','Due Date','Status','Priority','Notes'],student:['Student Name','Roll No','Subject','Marks','Max Marks','Grade'],expense:['Date','Description','Category','Amount (₹)','Paid By','Receipt No']};
+function applyExcelTemplate(key){if(!key||!EXCEL_TEMPLATES[key])return;excelColumns=[...EXCEL_TEMPLATES[key]];renderExcelColTags();}
+function addExcelCol(e){if(e.key==='Enter'){e.preventDefault();addExcelColBtn();}}
+function addExcelColBtn(){const inp=document.getElementById('excelColInp');if(!inp)return;const v=inp.value.trim();if(v&&!excelColumns.includes(v)){excelColumns.push(v);inp.value='';renderExcelColTags();}}
+function removeExcelCol(i){excelColumns.splice(i,1);renderExcelColTags();}
+function renderExcelColTags(){const c=document.getElementById('excelColTags');if(!c)return;c.innerHTML=excelColumns.map((col,i)=>`<span class="excel-col-tag">${col}<span class="rm" onclick="removeExcelCol(${i})">×</span></span>`).join('');}
+function renderExcelPreview(){
+  const d=garudDocData;
+  const cols=excelColumns.length?excelColumns:['Column A','Column B'];
+  const rowCount=Math.min(parseInt(d.rowCount||5),20);
+  const sampleData=generateExcelSampleData(cols,rowCount,d.sampleData!=='no');
+  let tableHtml=`<table class="excel-preview-table"><thead><tr>${cols.map(c=>`<th>${c}</th>`).join('')}</tr></thead><tbody>`;
+  sampleData.forEach(row=>{tableHtml+='<tr>';cols.forEach((_,ci)=>{tableHtml+=`<td>${row[ci]||''}</td>`;});tableHtml+='</tr>';});
+  tableHtml+=`</tbody></table>`;
+  document.getElementById('garudPreviewArea').innerHTML=`<div class="doc-preview-card" style="border-color:rgba(33,197,94,0.4);background:rgba(33,197,94,0.05);"><div class="doc-preview-header" style="color:#22C55E;">📊 Excel Preview — ${d.sheetName||'Sheet1'} <span style="font-size:0.75rem;color:var(--muted);font-weight:500;">${cols.length} columns × ${rowCount} rows</span></div>${d.purpose?`<p style="color:var(--muted);font-size:0.88rem;margin-bottom:14px;">📌 ${d.purpose}</p>`:''}<div style="overflow-x:auto;">${tableHtml}</div></div>`;
+}
+function generateExcelSampleData(cols,rowCount,useSample){
+  const sampleVals={'Name':['Himanshu','Priya','Rohit','Anjali','Suresh'],'Product Name':['Laptop Pro','Wireless Mouse','Keyboard','Monitor 4K','USB Hub'],'Quantity':['5','3','10','2','8'],'Status':['Active','Pending','Completed','In Progress','On Hold'],'Date':['01/01/2025','15/01/2025','28/01/2025','10/02/2025','20/02/2025'],'Grade':['A','B+','A+','B','C'],'Priority':['High','Medium','Low','High','Medium']};
+  const rows=[];
+  for(let r=0;r<rowCount;r++){
+    const row=cols.map((col,ci)=>{
+      if(!useSample)return'';
+      const found=Object.keys(sampleVals).find(k=>col.toLowerCase().includes(k.toLowerCase()));
+      if(found)return sampleVals[found][r%sampleVals[found].length]||'';
+      if(/price|amount|cost|total|value|₹/i.test(col))return`₹${1000+r*500+ci*200}`;
+      if(/date/i.test(col))return`${String(r+1).padStart(2,'0')}/01/2025`;
+      if(/qty|quantity|count/i.test(col))return String(r+1);
+      if(/marks|score/i.test(col))return String(70+r*3);
+      return r===0?'Sample data':'';
+    });
+    rows.push(row);
+  }
+  return rows;
+}
+function addSkill(e){if(e.key==='Enter'||e.key===','){e.preventDefault();const v=document.getElementById('skillInp').value.trim().replace(/,+$/,'');if(v&&!garudSkills.includes(v)){garudSkills.push(v);document.getElementById('skillInp').value='';renderSkillChips();}}}
+function removeSkill(i){garudSkills.splice(i,1);renderSkillChips();}
+function renderSkillChips(){const c=document.getElementById('skillChips');if(!c)return;c.innerHTML=garudSkills.map((s,i)=>`<span class="skill-chip">${s}<span class="rm" onclick="removeSkill(${i})">×</span></span>`).join('');}
+function collectForm(){const fields=GARUD_FIELDS[garudDocType]||[];const data={};fields.forEach(f=>{if(f.type==='skills'){data.skills=garudSkills;}else if(f.type==='excel-cols'){return;}else{const el=document.getElementById('gf_'+f.id);if(el)data[f.id]=el.value.trim();}});return data;}
+function collectExcelForm(){return{sheetName:document.getElementById('gf_sheetName')?.value.trim()||'Sheet1',purpose:document.getElementById('gf_purpose')?.value.trim()||'',rowCount:document.getElementById('gf_rowCount')?.value||'10',sampleData:document.getElementById('gf_sampleData')?.value||'yes'};}
+function validateForm(){const fields=GARUD_FIELDS[garudDocType]||[];const missing=[];fields.forEach(f=>{if(!f.label.includes('*'))return;if(f.type==='skills'||f.type==='excel-cols')return;const el=document.getElementById('gf_'+f.id);if(el&&!el.value.trim())missing.push(f.label.replace(' *',''));});return missing;}
+function garudGenerate(){
+  if(garudDocType==='excel'){if(!excelColumns.length){alert('Please add at least one column!');return;}const sn=document.getElementById('gf_sheetName')?.value.trim();if(!sn){alert('Please enter a sheet name');return;}garudDocData=collectExcelForm();renderGarudStep(3);return;}
+  const missing=validateForm();if(missing.length){alert('Please fill in: '+missing.join(', '));return;}
+  garudDocData=collectForm();renderGarudStep(3);
+}
+function garudBack(){if(garudStep===2)renderGarudStep(1);else if(garudStep===3)renderGarudStep(2);}
+function garudReset(){garudDocType=null;garudDocData={};garudSkills=[];excelColumns=[];renderGarudStep(1);}
+function renderGarudPreview(){
+  const content=buildDocContent(garudDocType,garudDocData);
+  document.getElementById('garudPreviewArea').innerHTML=`<div class="doc-preview-card"><div class="doc-preview-header">${GARUD_TYPES.find(t=>t.id===garudDocType)?.icon||'📄'} Document Preview</div><div class="doc-preview-content">${content.replace(/\n/g,'<br>').replace(/━/g,'─')}</div></div>`;
+}
+function garudDownload(){if(garudDocType==='excel'){downloadExcel();return;}downloadWordDoc();}
+function downloadExcel(){
+  const d=garudDocData;const sheetName=(d.sheetName||'Sheet1').slice(0,31);
+  const cols=excelColumns.length?excelColumns:['Column A'];
+  const rowCount=Math.min(parseInt(d.rowCount||10),100);
+  const sampleData=generateExcelSampleData(cols,rowCount,d.sampleData!=='no');
+  const wsData=[cols,...sampleData];
+  const ws=XLSX.utils.aoa_to_sheet(wsData);
+  ws['!cols']=cols.map(c=>({wch:Math.max(c.length+4,14)}));
+  const wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb,ws,sheetName);
+  const metaWs=XLSX.utils.aoa_to_sheet([['BHUJI AI — GARUD Excel Builder'],['Created',new Date().toLocaleDateString('en-IN')],['Sheet',sheetName],['Purpose',d.purpose||'—']]);
+  XLSX.utils.book_append_sheet(wb,metaWs,'Info');
+  XLSX.writeFile(wb,`${sheetName.replace(/ /g,'_')}_BHUJI.xlsx`);
+  closeGarud();
+  addMsg('assistant',`✅ **Excel Sheet "${sheetName}" Downloaded!** 📊\n\n• **${cols.length} columns**: ${cols.slice(0,4).join(', ')}${cols.length>4?'...':''}\n• **${rowCount} rows** downloaded\n\nOpen in Microsoft Excel or Google Sheets! 🚀`,['GARUD Excel Builder']);
+  setTimeout(()=>showFeedback(),1200);
+}
+function downloadWordDoc(){
+  const content=buildDocContent(garudDocType,garudDocData);
+  const typeInfo=GARUD_TYPES.find(t=>t.id===garudDocType);
+  const nameVal=garudDocData.name||garudDocData.yourName||garudDocData.senderName||'Document';
+  const htmlDoc=`<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="UTF-8"><style>body{font-family:Calibri,Arial,sans-serif;font-size:12pt;margin:1.2in;line-height:1.9;color:#1a1a1a}h2{font-size:12pt;font-weight:bold;border-bottom:1.5pt solid #000;padding-bottom:2pt;margin-top:14pt;text-transform:uppercase}p{font-size:11pt;margin:4pt 0}</style></head><body>${buildHtmlDoc(garudDocType,garudDocData)}</body></html>`;
+  const blob=new Blob([htmlDoc],{type:'application/msword'});
+  const url=URL.createObjectURL(blob);const a=document.createElement('a');
+  a.href=url;a.download=`${typeInfo?.name.replace(/ /g,'_')}_${nameVal.replace(/ /g,'_')}.doc`;
+  a.click();URL.revokeObjectURL(url);
+  closeGarud();
+  addMsg('assistant',`✅ **Your ${typeInfo?.name} has been downloaded!** Open it in Microsoft Word or Google Docs.\n\nBuild more documents or cards using the buttons in the header! 🚀`,['GARUD Doc Builder']);
+  setTimeout(()=>showFeedback(),1200);
+}
+
+// ── Document content builders ──────────────────────────
+function today(){return new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'});}
+function buildDocContent(type,d){
+  const t=today();
+  const map={resume:buildResume,leave:buildLeave,love:buildLove,friendship:buildFriendship,cover:buildCover,complaint:buildComplaint,apology:buildApology,thank:buildThank,recommendation:buildRecommendation,invitation:buildInvitation,farewell:buildFarewell,business:buildBusiness};
+  return(map[type]||((d,t)=>'Document content'))(d,t);
+}
+function buildResume(d,t){const skills=(d.skills||[]).join(' • ');return`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n              ${(d.name||'').toUpperCase()}\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n${d.email||''}  |  ${d.phone||''}\n${d.address||''}${d.linkedin?'\n'+d.linkedin:''}\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n${d.objective?`CAREER OBJECTIVE\n────────────────\n${d.objective}\n\n`:''}EDUCATION\n────────────────\n${d.education||''}${d.experience?`\n\nWORK EXPERIENCE\n────────────────\n${d.experience}`:''}\n\nSKILLS\n────────────────\n${skills||''}${d.achievements?`\n\nACHIEVEMENTS\n────────────────\n${d.achievements}`:''}\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nDECLARATION\n────────────────\n${d.declaration||'I hereby declare that the above information is true to the best of my knowledge.'}\n\nDate: ${t}                    ${d.name||''}\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;}
+function buildLeave(d,t){return`Date: ${d.date||t}\n\nTo,\n${d.to||'The Manager'}\n${d.company||''}\n\nSubject: ${d.subject||'Application for Leave'}\n\nRespected Sir/Madam,\n\nI am ${d.name||''}${d.desig?', '+d.desig:''}, writing to request leave from ${d.fromDate||'[from]'} to ${d.toDate||'[to]'}.\n\n${d.reason||''}\n\nI assure you all pending work will be completed before my absence.\n\nThanking you,\nYours sincerely,\n\n${d.name||''}\n${d.desig||''}`;}
+function buildLove(d,t){const tones={'Romantic & Poetic':`My Dearest ${d.theirName||''},\n\nIn every heartbeat, in every quiet moment, I find myself thinking of you. You are not just a part of my life — you are the most beautiful part of it.\n\n${d.memories?`The memory of ${d.memories} stays with me like a favourite song.\n\n`:''}${d.message||''}\n\nYou are my sunrise and my stars.\n\nForever yours,\n${d.yourName||''}`,'Sweet & Simple':`Dear ${d.theirName||''},\n\nI just wanted to say how much you mean to me.${d.howLong?' For the past '+d.howLong+', ':' '}You have made my life so much brighter.\n\n${d.memories?`I love how ${d.memories}.\n\n`:''}${d.message||''}\n\nWith all my heart,\n${d.yourName||''}`};return`Date: ${t}\n\n`+(tones[d.tone]||tones['Romantic & Poetic']);}
+function buildFriendship(d,t){return`Date: ${t}\n\nDear ${d.friendName||'My Dear Friend'},\n\n${d.occasion?`On this special occasion of ${d.occasion}, `:''}I am writing to you from the heart.\n\n${d.duration?`It has been ${d.duration} since we have been friends. `:''}You have been more than just a friend.\n\n${d.memories?`I cherish every memory — ${d.memories}.\n\n`:''}${d.message||''}\n\nYour friend forever,\n${d.yourName||''}`;}
+function buildCover(d,t){const skills=(d.skills||[]).join(', ');return`${d.name||''}\n${d.email||''}${d.phone?' | '+d.phone:''}\n\nDate: ${d.date||t}\n\nTo,\nThe Hiring Manager,\n${d.company||''}\n\nSubject: Application for ${d.position||'[Position]'}\n\nRespected Sir/Madam,\n\nI am writing to express my strong interest in the role of ${d.position||''} at ${d.company||'your organisation'}.\n\n${d.experience||''}${skills?`\n\nKey skills: ${skills}.\n`:''}\n${d.why||''}\n\nYours sincerely,\n${d.name||''}`;}
+function buildComplaint(d,t){return`${d.yourName||''}\n${d.address||''}\n\nDate: ${d.date||t}\n\nTo,\n${d.to||'The Authority'}\n\nSubject: ${d.subject||'Complaint'}\n\nRespected Sir/Madam,\n\n${d.details||''}\n\n${d.resolution?`Expected Resolution:\n${d.resolution}\n\n`:''}I request urgent action within 7 working days.\n\nYours faithfully,\n${d.yourName||''}`;}
+function buildApology(d,t){return`Date: ${t}\n\nDear ${d.toName||''},\n\nI am writing with a sincere heart to apologise.\n\n${d.incident||''}\n\n${d.feeling||'I deeply regret what happened.'}\n\n${d.assurance?`Going forward, ${d.assurance}\n\n`:''}I hope you will find it in your heart to forgive me.\n\nWith sincere apologies,\n${d.yourName||''}`;}
+function buildThank(d,t){return`Date: ${t}\n\nDear ${d.recipName||''},\n\nI am writing to express my sincere gratitude for ${d.reason||''}.\n\nYour kindness has been truly meaningful.\n\nYours sincerely,\n${d.yourName||''}`;}
+function buildRecommendation(d,t){return`Date: ${d.date||t}\n\nTo Whom It May Concern,\n\nI, ${d.recommender||''}, am pleased to recommend ${d.candidate||''} for ${d.purpose||'the purpose stated'}.\n\nI have known ${d.candidate||''} as ${d.relation||'an associate'} and attest to their exceptional qualities: ${d.qualities||''}.\n\nI strongly recommend them without any reservations.\n\nYours sincerely,\n${d.recommender||''}`;}
+function buildInvitation(d,t){return`Date: ${t}\n\nDear ${d.guestName||''},\n\nOn behalf of ${d.host||''}, I am delighted to invite you to ${d.eventName||'our event'}.\n\nEvent Details:\n─────────────────\n📅 Date:  ${d.eventDate||''}\n⏰ Time:  ${d.eventTime||''}\n📍 Venue: ${d.venue||''}\n─────────────────\n\n${d.extra||''}\n\nYour presence would make this occasion special.\n\nWarm regards,\n${d.host||''}`;}
+function buildFarewell(d,t){return`Date: ${t}\n\nDear ${d.toName||'Team'},\n\n${d.reason?`I have decided to move on due to ${d.reason}. `:''}${d.duration?`My time here over the past ${d.duration} has been one of the most rewarding chapters of my life. `:''}${d.memories?`\n\nI will forever cherish ${d.memories}.\n\n`:''}${d.wishes||'I wish everyone all the very best.'}\n\nWith heartfelt gratitude,\n${d.yourName||''}`;}
+function buildBusiness(d,t){return`${d.senderName||''}\n\nDate: ${t}\n\nTo,\n${d.recipName||''}\n\nSubject: ${d.subject||'Business Correspondence'}\n\nDear Sir/Madam,\n\n${d.body||''}\n\nYours faithfully,\n${d.senderName||''}`;}
+function buildHtmlDoc(type,d){
+  const t=today();
+  if(type==='resume'){const skillsLi=(d.skills||[]).map(s=>`<li>${s}</li>`).join('');return`<h1>${d.name||''}</h1><p>${d.email||''}${d.phone?' | '+d.phone:''}${d.address?' | '+d.address:''}</p>${d.linkedin?`<p>${d.linkedin}</p>`:''} ${d.objective?`<h2>Objective</h2><p>${d.objective}</p>`:''}<h2>Education</h2><p>${(d.education||'').replace(/\n/g,'<br>')}</p>${d.skills?.length?`<h2>Skills</h2><ul>${skillsLi}</ul>`:''} ${d.experience?`<h2>Work Experience</h2><p>${d.experience.replace(/\n/g,'<br>')}</p>`:''} ${d.achievements?`<h2>Achievements</h2><p>${d.achievements.replace(/\n/g,'<br>')}</p>`:''}<h2>Declaration</h2><p><em>${d.declaration||'I hereby declare the above information is true.'}</em></p><p>&nbsp;</p><p>Date: ${t}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>${d.name||''}</strong></p>`;}
+  const plain=buildDocContent(type,d);
+  return plain.split('\n').map(line=>{if(!line.trim())return'<p>&nbsp;</p>';if(line.startsWith('━')||line.startsWith('─'))return'<hr style="border:1pt solid #333;"/>';if(line.trim().toUpperCase()===line.trim()&&line.trim().length>0&&line.trim().length<50&&!line.includes('@')&&!line.includes('+'))return`<h2>${line}</h2>`;return`<p>${line}</p>`;}).join('');
+}
+
+// ── Feedback ──────────────────────────────────────────
+function showFeedback(){selectedRating=0;document.querySelectorAll('.star-btn').forEach(s=>{s.classList.remove('active');s.textContent='⭐';});document.getElementById('fbText').value='';document.getElementById('feedbackModal').classList.remove('hidden');}
+function closeFeedback(){document.getElementById('feedbackModal').classList.add('hidden');}
+function rateStar(n){selectedRating=n;[1,2,3,4,5].forEach(i=>{const el=document.getElementById('s'+i);if(el)el.classList.toggle('active',i<=n);});}
+function submitFeedback(){
+  if(!selectedRating){alert('Please select a star rating!');return;}
+  const stored=JSON.parse(localStorage.getItem('bhuji_fb')||'[]');
+  stored.push({r:selectedRating,t:document.getElementById('fbText').value,d:Date.now()});
+  localStorage.setItem('bhuji_fb',JSON.stringify(stored.slice(-50)));
+  document.getElementById('feedbackBody').innerHTML=`<div style="text-align:center;padding:30px;"><div style="font-size:3rem;margin-bottom:16px;">${'⭐'.repeat(selectedRating)}</div><h3 style="color:var(--gold);font-family:'Space Grotesk',sans-serif;font-size:1.5rem;margin-bottom:10px;">Thank you! 🙏</h3><p style="color:var(--muted);">Your feedback helps us improve BHUJI AI!</p></div>`;
+  setTimeout(()=>closeFeedback(),2500);
+}
+
+// ── File Handling ──────────────────────────────────────
+function handleFile(e){
+  const f=e.target.files[0];if(!f)return;
+  if(!unlocked('bhuji')){alert('File tools require Bhuji/GARUD plan');return;}
+  uploadedFile=f;
+  document.getElementById('filePreviewStrip').classList.remove('hidden');
+  document.getElementById('fileNameLabel').textContent=f.name;
+  document.getElementById('fileSizeLabel').textContent=(f.size/1024).toFixed(1)+' KB';
+  document.getElementById('fileModeRow').classList.remove('hidden');
+}
+function removeFile(){uploadedFile=null;document.getElementById('filePreviewStrip').classList.add('hidden');document.getElementById('fileModeRow').classList.add('hidden');document.getElementById('fileInput').value='';}
+function setFileMode(m){fileMode=m;document.querySelectorAll('.file-mode-btn').forEach(b=>b.classList.toggle('active',b.getAttribute('data-mode')===m));}
+async function convertToPDF(f){const{jsPDF}=window.jspdf;const pdf=new jsPDF();const ext=f.name.split('.').pop().toLowerCase();if(['txt','json','csv'].includes(ext)){const t=await f.text();pdf.text(t.substring(0,5000),14,20);}else if(['png','jpg','jpeg'].includes(ext)){const d=await new Promise(r=>{const fr=new FileReader();fr.onload=e=>r(e.target.result);fr.readAsDataURL(f);});pdf.addImage(d,'JPEG',8,8,194,0);}return pdf.output('blob');}
+async function convertToXlsx(f){const t=await f.text();const rows=t.split('\n').map(l=>[l]);const ws=XLSX.utils.aoa_to_sheet(rows);const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Sheet1');return new Blob([XLSX.write(wb,{bookType:'xlsx',type:'array'})],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});}
+async function addWatermark(f){const{PDFDocument,rgb}=PDFLib;const buf=await f.arrayBuffer();const doc=await PDFDocument.load(buf);doc.getPages().forEach(p=>{const{width,height}=p.getSize();p.drawText('BHUJI AI',{x:width/2-50,y:height/2,size:50,color:rgb(0.87,0.87,0.87),opacity:0.28});});return new Blob([await doc.save()],{type:'application/pdf'});}
+
+// ── Voice ──────────────────────────────────────────────
+function toggleVoiceMode(){voiceMode=!voiceMode;document.getElementById('voiceControls').classList.toggle('hidden',!voiceMode);document.getElementById('voiceIcon').textContent=voiceMode?'🔊':'🎙';if(voiceMode)initSR();}
+function toggleSpeak(){speakReplies=!speakReplies;document.getElementById('speakBtn').classList.toggle('active',speakReplies);}
+function setPersona(v){}
+function initSR(){const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR)return;recognition=new SR();recognition.lang='en-IN';recognition.onresult=e=>{document.getElementById('msgInput').value=e.results[0][0].transcript;sendMsg();};}
+function toggleMic(){if(!recognition)initSR();if(!recognition)return;if(recognizing){recognition.stop();recognizing=false;}else{recognition.start();recognizing=true;}document.getElementById('micBtn').classList.toggle('active',recognizing);}
+function speakText(t){if(!speakReplies||!('speechSynthesis' in window))return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t.replace(/<[^>]+>/g,'').replace(/\*\*/g,'').slice(0,500));speechSynthesis.speak(u);}
+
+// ── Stream Animator ────────────────────────────────────
+class StreamAnim{
+  constructor(){this.speed=12;this.running=false;this.id=null;}
+  start(el,html,onDone){
+    if(this.running)this.stop();
+    this.running=true;this.id=Date.now();const sid=this.id;
+    this.showStop();el.innerHTML='';let i=0;
+    const tick=()=>{
+      if(!this.running||sid!==this.id){this.hideStop();onDone&&onDone();return;}
+      if(i<html.length){el.innerHTML=html.slice(0,i+5)+'<span class="stream-cur"></span>';i+=5;scrollBottom();setTimeout(tick,this.speed);}
+      else{el.innerHTML=html;this.running=false;this.hideStop();onDone&&onDone();}
+    };
+    tick();
+  }
+  stop(){this.running=false;this.id=null;this.hideStop();}
+  showStop(){document.getElementById('stopBtn')?.classList.remove('hidden');document.getElementById('sendBtn')?.classList.add('hidden');}
+  hideStop(){document.getElementById('stopBtn')?.classList.add('hidden');document.getElementById('sendBtn')?.classList.remove('hidden');}
+}
+
+// ── Messages ──────────────────────────────────────────
+function addMsg(role,content,sources=[],extras={}){
+  messages.push({role,content,sources,id:'m'+Date.now(),...extras});renderMsgs();
+}
+function showTyping(){
+  const d=document.createElement('div');d.id='typingEl';d.className='msg assistant';
+  d.innerHTML='<div class="msg-bubble glass"><div class="typing-dots"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div>';
+  document.getElementById('chatArea').appendChild(d);scrollBottom();
+}
+function hideTyping(){document.getElementById('typingEl')?.remove();}
+function scrollBottom(){const c=document.getElementById('chatArea');c.scrollTop=c.scrollHeight;}
+function scrollTop(){document.getElementById('chatArea').scrollTop=0;}
+function stopStream(){textAnim?.stop();renderMsgs();}
+function renderMsgs(){
+  const area=document.getElementById('chatArea');
+  area.innerHTML=messages.map(m=>{
+    const c=String(m.content||'').replace(/^## (.*?)$/gm,'<h3>$1</h3>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');
+    const sb=(m.sources||[]).map(s=>{let cls='src-badge ';if(s.includes('Google'))cls+='sb-google';else if(s.includes('Wikipedia'))cls+='sb-wiki';else if(s.includes('Duck'))cls+='sb-duck';else cls+='sb-wiki';return`<span class="${cls}">${s}</span>`;}).join('');
+    let links='';
+    if(m.links?.length){links=`<div style="margin-top:18px;padding-top:18px;border-top:1px solid var(--border2);"><div style="font-weight:700;color:var(--gold);margin-bottom:12px;font-family:'Space Grotesk',sans-serif;">📚 Read Full Articles:</div>`;m.links.forEach(l=>{links+=`<a href="${l.url}" target="_blank" rel="noopener" class="src-link"><div class="src-link-title">${l.title}</div>${l.snippet?`<div class="src-link-snip">${l.snippet.slice(0,160)}...</div>`:''}<div class="src-link-url">${l.url}</div></a>`;});links+=`</div>`;}
+    let dls='';
+    if(m.dls?.length){dls='<div class="dl-btns">'+m.dls.map((d,i)=>`<button class="dl-btn" onclick="dlMsg('${m.id}',${i})">⬇️ ${d.label}</button>`).join('')+'</div>';}
+    return`<div class="msg ${m.role}"><div class="msg-bubble ${m.role==='assistant'?'glass':''}" id="bub-${m.id}">${c}${sb?`<div style="margin-top:14px;">${sb}</div>`:''}${links}${dls}</div></div>`;
+  }).join('');
+  const last=messages[messages.length-1];
+  if(last?.role==='assistant'&&!last._streamed){
+    last._streamed=true;
+    const el=document.getElementById('bub-'+last.id);
+    if(el&&textAnim){const orig=el.innerHTML;textAnim.start(el,orig,()=>scrollBottom());}
+  }
+  scrollBottom();
+}
+function dlMsg(id,idx){const m=messages.find(m=>m.id===id);if(!m?.dls?.[idx])return;const d=m.dls[idx];const url=URL.createObjectURL(d.blob);const a=document.createElement('a');a.href=url;a.download=d.label;a.click();URL.revokeObjectURL(url);}
+
+// ── Send Message ───────────────────────────────────────
+async function sendMsg(){
+  const inp=document.getElementById('msgInput');
+  const msg=Sec.clean(inp.value.trim());
+  if(!msg&&!uploadedFile)return;
+  if(!Sec.rateOk()){alert('Too many requests — please wait');return;}
+  if(isLoading)return;
+  isLoading=true;document.getElementById('sendBtn').disabled=true;inp.value='';
+  if(msg)addMsg('user',msg);
+  showTyping();
+  try{
+    if(uploadedFile){await handleFileFlow();}
+    else{
+      const docType=detectDoc(msg);
+      if(docType==='card'){
+        hideTyping();
+        addMsg('assistant','💌 **Digital Card Builder Activated!**\n\nOpening beautiful Card Builder with 18+ categories and 120+ animated templates!\n\nChoose your category and customize everything — fonts, colors, animations, backgrounds!',['Card Builder']);
+        setTimeout(()=>openCardBuilder(),600);
+      }else if(docType==='excel'&&unlocked('garud')){
+        hideTyping();
+        addMsg('assistant','📊 **Excel Builder Activated!**\n\nOpening Excel Sheet Builder — set column headers, rows, and choose from 8 ready-made templates!',['GARUD Excel Builder']);
+        setTimeout(()=>{openGarud();setTimeout(()=>pickDocType('excel'),400);},600);
+      }else if(docType&&docType!=='excel'&&docType!=='card'&&unlocked('garud')){
+        hideTyping();
+        addMsg('assistant',`📋 **GARUD Doc Builder Activated!**\n\nCreating your **${GARUD_TYPES.find(t=>t.id===docType)?.name||docType}** now...`,['GARUD Doc Builder']);
+        setTimeout(()=>{openGarud();setTimeout(()=>pickDocType(docType),400);},600);
+      }else if(docType&&docType!=='card'&&!unlocked('garud')){
+        hideTyping();
+        addMsg('assistant',`📋 **Document Feature Detected!**\n\nYou want to create a **${GARUD_TYPES.find(t=>t.id===docType)?.name||docType}**! This requires the **🦅 GARUD Plan (₹119)**.\n\nUpgrade to unlock: Resume, Excel Sheets, 10+ Letters, Digital Cards, and more!\n\nClick **💎 Upgrade** to activate!`,['GARUD Doc Builder']);
+      }else{
+        await qnaFlow(msg);
+      }
+    }
+  }catch(e){hideTyping();addMsg('assistant',`❌ Error: ${e.message}`,['System']);}
+  isLoading=false;document.getElementById('sendBtn').disabled=false;
+}
+
+async function qnaFlow(query){
+  let q=query;if(currentLang!=='en')q=await Translator.translate(query,'en');
+  const data=await Search.all(q);
+  hideTyping();
+  const srcs=[data.google?.ok?`${data.google.source||'Google'}`:'',data.wiki?.ok?'Wikipedia':'',data.duck?.ok?'DuckDuckGo':''].filter(Boolean);
+  const{html,links}=Search.format(data,query);
+  addMsg('assistant',html,srcs.length?srcs:['BHUJI AI'],{links});
+  if(voiceMode&&speakReplies)speakText(html);
+}
+
+async function handleFileFlow(){
+  hideTyping();const ext=uploadedFile.name.split('.').pop().toLowerCase();const base=uploadedFile.name.replace(/\.[^/.]+$/,'');
+  try{
+    let blob,label,okMsg;
+    switch(fileMode){
+      case'analyze':const t=['txt','json','csv','html'].includes(ext)?await uploadedFile.text():'(binary file — use convert options above)';addMsg('assistant',`📊 **File Analysis: ${uploadedFile.name}**\n\nSize: ${(uploadedFile.size/1024).toFixed(1)} KB  |  Type: .${ext.toUpperCase()}\n\nContent Preview:\n${t.slice(0,500)}${t.length>500?'...':''}`,['File Analysis']);return;
+      case'to-pdf':blob=await convertToPDF(uploadedFile);label=`${base}.pdf`;okMsg='✅ Converted to PDF!';break;
+      case'to-xlsx':blob=await convertToXlsx(uploadedFile);label=`${base}.xlsx`;okMsg='✅ Converted to Excel (.xlsx)!';break;
+      case'pdf-watermark':blob=await addWatermark(uploadedFile);label=`${base}_watermarked.pdf`;okMsg='✅ Watermark added!';break;
+      default:addMsg('assistant','⚠️ Select a valid file operation mode.',['File']);return;
+    }
+    addMsg('assistant',okMsg,['File Processing'],{dls:[{label,blob}]});
+  }catch(e){addMsg('assistant',`❌ File error: ${e.message}`,['File']);}
+  removeFile();
+}
+
+// ── Main UI ────────────────────────────────────────────
+async function startMainUI(){
+  document.getElementById('landingPage').classList.add('hidden');
+  document.getElementById('mainUI').classList.remove('hidden');
+  document.getElementById('userNameLabel').textContent=currentUser.name;
+  document.getElementById('userAvatar').textContent=currentUser.name[0].toUpperCase();
+  document.getElementById('settingsEmailLabel').textContent=currentUser.email;
+  updateLocks();updateApiStatus();messages=[];renderMsgs();
+  const plan=getPlan();const garudOn=plan==='garud';
+  const welcome=`🙏 **Namaste, ${currentUser.name.split(' ')[0]}!**
+
+I'm **BHUJI AI** — your Complete Divine Intelligence!
+
+**🔍 Real-Time Search:**
+• Google + Wikipedia + DuckDuckGo
+• 400–500 word synthesised expert answers
+• Click **"More Detail / Examples / Latest News"** on any answer
+
+**💌 Digital Cards (✨ 120+ Animated Templates):**
+• 18+ categories — Wedding, Birthday, Diwali, Valentine's & more
+• Each template has unique animations, particles & effects
+• Real-time editor with fonts, colors, animations, backgrounds
+• Download as PNG • Share on WhatsApp
+
+${garudOn?`**📋 GARUD Doc Builder (Active ✅):**
+• 📊 Excel Sheet Builder with 8 templates
+• 📄 Resume / CV, Leave Application
+• 💌 Love Letters, Friendship, Cover Letter & more
+• Download as Word (.doc) or Excel (.xlsx)
+
+`:''}**💡 Try asking:**
+• "Best laptops under ₹50,000"
+• "How does AI work?"
+• "Create a wedding invitation card"
+• "Build my resume" / "Create excel sheet"
+
+How can I help you today? 🚀`;
+  addMsg('assistant',welcome,['BHUJI AI']);
+}
+
+// ── Boot ───────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded',()=>{
+  const t=localStorage.getItem('bhuji_theme');
+  if(t){currentTheme=t;document.documentElement.setAttribute('data-theme',t);}
+  document.getElementById('themeIcon').innerHTML=currentTheme==='dark'
+    ?'<path d="M12 17.5C14.76 17.5 17 15.26 17 12.5S14.76 7.5 12 7.5 7 9.74 7 12.5 9.24 17.5 12 17.5ZM12 2l2.39 4.42 4.14 1.05-3.64 3.92.93 5.15L12 14.19l-4.82 2.35.93-5.15L4.47 7.47 8.61 6.42z"/>'
+    :'<path d="M12 3C7.03 3 3 7.03 3 12s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36C19.92 12.01 18.32 12.9 16.5 12.9c-3.04 0-5.5-2.46-5.5-5.5 0-1.82.89-3.42 2.26-4.4z"/>';
+  initBg();initLangGrid();textAnim=new StreamAnim();
+  const td=new Draggable(document.getElementById('themeCtrl'));
+  const ld=new Draggable(document.getElementById('langCtrl'));
+  document.getElementById('themeCtrl').addEventListener('click',e=>{if(!td.dragging)toggleTheme();});
+  document.getElementById('langCtrl').addEventListener('click',e=>{if(!ld.dragging)toggleLangDD();});
+  if(restoreSession()){updateLocks();updateApiStatus();startMainUI();}
+  console.log('✅ BHUJI AI v4.0 — Ultra Animated Cards + Cosmos Background + Enhanced Logo');
+});
+</script>
+</body>
+</html>
